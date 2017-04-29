@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import {AngularFireModule} from "angularfire2";
+import {AngularFireModule} from 'angularfire2';
+import {AppRoutingModule} from './shared/app.routing';
+import {ItemModule} from './items/item.module';
+import { DemoPageComponent } from './demo-page/demo-page.component';
 //  Firebase Settings
 export const firebaseConfig = {
   apiKey: 'AIzaSyAHfCQArz_9VdSVJ0rGhaEMYeZuv8JJCIY',
@@ -16,16 +19,17 @@ export const firebaseConfig = {
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     FormsModule,
+    ItemModule,
+    AppRoutingModule,
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig)],
+  declarations: [
+    AppComponent,
+    DemoPageComponent,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
