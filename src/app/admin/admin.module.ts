@@ -1,5 +1,5 @@
 
-
+/*
 import {RouterModule, Routes} from '@angular/router';
 import {AdminComponent} from '../items/admin.component';
 import {UserService} from './adminShared/user.service';
@@ -36,3 +36,4 @@ const AdminRoutes: Routes = [
   ]
 })
 export class AdminModule { }
+*/

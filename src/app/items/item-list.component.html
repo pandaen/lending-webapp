@@ -1,6 +1,17 @@
 <div class="panel panel-primary">
   <div class='panel-heading'>
     {{pageTitle}}
+
+
+    <ul class="nav navbar-nav navbar-right">
+    <div *ngIf = "theUser">
+      <ul>
+        <li><a (click)="logout()">Logout</a></li>
+        <li><a>{{theUser}} Logged in</a></li>
+      </ul>
+    </div>
+    </ul>
+
   </div>
   <div class='panel-body'>
     <div class="row">

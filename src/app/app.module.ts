@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {AngularFireModule} from 'angularfire2';
 import {ItemModule} from './items/item.module';
-import {AdminModule} from './admin/admin.module';
 import {AppRoutingModule} from "./shared/app.routing";
+import {ErrorComponent} from "./error/error.component";
 //  Firebase Settings
 export const firebaseConfig = {
   apiKey: 'AIzaSyAHfCQArz_9VdSVJ0rGhaEMYeZuv8JJCIY',
@@ -25,6 +25,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig)],
   declarations: [
     AppComponent,
+    ErrorComponent,
   ],
   bootstrap: [AppComponent]
 })

@@ -35,12 +35,10 @@ export class UserService implements CanActivate {
 
   verifyUser() {
     if (this.authState) {
-    console.log('sent to verifyUser()');
-      alert('Welcome ${this.authState.auth.email}');
+    //  alert(`Welcome ${this.authState.auth.email}`);
       this.loggedInUser = this.authState.auth.email;
       this.userLoggedIn = true;
       this._router.navigate(['/items']);
-      console.log('redirected by verifyUser: to items');
     }
 
 
@@ -62,15 +60,15 @@ export class UserService implements CanActivate {
 
 
   logout() {
-    /*
      this.userLoggedIn = false;
-     firebase.auth().signOut().then(function() {
-     alert(`Logged Out!`);
-
-     }, function(error) {
-     alert(`${error.message} Unable to logout. Try again!`);
-     });
-     */
+    this.af.auth.logout().then((success) => {
+      this._router.navigate(['/items/login']);
+      console.log('Logged out...');
+    }).catch(
+      (err) => {
+        this.error = err;
+        alert(`${err.message} Unable to logout. Try again!`);
+      });
   }
 
 } // class
