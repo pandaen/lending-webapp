@@ -20,7 +20,6 @@ export const firebaseConfig = {
 @NgModule({
   imports: [
     BrowserModule,
-    FormsModule,
     ItemModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig)],

@@ -1,0 +1,51 @@
+<div class="panel panel-primary">
+  <div class='panel-heading'>
+    {{pageTitle}}
+  </div>
+  <div class='panel-body'>
+    <div class="row">
+      <div class='col-md-2'>Search :</div>
+      <div class='col-md-4'>
+        <input type='text' [(ngModel)] ='listFilter'/>  <!-- bind listFilter -->
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-6'>
+        <h3>Searched for : {{listFilter}} </h3>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class='table'
+             *ngIf='items && items.length'>
+
+        <thead>
+        <tr>
+          <!--
+                              <th>
+                                  <button class="btn btn-primary">
+                                      Show Image
+                                  </button>
+                              </th>
+              -->
+          <th>Item</th>
+          <th>Borrower</th>
+          <th>Due date</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let item of items | itemFilter:listFilter'>
+          <td><img [src]='item.imageUrl'
+                   [title]='item.itemName'
+                   [style.width.px]='imageWidth'
+                   [style.margin.px]='imageMargin'> <a [routerLink]="['/item',item.itemId]">{{ item.itemName }}</a></td>
+          <td>{{ item.borrowerName }}</td>
+          <td>{{ item.dueDate }}</td>
+          <td>{{ item.status }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
