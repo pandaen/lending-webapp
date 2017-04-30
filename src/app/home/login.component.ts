@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UserService} from '../items/user.service';
+import {UserService} from '../admin/adminShared/user.service';
 
 @Component({
   moduleId: module.id, // can now use realtive path (omit app/pages..)

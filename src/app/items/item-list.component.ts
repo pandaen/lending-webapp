@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IItem} from './item';
 import {ItemService} from "./item.service";
+import {UserService} from "../admin/adminShared/user.service";
 
 @Component({
     moduleId: module.id, // can now use realtive path (omit app/pages..)
@@ -13,13 +14,14 @@ export class ItemListComponent implements OnInit {
     imageMargin: number = 2;
     listFilter: string;          // Set deafult search here
   items: IItem[] = [];
-
-    constructor(private _itemService: ItemService) {
+theUser: string;
+    constructor(private _itemService: ItemService, private uService: UserService) {
 
     }
 
     ngOnInit(): void {
        this.items = this._itemService.getItems();  // links itemsService to this item
+      this.theUser = this.uService.loggedInUser;
 
     }
 

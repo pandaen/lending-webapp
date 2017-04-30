@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import {AngularFireModule} from 'angularfire2';
-import {AppRoutingModule} from './shared/app.routing';
 import {ItemModule} from './items/item.module';
-import { DemoPageComponent } from './demo-page/demo-page.component';
+import {AdminModule} from './admin/admin.module';
+import {AppRoutingModule} from "./shared/app.routing";
 //  Firebase Settings
 export const firebaseConfig = {
   apiKey: 'AIzaSyAHfCQArz_9VdSVJ0rGhaEMYeZuv8JJCIY',
@@ -20,7 +20,7 @@ export const firebaseConfig = {
 @NgModule({
   imports: [
     BrowserModule,
-    ItemModule,
+    ItemModule, // must be before approtuing
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig)],
   declarations: [
