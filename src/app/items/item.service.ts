@@ -29,4 +29,43 @@ export class ItemService {
 
 
 
+// Retrieve FIREBASE DATA HERE
+  getUserItems() {
+    //  this.userArray = [];
+    console.log('List all users alphabetical...............');
+    let userQuery = firebase.database().ref('/demoitems').orderByKey();
+    userQuery.once('value')
+      .then(function (snapshot) {
+        let total = snapshot.numChildren();
+        snapshot.forEach(function (childSnapshot) {
+          let itenName = childSnapshot.key;
+          let borrower = childSnapshot.child('Borrower').val();
+          let dueDate = childSnapshot.child('Due Date').val();
+          let status = childSnapshot.child('Status').val();
+
+          //     let userItem = new Items(itenName , borrower , dueDate, status);
+          console.log('Output is: ' + itenName + borrower + dueDate + status);
+          //       this.userArray.push(userItem);
+        });
+        console.log('Total: ' + total);
+      });
+    //   return this.userPendingArray;
+  }
+
+
+
 } // class
+
+class Items {
+  itemName: string;
+  borrowerName: string;
+  dueDate: string;
+  status: string;
+
+  constructor(itemName: string, borrowerName: string, dueDate: string, status: string) {
+    this.itemName = itemName;
+    this.borrowerName = borrowerName;
+    this.dueDate = dueDate;
+    this.status = status;
+  }
+}
