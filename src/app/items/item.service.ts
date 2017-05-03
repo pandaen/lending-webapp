@@ -56,16 +56,4 @@ export class ItemService {
 
 } // class
 
-class Items {
-  itemName: string;
-  borrowerName: string;
-  dueDate: string;
-  status: string;
 
-  constructor(itemName: string, borrowerName: string, dueDate: string, status: string) {
-    this.itemName = itemName;
-    this.borrowerName = borrowerName;
-    this.dueDate = dueDate;
-    this.status = status;
-  }
-}

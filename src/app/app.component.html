@@ -1,20 +1,5 @@
-<div>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <a class="navbar-brand">{{pageTitle}}</a>
-      <ul class="nav navbar-nav">
-        <li><a [routerLink]="['']">Link 1</a></li>
-        <li><a [routerLink]="['']">Link 2</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class='container'>
-    <ul>
-      <li class="text" *ngFor="let item of items | async">
-        {{item.$value}}
-      </li>
-    </ul>
-    <router-outlet></router-outlet>
-  </div>
+<app-navbar></app-navbar>
+<div class="container">
+  <flash-messages></flash-messages>
+  <router-outlet></router-outlet>
 </div>

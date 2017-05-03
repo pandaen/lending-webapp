@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import {AngularFireModule} from 'angularfire2';
+import {AngularFireModule, AuthMethods, AuthProviders} from 'angularfire2';
 import {ItemModule} from './items/item.module';
-import {AppRoutingModule} from "./shared/app.routing";
-import {ErrorComponent} from "./error/error.component";
+import {AppRoutingModule} from './shared/app.routing';
+import {ErrorComponent} from './error/error.component';
+import { NavbarComponent } from './component/navbar/navbar.component';
+import {FlashMessagesModule} from 'angular2-flash-messages';
 //  Firebase Settings
 export const firebaseConfig = {
   apiKey: 'AIzaSyAHfCQArz_9VdSVJ0rGhaEMYeZuv8JJCIY',
@@ -16,16 +18,22 @@ export const firebaseConfig = {
   messagingSenderId: '226399216748'
 };
 
+const firebaseAuthConfig = {
+  provider: AuthProviders.Facebook,
+  method: AuthMethods.Popup
+};
 
 @NgModule({
   imports: [
     BrowserModule,
+    FlashMessagesModule,
     ItemModule, // must be before approtuing
     AppRoutingModule,
-    AngularFireModule.initializeApp(firebaseConfig)],
+    AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig)],
   declarations: [
     AppComponent,
     ErrorComponent,
+    NavbarComponent,
   ],
   bootstrap: [AppComponent]
 })

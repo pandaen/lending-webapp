@@ -14,15 +14,20 @@ export class ItemListComponent implements OnInit {
     imageWidth: number = 50;
     imageMargin: number = 2;
     listFilter: string;          // Set deafult search here
-  items: IItem[] = [];
+  items: any;
 theUser: string;
+userImage: string;
     constructor(private _itemService: ItemService, private uService: UserService ) {
 
     }
 
     ngOnInit(): void {
-       this.items = this._itemService.getItems();  // links itemsService to this item
       this.theUser = this.uService.loggedInUser;
+      this.userImage = this.uService.userImage;
+      this.uService.getItems().subscribe(items => {
+      console.log(items);
+        this.items = items;
+      });
     }
 
 

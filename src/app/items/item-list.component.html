@@ -1,14 +1,14 @@
 <div class="panel panel-primary">
   <div class='panel-heading'>
-    {{pageTitle}}
+    <img src="../../assets/images/logo_bannerjpg_small.jpg"/>
 
 
     <ul class="nav navbar-nav navbar-right">
     <div *ngIf = "theUser">
-      <ul>
-        <li><a (click)="logout()">Logout</a></li>
+      <a class="item">
+        <img class="avatar img-responsive" [src]="userImage">
+      </a>
         <li><a>{{theUser}} Logged in</a></li>
-      </ul>
     </div>
     </ul>
 
@@ -27,18 +27,9 @@
     </div>
 
     <div class="table-responsive">
-      <table class='table'
-             *ngIf='items && items.length'>
-
+      <table class='table table-striped'>
         <thead>
         <tr>
-          <!--
-                              <th>
-                                  <button class="btn btn-primary">
-                                      Show Image
-                                  </button>
-                              </th>
-              -->
           <th>Item</th>
           <th>Borrower</th>
           <th>Due date</th>
@@ -48,10 +39,10 @@
         <tbody>
         <tr *ngFor='let item of items | itemFilter:listFilter'>
           <td><img [src]='item.imageUrl'
-                   [title]='item.itemName'
+                   [title]='item.name'
                    [style.width.px]='imageWidth'
-                   [style.margin.px]='imageMargin'> <a [routerLink]="['/item',item.itemId]">{{ item.itemName }}</a></td>
-          <td>{{ item.borrowerName }}</td>
+                   [style.margin.px]='imageMargin'> <a [routerLink]="['/item',item.itemId]">{{ item.name }}</a></td>
+          <td>{{ item.borrowerName}}</td>
           <td>{{ item.dueDate }}</td>
           <td>{{ item.status }}</td>
         </tr>

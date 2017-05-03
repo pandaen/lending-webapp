@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {AngularFire, AuthMethods, AuthProviders, FirebaseAuthState} from "angularfire2";
+import {AngularFire, AuthMethods, AuthProviders, FirebaseAuthState, FirebaseListObservable} from 'angularfire2';
 
 @Injectable()
 export class UserService implements CanActivate {
   loggedInUser: string;
+  userImage: string;
   authUser: any;
   userLoggedIn: boolean = false;
   error: any;
   private authState: FirebaseAuthState;
+  items: FirebaseListObservable<any[]>;
 
-  constructor(private _router: Router, public af: AngularFire) {
+  constructor(private _router: Router, private af: AngularFire) {
     this.af.auth.subscribe((state: FirebaseAuthState) => {
       this.authState = state;
     });
@@ -36,7 +38,8 @@ export class UserService implements CanActivate {
   verifyUser() {
     if (this.authState) {
     //  alert(`Welcome ${this.authState.auth.email}`);
-      this.loggedInUser = this.authState.auth.email;
+      this.loggedInUser = this.authState.auth.displayName;
+      this.userImage = this.authState.auth.photoURL;
       this.userLoggedIn = true;
       this._router.navigate(['/items']);
     }
@@ -71,4 +74,21 @@ export class UserService implements CanActivate {
       });
   }
 
+
+  getItems() {
+this.items = this.af.database.list('/items') as FirebaseListObservable<Items>
+    return this.items;
+
+  }
+
 } // class
+
+interface  Items {
+  $key?: string;
+  name?: string;
+  borrowerName?: string;
+  dueDate?: string;
+  status?: string;
+}
+
+

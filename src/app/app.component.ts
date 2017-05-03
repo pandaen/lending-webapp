@@ -13,7 +13,7 @@ export class AppComponent {
   title = 'app works!';
 
   constructor(af: AngularFire) {
-    this.items = af.database.list('settings/0');
+  //  this.items = af.database.list('settings/0');
   }
 
 }
