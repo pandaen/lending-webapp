@@ -8,7 +8,7 @@ export class ItemFilterPipe implements PipeTransform {
     transform(value: IItem[], filterBy: string): IItem[] {
         filterBy = filterBy ? filterBy.toLocaleLowerCase() : null;
         return filterBy ? value.filter((item: IItem) =>
-        item.itemName.toLocaleLowerCase().indexOf(filterBy) !== -1) :  value;
+        item.name.toLocaleLowerCase().indexOf(filterBy) !== -1) :  value;
     }
 
 }

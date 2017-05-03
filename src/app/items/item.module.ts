@@ -4,7 +4,6 @@ import {ItemDetailComponent} from './item-detail.component';
 import {ItemFilterPipe} from './item-filter.pipe';
 import {RouterModule, Routes} from '@angular/router';
 import {ItemDetailGuard} from './item-guard.service';
-import {ItemService} from './item.service';
 import {UserService} from '../admin/adminShared/user.service';
 import {AdminComponent} from './admin.component';
 import {SharedModule} from '../shared/shared.module';
@@ -37,7 +36,6 @@ const AdminRoutes: Routes = [
     RouterModule.forChild(AdminRoutes)
   ],
   providers: [
-    ItemService,
     ItemDetailGuard,
     UserService
   ]

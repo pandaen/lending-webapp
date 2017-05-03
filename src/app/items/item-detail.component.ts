@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import { IItem } from './item';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {ItemService} from './item.service';
 
 @Component({
   moduleId: module.id, // can now use realtive path (omit app/pages..)
@@ -14,7 +13,7 @@ export class ItemDetailComponent implements OnInit {
     errorMessage: string;
     private sub: Subscription;
 
-    constructor(private _route: ActivatedRoute, private _router: Router, private _itemService: ItemService) {}
+    constructor(private _route: ActivatedRoute, private _router: Router) {}
 
     // Sets items
     ngOnInit(): void {

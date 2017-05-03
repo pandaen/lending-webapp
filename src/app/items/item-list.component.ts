@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IItem} from './item';
-import {ItemService} from './item.service';
 import {UserService} from '../admin/adminShared/user.service';
-import {Router} from '@angular/router';
 
 @Component({
     moduleId: module.id, // can now use realtive path (omit app/pages..)
@@ -17,7 +14,7 @@ export class ItemListComponent implements OnInit {
   items: any;
 theUser: string;
 userImage: string;
-    constructor(private _itemService: ItemService, private uService: UserService ) {
+    constructor( private uService: UserService ) {
 
     }
 
@@ -34,6 +31,5 @@ userImage: string;
   logout() {
     this.uService.logout();
   }
-
 
 } // class
