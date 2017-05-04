@@ -54,16 +54,19 @@
             <span *ngIf="item.status=='Out' ">
               <img src="../../assets/images/out-icon.png"
                    style="max-height:50%;max-width:50%"/>
+               {{item.status}}
           </span>
             <span *ngIf="item.status=='Available' ">
               <img src="../../assets/images/available-icon.png"
                    style="max-height:50%;max-width:50%"/>
+               {{item.status}}
           </span>
             <span *ngIf="item.status=='Notify' ">
               <img src="../../assets/images/notify-icon.png"
                    style="max-height:50%;max-width:50%"/>
+              <img src="../../assets/images/notify-button.png"
+                   style="max-height:50%;max-width:50%"/>
           </span>
-            {{item.status}}
           </td>
         </tr>
         </tbody>
