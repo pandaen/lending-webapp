@@ -27,15 +27,13 @@
                 <div class='col-md-6'>{{item.description}}</div>
               </div>
 
-              <a class="btn btn-default" href="#">Edit</a>
-              <a class="btn btn-danger" href="#">Delete</a>
             </div>
 
             <div class='col-md-6'>
                 <img class='center-block img-responsive'
                      [style.width.px]='200'
                      [style.margin.px]='2'
-                     [src]='item.imageUrl'
+                     [src]='imageUrl'
                      [title]='item.name'>
             </div>
         </div>
@@ -45,5 +43,8 @@
         <a class='btn btn-default' (click)='onBack()' style='width:80px'>
             <i class='glyphicon glyphicon-chevron-left'></i> Back
         </a>
+
+      <a class="btn btn-default" href="#">Edit</a>
+      <a class="btn btn-danger" href="#">Delete</a>
     </div>
 </div>

@@ -5,22 +5,25 @@ import {
   FirebaseObjectObservable
 } from 'angularfire2';
 import {IItem} from '../../items/item';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class UserService implements CanActivate {
   loggedInUser: string;
-  userImage: string;
+  userImage: string;// auth image
   authUser: any;
   userLoggedIn: boolean = false;
   error: any;
+  folder: any;
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
-  item:  FirebaseObjectObservable<any>;
+  item:  FirebaseObjectObservable<any[]>;
 
   constructor(private _router: Router, private af: AngularFire) {
     this.af.auth.subscribe((state: FirebaseAuthState) => {
       this.authState = state;
     });
+    this.folder = 'images';   // firebase location
   }
 
 
@@ -90,6 +93,21 @@ this.items = this.af.database.list('/items') as FirebaseListObservable<IItem[]>
 this.item = this.af.database.object('/items/' + id) as FirebaseObjectObservable<IItem>
     console.log(this.item);
     return this.item;
+  }
+
+  addItem(item) {
+    let storageRef = firebase.storage().ref();
+
+    for(let selectedFile of [(<HTMLInputElement>document.getElementById('image')).files[0]]){
+      let path = `/${this.folder}/${selectedFile.name}`;
+      let iRef = storageRef.child(path);
+      iRef.put(selectedFile).then((snapshot) => {
+        item.image = selectedFile.name;
+        item.path = path;
+        return this.items.push(item);
+      });
+    }
+
   }
 
 } // class

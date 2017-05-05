@@ -8,6 +8,7 @@ import {UserService} from '../admin/adminShared/user.service';
 import {AdminComponent} from './admin.component';
 import {SharedModule} from '../shared/shared.module';
 import {LoginComponent} from '../home/login.component';
+import { AddItemComponent } from './add-item/add-item.component';
 
 
 const AdminRoutes: Routes = [
@@ -17,8 +18,8 @@ const AdminRoutes: Routes = [
     children: [
       {path: '', component: ItemListComponent, canActivate: [UserService]},
       {path: 'item', component: ItemListComponent},
-   //    {path: 'item/:id', canActivate: [ItemDetailGuard], component: ItemDetailComponent},
       {path: 'item/:id', component: ItemDetailComponent},
+      {path: 'add', component: AddItemComponent},
       {path: 'login', component: LoginComponent},
     ]
   },
@@ -30,7 +31,8 @@ const AdminRoutes: Routes = [
     ItemDetailComponent,
     ItemFilterPipe,
     AdminComponent,
-    LoginComponent
+    LoginComponent,
+    AddItemComponent
   ],
   imports: [
     SharedModule,
