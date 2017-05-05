@@ -46,7 +46,7 @@
           <td><img [src]='item.imageUrl'
                    [title]='item.name'
                    [style.width.px]='imageWidth'
-                   [style.margin.px]='imageMargin'> <a [routerLink]="['/item',item.itemId]">{{ item.name }}</a></td>
+                   [style.margin.px]='imageMargin'> <a [routerLink]="['item/'+item.$key]">{{ item.name }}</a></td>
           <td>{{ item.borrowerName}}</td>
           <td>{{ item.dueDate }}</td>
 

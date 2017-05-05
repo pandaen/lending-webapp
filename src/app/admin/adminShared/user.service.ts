@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {AngularFire, AuthMethods, AuthProviders, FirebaseAuthState, FirebaseListObservable} from 'angularfire2';
-import {IItem} from "../../items/item";
+import {
+  AngularFire, AuthMethods, AuthProviders, FirebaseAuthState, FirebaseListObservable,
+  FirebaseObjectObservable
+} from 'angularfire2';
+import {IItem} from '../../items/item';
 
 @Injectable()
 export class UserService implements CanActivate {
@@ -12,6 +15,7 @@ export class UserService implements CanActivate {
   error: any;
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
+  item:  FirebaseObjectObservable<any>;
 
   constructor(private _router: Router, private af: AngularFire) {
     this.af.auth.subscribe((state: FirebaseAuthState) => {
@@ -77,8 +81,15 @@ export class UserService implements CanActivate {
 
 
   getItems() {
-this.items = this.af.database.list('/items') as FirebaseListObservable<IItem>
+this.items = this.af.database.list('/items') as FirebaseListObservable<IItem[]>
     return this.items;
+  }
+
+
+  getItemDetails(id) {
+this.item = this.af.database.object('/items/' + id) as FirebaseObjectObservable<IItem>
+    console.log(this.item);
+    return this.item;
   }
 
 } // class

@@ -7,9 +7,8 @@ import {ErrorComponent} from '../error/error.component';
 @NgModule({
   imports: [RouterModule.forRoot([
     {path: 'items', component: ItemListComponent},
-    {path: 'login', component: LoginComponent},
-    {path: '', redirectTo: 'items', pathMatch: 'full'}, // default
-    {path: '**', component: ErrorComponent}
+    {path: '', redirectTo: 'items', pathMatch: 'full'},  // default
+     {path: '**', component: ErrorComponent}  // no match
   ])
   ],
   exports: [

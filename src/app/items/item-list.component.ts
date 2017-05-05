@@ -22,7 +22,6 @@ userImage: string;
       this.theUser = this.uService.loggedInUser;
       this.userImage = this.uService.userImage;
       this.uService.getItems().subscribe(items => {
-      console.log(items);
         this.items = items;
       });
     }

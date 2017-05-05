@@ -15,10 +15,11 @@ const AdminRoutes: Routes = [
     path: 'items',
     component: AdminComponent,
     children: [
-      {path: 'item', component: ItemListComponent},
-      {path: 'item/:id', canActivate: [ItemDetailGuard], component: ItemDetailComponent},
-      {path: 'login', component: LoginComponent},
       {path: '', component: ItemListComponent, canActivate: [UserService]},
+      {path: 'item', component: ItemListComponent},
+   //    {path: 'item/:id', canActivate: [ItemDetailGuard], component: ItemDetailComponent},
+      {path: 'item/:id', component: ItemDetailComponent},
+      {path: 'login', component: LoginComponent},
     ]
   },
 ];
