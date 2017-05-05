@@ -17,7 +17,7 @@ export class UserService implements CanActivate {
   folder: any;
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
-  item:  FirebaseObjectObservable<any[]>;
+  item:  FirebaseObjectObservable<any>;
 
   constructor(private _router: Router, private af: AngularFire) {
     this.af.auth.subscribe((state: FirebaseAuthState) => {
@@ -108,6 +108,14 @@ this.item = this.af.database.object('/items/' + id) as FirebaseObjectObservable<
       });
     }
 
+  }
+
+  deleteItem(id) {
+    return this.items.remove(id);
+  }
+
+  updateItem(id, item){
+    return this.items.update(id, item);
   }
 
 } // class

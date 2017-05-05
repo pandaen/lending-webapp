@@ -9,6 +9,7 @@ import {AdminComponent} from './admin.component';
 import {SharedModule} from '../shared/shared.module';
 import {LoginComponent} from '../home/login.component';
 import { AddItemComponent } from './add-item/add-item.component';
+import { EditItemComponent } from './edit-item/edit-item.component';
 
 
 const AdminRoutes: Routes = [
@@ -21,6 +22,7 @@ const AdminRoutes: Routes = [
       {path: 'item/:id', component: ItemDetailComponent},
       {path: 'add', component: AddItemComponent},
       {path: 'login', component: LoginComponent},
+      {path: 'edit-item/:id', component: EditItemComponent}
     ]
   },
 ];
@@ -32,7 +34,8 @@ const AdminRoutes: Routes = [
     ItemFilterPipe,
     AdminComponent,
     LoginComponent,
-    AddItemComponent
+    AddItemComponent,
+    EditItemComponent
   ],
   imports: [
     SharedModule,

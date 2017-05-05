@@ -44,7 +44,8 @@
             <i class='glyphicon glyphicon-chevron-left'></i> Back
         </a>
 
-      <a class="btn btn-default" href="#">Edit</a>
-      <a class="btn btn-danger" href="#">Delete</a>
+      <a class="btn btn-default" [routerLink]="['/items/edit-item/'+item.$key]">Edit</a>
+      <a (click)="onDeleteClick()"  class="btn btn-danger">Delete</a>
+
     </div>
 </div>
