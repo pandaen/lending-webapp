@@ -4,6 +4,7 @@ export interface IItem {
   borrowerName?: string;
   dueDate?: string;
   status?: string;
+  remarks?: string;
   image?: string;
   path?: string;
 }
