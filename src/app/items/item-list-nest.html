@@ -1,0 +1,46 @@
+<div class="table-responsive">
+  <table class='table table-striped'>
+    <thead>
+    <tr>
+      <th>Item</th>
+      <th>Borrower</th>
+      <th>Due date</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+    <!-- <tr *ngFor='let item of visibleItems | itemFilter:listFilter'>  -->
+    <tr *ngFor='let item of visibleItems | itemFilter:listFilter'>
+      <td><img [src]='item.imageUrl'
+               [title]='item.name'
+               [style.width.px]='imageWidth'
+               [style.margin.px]='imageMargin'> <a [routerLink]="['item/'+item.$key]">{{ item.name }}</a></td>
+      <td>{{ item.borrowerName}}</td>
+      <td>{{ item.dueDate }}</td>
+
+      <td>
+            <span *ngIf="item.status=='Out' ">
+              <img src="../../assets/images/out-icon.png"
+                   style="max-height:50%;max-width:50%"/>
+               {{item.status}}
+          </span>
+        <span *ngIf="item.status=='Available' ">
+              <img src="../../assets/images/available-icon.png"
+                   style="max-height:50%;max-width:50%"/>
+               {{item.status}}
+          </span>
+        <span *ngIf="item.status=='Notify' ">
+              <img src="../../assets/images/notify-icon.png"
+                   style="max-height:50%;max-width:50%"/>
+              <img src="../../assets/images/notify-button.png"
+                   style="max-height:50%;max-width:50%"/>
+          </span>
+      </td>
+    </tr>
+
+
+    </tbody>
+  </table>
+</div>

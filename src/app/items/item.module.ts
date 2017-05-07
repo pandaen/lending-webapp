@@ -10,6 +10,7 @@ import {SharedModule} from '../shared/shared.module';
 import {LoginComponent} from '../home/login.component';
 import { AddItemComponent } from './add-item/add-item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
+import {ItemListNestComponent} from './item-list-nest';
 
 
 const AdminRoutes: Routes = [
@@ -35,7 +36,8 @@ const AdminRoutes: Routes = [
     AdminComponent,
     LoginComponent,
     AddItemComponent,
-    EditItemComponent
+    EditItemComponent,
+    ItemListNestComponent
   ],
   imports: [
     SharedModule,

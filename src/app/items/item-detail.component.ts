@@ -19,9 +19,10 @@ export class ItemDetailComponent implements OnInit {
 
   errorMessage: string;
   private sub: Subscription;
-
-  constructor(private _route: ActivatedRoute, private _router: Router, private _uService: UserService, public flashMessage: FlashMessagesService) {
-  }
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _uService: UserService, public flashMessage: FlashMessagesService) { }
 
   // Sets items
   ngOnInit(): void {
@@ -30,8 +31,6 @@ export class ItemDetailComponent implements OnInit {
 
     this._uService.getItemDetails(this.id).subscribe(item => {
       this.item = item;
-
-
       let storageRef = firebase.storage().ref();
       let spaceRef = storageRef.child(this.item.path);
       storageRef.child(this.item.path).getDownloadURL().then((url) => {
@@ -49,7 +48,7 @@ export class ItemDetailComponent implements OnInit {
   }
 
   onDeleteClick() {
-    console.log("Deleted item!")
+    console.log('Deleted item!');
     this._uService.deleteItem(this.id);
     this._router.navigate(['/items']);
     this.flashMessage.show('Item deleted', {cssClass: 'alert-success', timeout: 3000});

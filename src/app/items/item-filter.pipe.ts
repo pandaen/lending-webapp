@@ -1,6 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {IItem} from './item';
 
+
 @Pipe({
     name: 'itemFilter'
 })

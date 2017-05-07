@@ -84,14 +84,13 @@ export class UserService implements CanActivate {
 
 
   getItems() {
-this.items = this.af.database.list('/items') as FirebaseListObservable<IItem[]>
+this.items = this.af.database.list('/myDemoItems') as FirebaseListObservable<IItem[]>
     return this.items;
   }
 
 
   getItemDetails(id) {
-this.item = this.af.database.object('/items/' + id) as FirebaseObjectObservable<IItem>
-    console.log(this.item);
+this.item = this.af.database.object('/myDemoItems/' + id) as FirebaseObjectObservable<IItem>
     return this.item;
   }
 
@@ -114,7 +113,7 @@ this.item = this.af.database.object('/items/' + id) as FirebaseObjectObservable<
     return this.items.remove(id);
   }
 
-  updateItem(id, item){
+  updateItem(id, item) {
     return this.items.update(id, item);
   }
 
