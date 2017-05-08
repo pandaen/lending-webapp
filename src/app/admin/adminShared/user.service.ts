@@ -18,12 +18,15 @@ export class UserService implements CanActivate {
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
   item:  FirebaseObjectObservable<any>;
+  usersRef: any;
+
 
   constructor(private _router: Router, private af: AngularFire) {
     this.af.auth.subscribe((state: FirebaseAuthState) => {
       this.authState = state;
     });
     this.folder = 'images';   // firebase location
+    this.usersRef = firebase.database().ref('/users');
   }
 
 
@@ -34,7 +37,7 @@ export class UserService implements CanActivate {
 
 
   verifyLogin(url: string): boolean {
-    if (this.userLoggedIn) {
+    if (this.userLoggedIn ) {
       return true;
     }
 
@@ -45,6 +48,7 @@ export class UserService implements CanActivate {
 
   verifyUser() {
     if (this.authState) {
+      this.existInDb();
     //  alert(`Welcome ${this.authState.auth.email}`);
       this.loggedInUser = this.authState.auth.displayName;
       this.userImage = this.authState.auth.photoURL;
@@ -67,6 +71,42 @@ export class UserService implements CanActivate {
         console.log('Error, something went wrong..');
         this.error = err;
       });
+  }
+
+
+  existInDb() {
+    let userUid = this.authState.auth.uid;
+    let fullUserRef = firebase.database().ref('/users/'+userUid);
+    fullUserRef.once('value', (snapshot) => {
+      let exist = snapshot.exists();
+      this.writeDbUser(exist);
+    }, function (error) {
+      console.error(error);
+    });
+  }
+
+  writeDbUser(exist) {
+    if (!exist) {
+      console.log("User added in db");
+      let user = this.authState.auth;
+      // splits fullname into an array
+      let narr = this.authState.auth.displayName.split(" ");
+      this.usersRef.child(user.uid).set({
+        uid: user.uid,
+        isAdmin: "false",
+        isPending: "true",
+        entity: "null",
+        email: user.email || "",
+        photoURL: user.photoURL || "",
+        fullname: user.displayName || "",
+        name: {
+          first: narr[0] || "",
+          last: narr[1] || "",
+        },
+      });
+    } else {
+      console.log("User exist in db");
+    }
   }
 
 
