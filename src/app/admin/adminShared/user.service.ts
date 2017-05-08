@@ -19,6 +19,7 @@ export class UserService implements CanActivate {
   items: FirebaseListObservable<any[]>;
   item:  FirebaseObjectObservable<any>;
   usersRef: any;
+  _isAdmin: boolean;
 
 
   constructor(private _router: Router, private af: AngularFire) {
@@ -41,22 +42,23 @@ export class UserService implements CanActivate {
       return true;
     }
 
+    this.logout();
     this._router.navigate(['/items/login']);
     console.log('Redirected by: verifyLogin()');
     return false;
   }
 
-  verifyUser() {
-    if (this.authState) {
-      this.existInDb();
+  verifyUser(isAdmin) {
+      console.log('verifyUSer isAdminB ' + isAdmin);
+    if (this.authState && isAdmin) {
     //  alert(`Welcome ${this.authState.auth.email}`);
       this.loggedInUser = this.authState.auth.displayName;
       this.userImage = this.authState.auth.photoURL;
       this.userLoggedIn = true;
       this._router.navigate(['/items']);
+    } else {
+      this._router.navigate(['/noAdmin']);
     }
-
-
   }
 
   login() {
@@ -65,7 +67,9 @@ export class UserService implements CanActivate {
       method: AuthMethods.Popup,
     }).then((success) => {
       console.log('login ok..');
-      this.verifyUser();
+      this.existInDb();
+      this.isAdmin();
+    //  this.verifyUser();
     }).catch(
       (err) => {
         console.log('Error, something went wrong..');
@@ -107,6 +111,20 @@ export class UserService implements CanActivate {
     } else {
       console.log("User exist in db");
     }
+  }
+
+
+  isAdmin() {
+    let userUid = this.authState.auth.uid;
+    let fullUserRef = firebase.database().ref('/users/'+userUid);
+    fullUserRef.once('value', (snapshot) => {
+      let isAdmin = snapshot.child("isAdmin").val();
+       let isAdminB = (isAdmin === 'true')
+      console.log('in method isAdmin User isAdminB ' + isAdminB);
+      this.verifyUser(isAdminB);
+    }, function (error) {
+      console.error(error);
+    });
   }
 
 
@@ -158,4 +176,3 @@ this.item = this.af.database.object('/myDemoItems/' + id) as FirebaseObjectObser
   }
 
 } // class
-

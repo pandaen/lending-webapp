@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
 
     template: `
       <h1 class="errorMessage">404</h1>
       <h3 class="sub"> page not found</h3>
+      
+      <div class='panel-footer'>
+        <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+          <i class='glyphicon glyphicon-chevron-left'></i> Return
+        </a>
+      </div>
+      
     `,
     styles: [`
       .errorMessage {
@@ -26,4 +34,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./error.component.css']
   */
  })
-export class ErrorComponent { }
+export class ErrorComponent {
+  constructor (private _router: Router) {}
+  onBack(): void {
+    this._router.navigate(['/items']);
+  }
+}
