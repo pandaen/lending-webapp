@@ -23,8 +23,6 @@ export class ItemListNestComponent implements OnChanges {
 
 
   filterItems(filter) {
-    console.log('filterItems is: ' + filter);
-
       if (filter === 'all') {
       this.visibleItems = this.items.slice(0);
     } else {
@@ -32,7 +30,7 @@ export class ItemListNestComponent implements OnChanges {
         return items.status.toLocaleLowerCase() === filter;
       });
     } // else
-
   }
+
 }
 

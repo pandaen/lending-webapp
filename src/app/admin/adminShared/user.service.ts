@@ -18,6 +18,9 @@ export class UserService implements CanActivate {
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
   item:  FirebaseObjectObservable<any>;
+
+  users: FirebaseListObservable<any[]>;
+  user:  FirebaseObjectObservable<any>;
   usersRef: any;
   _isAdmin: boolean;
 
@@ -49,7 +52,6 @@ export class UserService implements CanActivate {
   }
 
   verifyUser(isAdmin) {
-      console.log('verifyUSer isAdminB ' + isAdmin);
     if (this.authState && isAdmin) {
     //  alert(`Welcome ${this.authState.auth.email}`);
       this.loggedInUser = this.authState.auth.displayName;
@@ -102,7 +104,7 @@ export class UserService implements CanActivate {
         entity: "null",
         email: user.email || "",
         photoURL: user.photoURL || "",
-        fullname: user.displayName || "",
+        fullName: user.displayName || "",
         name: {
           first: narr[0] || "",
           last: narr[1] || "",
@@ -148,9 +150,22 @@ this.items = this.af.database.list('/myDemoItems') as FirebaseListObservable<IIt
 
 
   getItemDetails(id) {
-this.item = this.af.database.object('/myDemoItems/' + id) as FirebaseObjectObservable<IItem>
+this.user = this.af.database.object('/myDemoItems/' + id) as FirebaseObjectObservable<IItem>
+    return this.user;
+  }
+
+  getUsers() {
+    this.users = this.af.database.list('/users') as FirebaseListObservable<IItem[]>
+    return this.users;
+  }
+
+
+  getUserDetails(id) {
+    this.item = this.af.database.object('/users/' + id) as FirebaseObjectObservable<IItem>
     return this.item;
   }
+
+
 
   addItem(item) {
     let storageRef = firebase.storage().ref();
@@ -167,12 +182,22 @@ this.item = this.af.database.object('/myDemoItems/' + id) as FirebaseObjectObser
 
   }
 
+
   deleteItem(id) {
     return this.items.remove(id);
   }
 
-  updateItem(id, item) {
-    return this.items.update(id, item);
+
+  deleteUser(id) {
+    return this.users.remove(id);
+  }
+
+  updateUser(id, user) {
+    return this.users.update(id, user);
+  }
+
+  updateItem(id, user) {
+    return this.items.update(id, user);
   }
 
 } // class

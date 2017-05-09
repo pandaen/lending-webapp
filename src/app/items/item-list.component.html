@@ -28,8 +28,8 @@
         <h3>Searched for : {{listFilter}} </h3>
       </div>
 
-      <div class="col-md-8">
-      <div class="btn-group btn-group-sm">
+      <div class="col-md-">
+      <div class="btn-group btn-group-sm" style="margin-right:70px">
         <button class="btn btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All</button>
         <button class="btn btn-default" [class.active]="filterBy==='available'" (click)="filterBy='available'">In stock</button>
         <button class="btn btn-default" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
