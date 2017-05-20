@@ -11,11 +11,14 @@ import {FlashMessagesService} from "angular2-flash-messages";
   templateUrl: 'item-detail.component.html'
 })
 export class ItemDetailComponent implements OnInit {
-  pageTitle: string = 'Item Detail';
+  pageTitle: string = 'Item';
   //  item: IItem;
   id: any;
   item: any;
+  reserved: any;
+  // userDetail: [any];
   imageUrl: any;
+  userDetail: any[];
 
   errorMessage: string;
   private sub: Subscription;
@@ -31,6 +34,8 @@ export class ItemDetailComponent implements OnInit {
 
     this._uService.getItemDetails(this.id).subscribe(item => {
       this.item = item;
+
+      /*
       let storageRef = firebase.storage().ref();
       let spaceRef = storageRef.child(this.item.path);
       storageRef.child(this.item.path).getDownloadURL().then((url) => {
@@ -39,9 +44,18 @@ export class ItemDetailComponent implements OnInit {
       }).catch((error) => {
         console.log(error);
       });
+      */
     });
 
+    this._uService.getItemDetailsResInfo(this.id).subscribe(res => {
+      this.reserved = res;
+    });
+
+
+
+
   }
+
 
   onBack(): void {
     this._router.navigate(['/items']);

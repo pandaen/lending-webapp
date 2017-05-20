@@ -12,3 +12,5 @@ export class ItemFilterPipe implements PipeTransform {
     item.name.toLocaleLowerCase().indexOf(filterBy) !== -1) :  value;
   }
 }
+
+

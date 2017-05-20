@@ -10,6 +10,6 @@ export class UserFilterPipe implements PipeTransform {
   transform(value: IUser[], filterBy: string): IUser[] {
     filterBy = filterBy ? filterBy.toLocaleLowerCase() : null;
     return filterBy ? value.filter((user: IUser) =>
-    user.isAdmin.toLocaleLowerCase().indexOf(filterBy) !== -1) :  value;
+    user.fullname.toLocaleLowerCase().indexOf(filterBy) !== -1) :  value;
   }
 }

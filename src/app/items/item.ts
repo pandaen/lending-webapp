@@ -4,7 +4,11 @@ export interface IItem {
   borrowerName?: string;
   dueDate?: string;
   status?: string;
-  remarks?: string;
   image?: string;
   path?: string;
+  photoURL: string;
+  formattedRetDate?: string;
+  reservationDays?: string;
+  entityName?: string;
+  reserved?: string;
 }

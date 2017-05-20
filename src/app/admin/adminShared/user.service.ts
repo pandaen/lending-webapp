@@ -1,4 +1,14 @@
+// dans getitem
+// import Rx from 'rxjs/Rx';
+import * as Rx from 'rxjs';
+import 'rxjs/add/operator/map';
+import { Observable } from "rxjs/Observable";
+// ------
+
+
+
 import {Injectable} from '@angular/core';
+
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {
   AngularFire, AuthMethods, AuthProviders, FirebaseAuthState, FirebaseListObservable,
@@ -6,23 +16,39 @@ import {
 } from 'angularfire2';
 import {IItem} from '../../items/item';
 import * as firebase from 'firebase';
+import {Subject} from "rxjs";
+
 
 @Injectable()
 export class UserService implements CanActivate {
   loggedInUser: string;
   userImage: string;// auth image
+  currentUser: any;
   authUser: any;
   userLoggedIn: boolean = false;
+  tabs: boolean;
   error: any;
   folder: any;
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
+  reservations: FirebaseListObservable<any[]>;
   item:  FirebaseObjectObservable<any>;
-
   users: FirebaseListObservable<any[]>;
   user:  FirebaseObjectObservable<any>;
+
+  itemdetailRetDate: string;
+  itemdetailUpDate: any;
   usersRef: any;
   _isAdmin: boolean;
+  resDate: FirebaseListObservable<any[]>;
+  nChangeuserLoggedIn: Subject<boolean> = new Subject<boolean>();
+
+  // daniels getitem
+  itemsYouCanAdministrate;
+// items = af.database.list('/items');
+  entities: FirebaseListObservable<any>;
+  usersEntityMap: FirebaseListObservable<any>;
+
 
 
   constructor(private _router: Router, private af: AngularFire) {
@@ -31,6 +57,10 @@ export class UserService implements CanActivate {
     });
     this.folder = 'images';   // firebase location
     this.usersRef = firebase.database().ref('/users');
+
+
+    this.entities = af.database.list('/entities');
+    this.usersEntityMap = af.database.list('/usersEntityMap');
   }
 
 
@@ -46,7 +76,7 @@ export class UserService implements CanActivate {
     }
 
     this.logout();
-    this._router.navigate(['/items/login']);
+    this._router.navigate(['login']);
     console.log('Redirected by: verifyLogin()');
     return false;
   }
@@ -57,7 +87,9 @@ export class UserService implements CanActivate {
       this.loggedInUser = this.authState.auth.displayName;
       this.userImage = this.authState.auth.photoURL;
       this.userLoggedIn = true;
-      this._router.navigate(['/items']);
+      this.tabs = this.userLoggedIn;
+      console.log('tabs is: ' + this.tabs);
+      this._router.navigate(['items']);
     } else {
       this._router.navigate(['/noAdmin']);
     }
@@ -74,7 +106,7 @@ export class UserService implements CanActivate {
     //  this.verifyUser();
     }).catch(
       (err) => {
-        console.log('Error, something went wrong..');
+        console.log('Error: login failed..');
         this.error = err;
       });
   }
@@ -95,20 +127,14 @@ export class UserService implements CanActivate {
     if (!exist) {
       console.log("User added in db");
       let user = this.authState.auth;
-      // splits fullname into an array
-      let narr = this.authState.auth.displayName.split(" ");
       this.usersRef.child(user.uid).set({
         uid: user.uid,
-        isAdmin: "false",
-        isPending: "true",
-        entity: "null",
+        entity: "No entity, join an entity to get started",
+        entityName: "No entity, join an entity to get started",
         email: user.email || "",
+        isAdmin: "false",
         photoURL: user.photoURL || "",
-        fullName: user.displayName || "",
-        name: {
-          first: narr[0] || "",
-          last: narr[1] || "",
-        },
+        fullname: user.displayName || "",
       });
     } else {
       console.log("User exist in db");
@@ -118,7 +144,7 @@ export class UserService implements CanActivate {
 
   isAdmin() {
     let userUid = this.authState.auth.uid;
-    let fullUserRef = firebase.database().ref('/users/'+userUid);
+    let fullUserRef = firebase.database().ref('/users/' + userUid);
     fullUserRef.once('value', (snapshot) => {
       let isAdmin = snapshot.child("isAdmin").val();
        let isAdminB = (isAdmin === 'true')
@@ -133,7 +159,7 @@ export class UserService implements CanActivate {
   logout() {
      this.userLoggedIn = false;
     this.af.auth.logout().then((success) => {
-      this._router.navigate(['/items/login']);
+     this._router.navigate(['login']);
       console.log('Logged out...');
     }).catch(
       (err) => {
@@ -144,24 +170,30 @@ export class UserService implements CanActivate {
 
 
   getItems() {
-this.items = this.af.database.list('/myDemoItems') as FirebaseListObservable<IItem[]>
+this.items = this.af.database.list('/items') as FirebaseListObservable<IItem[]>;
     return this.items;
   }
 
 
   getItemDetails(id) {
-this.user = this.af.database.object('/myDemoItems/' + id) as FirebaseObjectObservable<IItem>
+this.user = this.af.database.object('/items/' + id) as FirebaseObjectObservable<IItem>;
     return this.user;
   }
 
+  getItemDetailsResInfo(id) {
+    this.reservations = this.af.database.list('/items/' + id + '/reserved') as FirebaseListObservable<IItem[]>;
+    return this.reservations;
+  }
+
+
   getUsers() {
-    this.users = this.af.database.list('/users') as FirebaseListObservable<IItem[]>
+    this.users = this.af.database.list('/users') as FirebaseListObservable<IItem[]>;
     return this.users;
   }
 
 
   getUserDetails(id) {
-    this.item = this.af.database.object('/users/' + id) as FirebaseObjectObservable<IItem>
+    this.item = this.af.database.object('/users/' + id) as FirebaseObjectObservable<IItem>;
     return this.item;
   }
 
@@ -196,8 +228,36 @@ this.user = this.af.database.object('/myDemoItems/' + id) as FirebaseObjectObser
     return this.users.update(id, user);
   }
 
-  updateItem(id, user) {
-    return this.items.update(id, user);
+  updateItem(id, item) {
+    return this.items.update(id, item);
+  }
+
+
+  change() {
+    this.nChangeuserLoggedIn.next(this.userLoggedIn);
+  }
+
+  dueDate(itemDate) {
+    var currentDate = new Date();
+    currentDate.setHours(0o0, 0o0);
+    var oneDay = 24 * 60 * 60 * 1000;
+    var diffDays = Math.round(Math.abs((itemDate - currentDate.getTime()) / (oneDay)));
+    var returnText;
+    if (diffDays == 0) {
+      returnText = "Today";
+    }
+    else if (diffDays == 1) {
+      returnText = " in " + diffDays + " day";
+    }
+    else if (diffDays > 1) {
+      returnText = " in " + diffDays + " days";
+    }
+
+    else if (diffDays < 0) {
+      returnText = "Notify";
+    }
+
+    return returnText;
   }
 
 } // class

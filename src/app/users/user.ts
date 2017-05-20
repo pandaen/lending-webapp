@@ -1,6 +1,6 @@
 export interface IUser {
   $key?: string;
-  fullName?: string;
+  fullname?: string;
   email?: string;
   isAdmin?: string;
   photoURL?: string;

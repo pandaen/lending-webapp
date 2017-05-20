@@ -9,33 +9,53 @@
 
               <div class='row'>
                 <div class='col-md-3'>Borrower:</div>
-                <div class='col-md-6'>{{item.borrowerName}}</div>
+                <div  class='col-md-6'>{{item.loan?.loanerName}}</div>
               </div>
 
                 <div class='row'>
                     <div class='col-md-3'>Due Date:</div>
-                    <div class='col-md-6'>{{item.dueDate}}</div>
+                    <div  class='col-md-6'>{{item?.loan?.formattedShortDate}}</div>
                 </div>
 
+
               <div class='row'>
-                <div class='col-md-3'>Status:</div>
-                <div class='col-md-6'>{{item.status}}</div>
+                <div class='col-md-3'>Res Dato:</div>
+                <div class='col-md-2'>{{reserved.formattedShortRetDate}}</div>
               </div>
+
+              <div class='row'>
+                <div class='col-md-3'>Res Days:</div>
+                <div class='col-md-2'>{{item?.reservationDays}}</div>
+              </div>
+
 
               <div class='row'>
                 <div class='col-md-3'>Notice:</div>
-                <div class='col-md-6'>{{item.remarks}}</div>
+                <div class='col-md-6'>{{item?.description}}</div>
+              </div>
+
+              <div class='row'>
+                <div class='col-md-3'>Status:</div>
+                <div class='col-md-6'>{{item?.status}}</div>
               </div>
 
             </div>
 
-            <div class='col-md-6'>
+            <div *ngIf="item.photoURL" class='col-md-6'>
                 <img class='center-block img-responsive'
                      [style.width.px]='200'
                      [style.margin.px]='2'
-                     [src]='imageUrl'
-                     [title]='item.name'>
+                     [src]='item.photoURL'
+                     [title]='item?.name'>
             </div>
+
+          <div *ngIf="!item.photoURL" class='col-md-6'>
+            <img class='center-block img-responsive'
+                 [style.width.px]='200'
+                 [style.margin.px]='2'
+                 src='../../assets/images/NoPhoto.png'
+                 [title]='item?.name'>
+          </div>
         </div>
     </div>
 
@@ -44,7 +64,7 @@
             <i class='glyphicon glyphicon-chevron-left'></i> Back
         </a>
 
-      <a class="btn btn-default" [routerLink]="['/items/edit-item/'+item.$key]">Edit</a>
+      <a class="btn btn-default" [routerLink]="['/edit-item/'+item.$key]">Edit</a>
       <a (click)="onDeleteClick()"  class="btn btn-danger">Delete</a>
 
     </div>

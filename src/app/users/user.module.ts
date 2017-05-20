@@ -15,7 +15,7 @@ import {UserListNestComponent} from './user-list-nest/user-list-nest.component';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      {path: 'user', component: ListUsersComponent},
+      {path: 'users', component: ListUsersComponent},
       {path: 'user/:id', component: UserDetailComponent},
       {path: 'edit-user/:id', component: EditUserComponent}
     ])
