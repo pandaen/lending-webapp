@@ -31,7 +31,6 @@ const firebaseAuthConfig = {
   imports: [
     BrowserModule,
     FlashMessagesModule,
-    UserModule,
     ItemModule, // must be before approtuing
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig)],

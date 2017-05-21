@@ -23,7 +23,7 @@
                [style.margin.px]='imageMargin'></div>
       </td>
 
-      <td><a [routerLink]="['/items/item/'+item.$key]">{{ item.name }}</a></td>
+      <td><a [routerLink]="['/item/'+item.$key]">{{ item.name }}</a></td>
 
             <td width=10>
               <div *ngIf="item.loan">

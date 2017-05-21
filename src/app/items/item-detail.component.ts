@@ -67,13 +67,13 @@ export class ItemDetailComponent implements OnInit {
 
 
   onBack(): void {
-    this._router.navigate(['/items']);
+    this._router.navigate(['']);
   }
 
   onDeleteClick() {
     console.log('Deleted item!');
     this._uService.deleteItem(this.id);
-    this._router.navigate(['/items']);
+    this._router.navigate(['']);
     this.flashMessage.show('Item deleted', {cssClass: 'alert-success', timeout: 3000});
   }
 

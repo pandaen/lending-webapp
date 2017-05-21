@@ -75,7 +75,7 @@ export class UserService implements CanActivate {
     }
 
     this.logout();
-    this._router.navigate(['login']);
+    this._router.navigate(['/login']);
     console.log('Redirected by: verifyLogin()');
     return false;
   }
@@ -158,7 +158,7 @@ export class UserService implements CanActivate {
   logout() {
     this.userLoggedIn = false;
     this.af.auth.logout().then((success) => {
-      this._router.navigate(['items/login']);
+      this._router.navigate(['/login']);
       console.log('Logged out...');
     }).catch(
       (err) => {
