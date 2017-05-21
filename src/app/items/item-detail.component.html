@@ -18,13 +18,21 @@
                 </div>
 
 
-              <div class='row'>
-                <div class='col-md-3'>Res Dato:</div>
-                <div class='col-md-2'>{{reserved.formattedShortRetDate}}</div>
+              <div  *ngFor='let res of reserved' class='row'>
+
+
+                <div  class='col-md-3'>Reserved by:</div>
+                <div class='col-md-6'>{{res.userName}}</div>
+                <br>
+                <div  class='col-md-3'>Pickup Date:</div>
+                <div class='col-md-3'>{{res.formattedShortpUpDate}}</div>
+                <br>
+                <div  class='col-md-3'>Return Date:</div>
+                <div class='col-md-3'>{{res.formattedShortRetDate}}</div>
               </div>
 
               <div class='row'>
-                <div class='col-md-3'>Res Days:</div>
+                <div class='col-md-3'>Number of days:</div>
                 <div class='col-md-2'>{{item?.reservationDays}}</div>
               </div>
 
@@ -39,14 +47,17 @@
                 <div class='col-md-6'>{{item?.status}}</div>
               </div>
 
+              <div *ngIf="item.status=='Notify' " class='col-md-12'>
+              <button type="button" (click)="sendEmail(item.loan?.eMail, item.loan?.loanerName)" class="btn btn-warning">Send a reminder</button>
+              </div>
             </div>
 
-            <div *ngIf="item.photoURL" class='col-md-6'>
+            <div  *ngIf="item.photoURL" class='col-md-6'>
                 <img class='center-block img-responsive'
                      [style.width.px]='200'
                      [style.margin.px]='2'
-                     [src]='item.photoURL'
-                     [title]='item?.name'>
+                     [src]='item?.photoURL'
+                     >
             </div>
 
           <div *ngIf="!item.photoURL" class='col-md-6'>
@@ -54,7 +65,7 @@
                  [style.width.px]='200'
                  [style.margin.px]='2'
                  src='../../assets/images/NoPhoto.png'
-                 [title]='item?.name'>
+                 >
           </div>
         </div>
     </div>

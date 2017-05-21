@@ -8,13 +8,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand">Borrowing admin-panel</a>
+      <a class="navbar-brand">Borrowing admin-console</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
 
 
       <ul class="nav navbar-nav navbar-left">
-        <li *ngIf="tabs"><a [routerLink]="['/add']">Add item</a></li>
+        <li *ngIf="tabs"><a [routerLink]="['add']">Add item</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-left">
@@ -68,22 +68,26 @@
     </div>
 
     <div class='row' style="margin-bottom:10px" *ngIf='listFilter'>
-      <div class='col-md-5'>
+
         <h3>Searched for : {{listFilter}} </h3>
+
+    </div>
+
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group mr-3" role="group" aria-label="First group">
+        <button type="button" class="btn btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All</button>
+        <button type="button" class="btn btn-default" [class.active]="filterBy==='available'" (click)="filterBy='available'">In stock</button>
+        <button  class="btn btn-default" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
       </div>
-    </div>
 
-    <div class="btn-group btn-group" style="margin-right:70px">
-      <button class="btn btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All</button>
-      <button class="btn btn-default" [class.active]="filterBy==='available'" (click)="filterBy='available'">In stock
-      </button>
-      <button class="btn btn-default" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
-      <button class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">Overdue</button>
-    </div>
+      <div class="btn-group mr-3 " role="group"  aria-label="Second group">
+        <button  type="button" class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">Overdue</button>
+      </div>
 
+    </div>
 
     <app-item-list-nest [filterBy]="filterBy" [items]="items" [listFilter]="listFilter"></app-item-list-nest>
   </div>
 
-
 </div>
+

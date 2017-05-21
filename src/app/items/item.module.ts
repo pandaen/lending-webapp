@@ -12,11 +12,10 @@ import { AddItemComponent } from './add-item/add-item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import {ItemListNestComponent} from './item-list-nest';
 
-/*
+
 const AdminRoutes: Routes = [
   {
     path: 'items',
-    component: AdminComponent,
     children: [
       {path: '', component: ItemListComponent, canActivate: [UserService]},
       {path: 'item', component: ItemListComponent},
@@ -27,7 +26,7 @@ const AdminRoutes: Routes = [
     ]
   },
 ];
-*/
+
 @NgModule({
   declarations: [
     ItemListComponent,
@@ -41,15 +40,15 @@ const AdminRoutes: Routes = [
   ],
   imports: [
     SharedModule,
-    RouterModule.forChild([
+  /*  RouterModule.forChild([
       {path: '', component: ItemListComponent, canActivate: [UserService]},
       {path: 'items', component: ItemListComponent},
       {path: 'item/:id', component: ItemDetailComponent},
       {path: 'add', component: AddItemComponent},
       {path: 'login', component: LoginComponent},
       {path: 'edit-item/:id', component: EditItemComponent}
-    ])
-  //  RouterModule.forChild(AdminRoutes)
+    ])*/
+    RouterModule.forChild(AdminRoutes)
   ],
   providers: [
     ItemDetailGuard,
