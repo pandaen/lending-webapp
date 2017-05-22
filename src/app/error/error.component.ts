@@ -37,6 +37,6 @@ import {Router} from '@angular/router';
 export class ErrorComponent {
   constructor (private _router: Router) {}
   onBack(): void {
-    this._router.navigate(['/items']);
+    this._router.navigate(['']);
   }
 }

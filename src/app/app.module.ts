@@ -9,10 +9,8 @@ import {ErrorComponent} from './error/error.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 import {NoAdminComponent} from "./error/no-admin/no-admin.component";
-import { ListUsersComponent } from './users/list-users/list-users.component';
-import { EditUserComponent } from './users/edit-user/edit-user.component';
-import { UserListNestComponent } from './users/user-list-nest/user-list-nest.component';
-import {UserModule} from "./users/user.module";
+
+
 //  Firebase Settings
 export const firebaseConfig = {
   apiKey: 'AIzaSyAHfCQArz_9VdSVJ0rGhaEMYeZuv8JJCIY',

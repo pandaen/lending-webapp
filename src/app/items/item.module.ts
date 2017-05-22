@@ -5,7 +5,6 @@ import {ItemFilterPipe} from './item-filter.pipe';
 import {RouterModule, Routes} from '@angular/router';
 import {ItemDetailGuard} from './item-guard.service';
 import {UserService} from '../admin/adminShared/user.service';
-import {AdminComponent} from './admin.component';
 import {SharedModule} from '../shared/shared.module';
 import {LoginComponent} from '../home/login.component';
 import { AddItemComponent } from './add-item/add-item.component';
@@ -59,7 +58,6 @@ const routes: Routes = [
     ItemListComponent,
     ItemDetailComponent,
     ItemFilterPipe,
-    AdminComponent,
     LoginComponent,
     AddItemComponent,
     EditItemComponent,

@@ -27,7 +27,6 @@ export class UserService implements CanActivate {
   authUser: any;
   userLoggedIn: boolean = false;
   tabs: boolean;
-  error: any;
   folder: any;
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
@@ -42,7 +41,7 @@ export class UserService implements CanActivate {
   _isAdmin: boolean;
   resDate: FirebaseListObservable<any[]>;
   nChangeuserLoggedIn: Subject<boolean> = new Subject<boolean>();
-
+  loan: any;
   // daniels getitem
   itemsYouCanAdministrate;
 // items = af.database.list('/items');
@@ -76,18 +75,19 @@ export class UserService implements CanActivate {
 
     this.logout();
     this._router.navigate(['/login']);
-    console.log('Redirected by: verifyLogin()');
+    //  console.log('Redirected by: verifyLogin()');
     return false;
   }
 
   verifyUser(isAdmin) {
+    // if (this.authState && isAdmin) {
     if (this.authState && isAdmin) {
       //  alert(`Welcome ${this.authState.auth.email}`);
       this.loggedInUser = this.authState.auth.displayName;
       this.userImage = this.authState.auth.photoURL;
       this.userLoggedIn = true;
       this.tabs = this.userLoggedIn;
-      console.log('tabs is: ' + this.tabs);
+      //    console.log('tabs is: ' + this.tabs);
       this._router.navigate(['']);
     } else {
       this._router.navigate(['/noAdmin']);
@@ -99,14 +99,13 @@ export class UserService implements CanActivate {
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup,
     }).then((success) => {
-      console.log('login ok..');
+      //    console.log('login ok..');
       this.existInDb();
       this.isAdmin();
       //  this.verifyUser();
     }).catch(
       (err) => {
-        console.log('Error: login failed..');
-        this.error = err;
+        console.log('Error: ' + err);
       });
   }
 
@@ -136,7 +135,7 @@ export class UserService implements CanActivate {
         fullname: user.displayName || "",
       });
     } else {
-      console.log("User exist in db");
+      //    console.log("User exist in db");
     }
   }
 
@@ -146,8 +145,8 @@ export class UserService implements CanActivate {
     let fullUserRef = firebase.database().ref('/users/' + userUid);
     fullUserRef.once('value', (snapshot) => {
       let isAdmin = snapshot.child("isAdmin").val();
-      let isAdminB = (isAdmin === 'true')
-      console.log('in method isAdmin User isAdminB ' + isAdminB);
+      let isAdminB = (isAdmin === 'true');
+      //    console.log('in method isAdmin User isAdminB ' + isAdminB);
       this.verifyUser(isAdminB);
     }, function (error) {
       console.error(error);
@@ -159,10 +158,9 @@ export class UserService implements CanActivate {
     this.userLoggedIn = false;
     this.af.auth.logout().then((success) => {
       this._router.navigate(['/login']);
-      console.log('Logged out...');
+      //     console.log('Logged out...');
     }).catch(
       (err) => {
-        this.error = err;
         alert(`${err.message} Unable to logout. Try again!`);
       });
   }
@@ -226,8 +224,13 @@ export class UserService implements CanActivate {
     return this.users.update(id, user);
   }
 
-  updateItem(id, item) {
-    return this.items.update(id, item);
+  updateItem(id, item, dueDate) {
+
+    // Update Date
+if (dueDate) {
+    firebase.database().ref('/items/').child(id).child('loan').update({'formattedShortDate': dueDate});
+}
+   return this.items.update(id, item);
   }
 
 
@@ -259,7 +262,7 @@ export class UserService implements CanActivate {
     let fullItemRef = firebase.database().ref('/items/' + id + '/loan');
     fullItemRef.once('value', (snapshot) => {
       let exist = snapshot.exists();
-      console.log('loan exist: ' + exist);
+      //  console.log('loan exist: ' + exist);
       if (exist) {
         this.loanExistt = true;
       } else {

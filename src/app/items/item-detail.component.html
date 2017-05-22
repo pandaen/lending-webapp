@@ -16,8 +16,8 @@
                     <div class='col-md-3'>Due Date:</div>
                     <div  class='col-md-6'>{{item?.loan?.formattedShortDate}}</div>
                 </div>
-
-
+              <br>
+              <div *ngIf="item.reserved">Reservation details</div>
               <div  *ngFor='let res of reserved' class='row'>
 
 
@@ -29,8 +29,10 @@
                 <br>
                 <div  class='col-md-3'>Return Date:</div>
                 <div class='col-md-3'>{{res.formattedShortRetDate}}</div>
+                <br>
+                <div>------------------------------------------------------------</div>
               </div>
-
+<br>
               <div class='row'>
                 <div class='col-md-3'>Number of days:</div>
                 <div class='col-md-2'>{{item?.reservationDays}}</div>
