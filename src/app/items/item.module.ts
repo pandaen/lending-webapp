@@ -15,6 +15,7 @@ import {UserDetailComponent} from "../users/user-detail/user-detail.component";
 import {EditUserComponent} from "../users/edit-user/edit-user.component";
 import {UserListNestComponent} from "../users/user-list-nest/user-list-nest.component";
 import {UserFilterPipe} from "../users/user-filter.pipe";
+import {PopupModule} from "ng2-opd-popup";
 
 /*
 const AdminRoutes: Routes = [
@@ -70,6 +71,7 @@ const routes: Routes = [
   ],
   imports: [
     SharedModule,
+    PopupModule.forRoot(),
   /*  RouterModule.forChild([
       {path: '', component: ItemListComponent, canActivate: [UserService]},
       {path: 'items', component: ItemListComponent},

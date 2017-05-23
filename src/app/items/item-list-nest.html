@@ -18,7 +18,7 @@
     <tr *ngFor='let item of visibleItems | itemFilter:listFilter' [class.red]=" item.status==='Notify'">
       <td width=10>
         <div *ngIf="item.photoURL">
-          <img style="float: left" [src]='item.photoURL'
+          <img  style="float: left" [src]='item.photoURL'
                [style.width.px]='imageWidth'
                [style.margin.px]='imageMargin'></div>
       </td>

@@ -34,14 +34,13 @@ export class UserService implements CanActivate {
   item: FirebaseObjectObservable<any>;
   users: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
-  loanExistt;
-  itemdetailRetDate: string;
-  itemdetailUpDate: any;
   usersRef: any;
-  _isAdmin: boolean;
   resDate: FirebaseListObservable<any[]>;
   nChangeuserLoggedIn: Subject<boolean> = new Subject<boolean>();
   loan: any;
+  loanExistt;
+  nrOfItem;
+
   // daniels getitem
   itemsYouCanAdministrate;
 // items = af.database.list('/items');
@@ -227,10 +226,10 @@ export class UserService implements CanActivate {
   updateItem(id, item, dueDate) {
 
     // Update Date
-if (dueDate) {
-    firebase.database().ref('/items/').child(id).child('loan').update({'formattedShortDate': dueDate});
-}
-   return this.items.update(id, item);
+    if (dueDate) {
+      firebase.database().ref('/items/').child(id).child('loan').update({'formattedShortDate': dueDate});
+    }
+    return this.items.update(id, item);
   }
 
 
@@ -275,4 +274,28 @@ if (dueDate) {
     });
   }
 
-} // class
+
+  nrOfItems() {
+    return new Promise((resolve, reject) => {
+      let userQuery = firebase.database().ref('/items').orderByKey();
+      userQuery.once("value")
+        .then(function (snapshot) {
+          let total = snapshot.numChildren();
+          resolve(total);
+        });
+    });
+  }
+
+  nrOfUsers() {
+    return new Promise((resolve, reject) => {
+      let userQuery = firebase.database().ref('/users').orderByKey();
+      userQuery.once("value")
+        .then(function (snapshot) {
+          let total = snapshot.numChildren();
+          resolve(total);
+        });
+    });
+  }
+
+
+}// class

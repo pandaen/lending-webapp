@@ -26,8 +26,9 @@
     "angularfire2": "^2.0.0-beta.8",
     "core-js": "^2.4.1",
     "firebase": "^3.9.0",
-    "rxjs": "5.0.0-beta.12",
     "flash-messenger": "^1.0.6",
+    "ng2-opd-popup": "^1.1.21",
+    "ng2-popups": "^1.1.7",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

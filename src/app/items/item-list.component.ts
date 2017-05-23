@@ -17,20 +17,27 @@ export class ItemListComponent implements OnInit {
   id: any;
   filterBy: string = 'all';
   listFilter: string;          // Set deafult search here
+  nrOfItem;
 
   constructor(public af: AngularFire, private uService: UserService, public flashMessage: FlashMessagesService) {
   }
 
   ngOnInit() {
     this.theUser = this.uService.loggedInUser;
-     this.tabs = this.uService.userLoggedIn;
+    this.tabs = this.uService.userLoggedIn;
     this.userImage = this.uService.userImage;
 
     this.uService.getItems().subscribe(items => {
       this.items = items;
     });
 
-  }
+
+// Receive a promise
+    this.uService.nrOfItems().then(nr => {
+      this.nrOfItem = nr;
+    });
+  } // ngInit
+
 
   logout() {
     this.uService.logout();

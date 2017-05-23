@@ -1,7 +1,14 @@
-<div class='panel panel-primary' *ngIf='item'>
+<popup  #popup1 (confirmClick)="onDeleteClick()">
+  Are you sure you want to delete user {{item.name}} ?
+</popup>
+
+
+    <div class='panel panel-primary' *ngIf='item'>
+
     <div class='panel-heading' style='font-size:large'>
         {{pageTitle + ': ' + item.name}}
     </div>
+
 
     <div class='panel-body'>
         <div class='row'>
@@ -55,7 +62,7 @@
             </div>
 
             <div  *ngIf="item.photoURL" class='col-md-6'>
-                <img class='center-block img-responsive'
+                <img class="img-thumbnail"
                      [style.width.px]='200'
                      [style.margin.px]='2'
                      [src]='item?.photoURL'
@@ -63,7 +70,7 @@
             </div>
 
           <div *ngIf="!item.photoURL" class='col-md-6'>
-            <img class='center-block img-responsive'
+            <img class="img-thumbnail" class='center-block img-responsive'
                  [style.width.px]='200'
                  [style.margin.px]='2'
                  src='../../assets/images/NoPhoto.png'
@@ -78,7 +85,7 @@
         </a>
 
       <a class="btn btn-default" [routerLink]="['/edit-item/'+item.$key]">Edit</a>
-      <a (click)="onDeleteClick()"  class="btn btn-danger">Delete</a>
+      <a (click)="deleteDialog()"  class="btn btn-danger">Delete</a>
 
     </div>
 </div>
