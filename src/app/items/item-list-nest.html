@@ -1,5 +1,9 @@
+
+
+
 <div class="table-responsive">
-  <table class='table table-striped'>
+  <!-- <table class='table table-striped'>   -->
+  <table class='table table-hover'>
     <thead>
     <tr>
       <th></th>
@@ -15,61 +19,65 @@
     <tbody>
 
 
-    <tr *ngFor='let item of visibleItems | itemFilter:listFilter' [class.red]=" item.status==='Notify'">
+    <tr *ngFor='let item of visibleItems | itemFilter:listFilter , let i = index '  [class.red]=" item.status==='Notify'"   (click)="setClickedRow(i,item.$key)" [class.active]='i == currentRow'>
       <td width=10>
         <div *ngIf="item.photoURL">
-          <img  style="float: left" [src]='item.photoURL'
+          <img   style="float: left" [src]='item.photoURL'
                [style.width.px]='imageWidth'
                [style.margin.px]='imageMargin'></div>
       </td>
 
-      <td><a [routerLink]="['/item/'+item.$key]">{{ item.name }}</a></td>
+      <!--   <a [routerLink]="['/item/'+item.$key]">{{ item.name }}</a>    -->
+      <td>{{ item.name }}</td>
 
-            <td width=10>
-              <div *ngIf="item.loan">
-                <img style="float: left" [src]='item.loan.photoURL'
-                     [style.width.px]='imageWidth'
-                     [style.margin.px]='imageMargin'></div>
-            </td>
+   <!--   <td><a   item.$key  >{{ item.name }}</a></td>  -->
 
-            <td *ngIf="item.loan" >{{ item.loan.loanerName}}</td>
-            <td *ngIf="(!item.loan)" ></td>
+      <td width=10>
+        <div *ngIf="item?.loan">
+          <img class="avatar" style="float: left" [src]='item.loan?.userPhoto'
+               [style.width.px]='imageWidth'
+               [style.margin.px]='imageMargin'></div>
+      </td>
 
-
-            <td *ngIf="item.loan" >{{ item.loan.formattedShortDate}}</td>
-            <td *ngIf="(!item.loan)" ></td>
+      <td *ngIf="item.loan">{{ item.loan.loanerName}}</td>
+      <td *ngIf="(!item.loan)"></td>
 
 
-            <td>
+      <td *ngIf="item.loan">{{ item.loan.formattedShortDate}}</td>
+      <td *ngIf="(!item.loan)"></td>
+
+
+      <td>
               <span *ngIf="item.reserved">
                 Yes
               </span>
-              <span *ngIf="!item.reserved">
+        <span *ngIf="!item.reserved">
 
               </span>
-            </td>
+      </td>
 
-            <td>{{item.entityName}}</td>
+      <td>{{item.entityName}}</td>
 
-            <td>
+      <td>
                   <span *ngIf="item.status=='Out' ">
                     <img src="../../assets/images/out-icon.png"
                          style="max-height:50%;max-width:50%"/>
                      {{item.status}}
                 </span>
-              <span *ngIf="item.status=='Available' ">
+        <span *ngIf="item.status=='Available' ">
                     <img src="../../assets/images/available-icon.png"
                          style="max-height:50%;max-width:50%"/>
                      {{item.status}}
                 </span>
-              <span *ngIf="item.status=='Notify' ">
+
+          <span  *ngIf="item.status=='Notify' ">
                     <img src="../../assets/images/notify-icon.png"
                          style="max-height:50%;max-width:50%"/>
-                </span>
-            </td>
+            </span>
+
+      </td>
 
     </tr>
-
 
     </tbody>
   </table>

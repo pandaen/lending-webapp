@@ -11,4 +11,7 @@ export interface IItem {
   reservationDays?: string;
   entityName?: string;
   reserved?: string;
+  loan?: string;
+  timeInMillis?: string;
+  formattedShortDate?: string;
 }

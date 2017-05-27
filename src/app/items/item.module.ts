@@ -10,12 +10,12 @@ import {LoginComponent} from '../home/login.component';
 import { AddItemComponent } from './add-item/add-item.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import {ItemListNestComponent} from './item-list-nest';
-import {ListUsersComponent} from "../users/list-users/list-users.component";
-import {UserDetailComponent} from "../users/user-detail/user-detail.component";
-import {EditUserComponent} from "../users/edit-user/edit-user.component";
-import {UserListNestComponent} from "../users/user-list-nest/user-list-nest.component";
-import {UserFilterPipe} from "../users/user-filter.pipe";
-import {PopupModule} from "ng2-opd-popup";
+import {ListUsersComponent} from '../users/list-users/list-users.component';
+import {UserDetailComponent} from '../users/user-detail/user-detail.component';
+import {EditUserComponent} from '../users/edit-user/edit-user.component';
+import {UserListNestComponent} from '../users/user-list-nest/user-list-nest.component';
+import {UserFilterPipe} from '../users/user-filter.pipe';
+import {PopupModule} from 'ng2-opd-popup';
 
 /*
 const AdminRoutes: Routes = [

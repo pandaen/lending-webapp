@@ -2,7 +2,7 @@
 // import Rx from 'rxjs/Rx';
 import * as Rx from 'rxjs';
 import 'rxjs/add/operator/map';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 // ------
 
 
@@ -15,8 +15,8 @@ import {
 } from 'angularfire2';
 import {IItem} from '../../items/item';
 import * as firebase from 'firebase';
-import {Subject} from "rxjs";
-import {EditItemComponent} from "../../items/edit-item/edit-item.component";
+import {Subject} from 'rxjs';
+import {EditItemComponent} from '../../items/edit-item/edit-item.component';
 
 
 @Injectable()
@@ -35,10 +35,10 @@ export class UserService implements CanActivate {
   users: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
   usersRef: any;
+  itemsRef: any;
   resDate: FirebaseListObservable<any[]>;
   nChangeuserLoggedIn: Subject<boolean> = new Subject<boolean>();
   loan: any;
-  loanExistt;
   nrOfItem;
 
   // daniels getitem
@@ -54,6 +54,7 @@ export class UserService implements CanActivate {
     });
     this.folder = 'images';   // firebase location
     this.usersRef = firebase.database().ref('/users');
+    this.itemsRef = firebase.database().ref('/items');
 
 
     this.entities = af.database.list('/entities');
@@ -122,16 +123,16 @@ export class UserService implements CanActivate {
 
   writeDbUser(exist) {
     if (!exist) {
-      console.log("User added in db");
+      console.log('User added in db');
       let user = this.authState.auth;
       this.usersRef.child(user.uid).set({
         uid: user.uid,
-        entity: "No entity, join an entity to get started",
-        entityName: "No entity, join an entity to get started",
-        email: user.email || "",
-        isAdmin: "false",
-        photoURL: user.photoURL || "",
-        fullname: user.displayName || "",
+        entity: 'No entity, join an entity to get started',
+        entityName: 'No entity, join an entity to get started',
+        email: user.email || '',
+        isAdmin: 'false',
+        photoURL: user.photoURL || '',
+        fullname: user.displayName || '',
       });
     } else {
       //    console.log("User exist in db");
@@ -143,7 +144,7 @@ export class UserService implements CanActivate {
     let userUid = this.authState.auth.uid;
     let fullUserRef = firebase.database().ref('/users/' + userUid);
     fullUserRef.once('value', (snapshot) => {
-      let isAdmin = snapshot.child("isAdmin").val();
+      let isAdmin = snapshot.child('isAdmin').val();
       let isAdminB = (isAdmin === 'true');
       //    console.log('in method isAdmin User isAdminB ' + isAdminB);
       this.verifyUser(isAdminB);
@@ -152,6 +153,19 @@ export class UserService implements CanActivate {
     });
   }
 
+
+  /*
+   isGranted() {
+   let userUid = this.authState.auth.uid;
+   let fullUserRef = firebase.database().ref('/myDemoUsers/' + userUid);
+   fullUserRef.once('value', (snapshot) => {
+   let privilage = snapshot.child("privilege").val();
+   let granted = (privilage === accessCode)
+   }, function (error) {
+   console.error(error);
+   });
+
+   */
 
   logout() {
     this.userLoggedIn = false;
@@ -195,18 +209,20 @@ export class UserService implements CanActivate {
 
 
   addItem(item) {
-    let storageRef = firebase.storage().ref();
+    this.itemsRef.set({item});
 
-    for (let selectedFile of [(<HTMLInputElement>document.getElementById('image')).files[0]]) {
-      let path = `/${this.folder}/${selectedFile.name}`;
-      let iRef = storageRef.child(path);
-      iRef.put(selectedFile).then((snapshot) => {
-        item.image = selectedFile.name;
-        item.path = path;
-        return this.items.push(item);
-      });
-    }
-
+    /*
+     let storageRef = firebase.storage().ref();
+     for (let selectedFile of [(<HTMLInputElement>document.getElementById('image')).files[0]]) {
+     let path = `/${this.folder}/${selectedFile.name}`;
+     let iRef = storageRef.child(path);
+     iRef.put(selectedFile).then((snapshot) => {
+     item.image = selectedFile.name;
+     item.path = path;
+     return this.items.push(item);
+     });
+     }
+     */
   }
 
 
@@ -224,7 +240,6 @@ export class UserService implements CanActivate {
   }
 
   updateItem(id, item, dueDate) {
-
     // Update Date
     if (dueDate) {
       firebase.database().ref('/items/').child(id).child('loan').update({'formattedShortDate': dueDate});
@@ -233,44 +248,69 @@ export class UserService implements CanActivate {
   }
 
 
+  notifyUSer(id) {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref('/items/' + id + '/loan').once('value').then(function (snapshot) {
+        let timeInMs = snapshot.val().timeInMillis;
+        return Promise.resolve(timeInMs);
+      }).then(function (ms) {
+        let notify: string;
+
+        let currentDate = new Date();
+        currentDate.setHours(0o0, 0o0);
+        let oneDay = 24 * 60 * 60 * 1000;
+        let diffDays = Math.round((ms - currentDate.getTime()) / (oneDay));
+        console.log('diffDays is: ' + diffDays);
+        let returnText = 'none';
+
+        if (diffDays < 0) {
+          notify = 'yes';
+          resolve(notify);
+        } else {
+          notify = '';
+          resolve(notify);
+        }
+      });
+    });
+  }
+
   dueDate(itemDate) {
+    // itemDate
     var currentDate = new Date();
     currentDate.setHours(0o0, 0o0);
     var oneDay = 24 * 60 * 60 * 1000;
-    var diffDays = Math.round(Math.abs((itemDate - currentDate.getTime()) / (oneDay)));
+    var diffDays = Math.round((itemDate - currentDate.getTime()) / (oneDay));
+    console.log('diffDays is: ' + diffDays);
     var returnText;
-    if (diffDays == 0) {
-      returnText = "Today";
+    if (diffDays === 0) {
+      returnText = 'Today';
     }
-    else if (diffDays == 1) {
-      returnText = " in " + diffDays + " day";
+    else if (diffDays === 1) {
+      returnText = ' in ' + diffDays + ' day';
     }
     else if (diffDays > 1) {
-      returnText = " in " + diffDays + " days";
+      returnText = ' in ' + diffDays + ' days';
     }
 
     else if (diffDays < 0) {
-      returnText = "Notify";
+      // returnText = " in " + diffDays + " days";
+      returnText = 'Notify';
     }
 
     return returnText;
   }
 
   loanExist(id) {
-    let userUid = this.authState.auth.uid;
-    let fullItemRef = firebase.database().ref('/items/' + id + '/loan');
-    fullItemRef.once('value', (snapshot) => {
-      let exist = snapshot.exists();
-      //  console.log('loan exist: ' + exist);
-      if (exist) {
-        this.loanExistt = true;
-      } else {
-        this.loanExistt = false;
-      }
-
-      // this.writeDbUser(exist);
-    }, function (error) {
-      console.error(error);
+    return new Promise((resolve, reject) => {
+      let userUid = this.authState.auth.uid;
+      let fullItemRef = firebase.database().ref('/items/' + id + '/loan');
+      fullItemRef.once('value', (snapshot) => {
+        let exist = snapshot.exists();
+        resolve(exist);
+      }, function (error) {
+        reject(error);
+        console.error(error);
+      });
     });
   }
 
@@ -278,22 +318,20 @@ export class UserService implements CanActivate {
   nrOfItems() {
     return new Promise((resolve, reject) => {
       let userQuery = firebase.database().ref('/items').orderByKey();
-      userQuery.once("value")
-        .then(function (snapshot) {
-          let total = snapshot.numChildren();
-          resolve(total);
-        });
+      userQuery.once('value').then(function (snapshot) {
+        let total = snapshot.numChildren();
+        resolve(total);
+      });
     });
   }
 
   nrOfUsers() {
     return new Promise((resolve, reject) => {
       let userQuery = firebase.database().ref('/users').orderByKey();
-      userQuery.once("value")
-        .then(function (snapshot) {
-          let total = snapshot.numChildren();
-          resolve(total);
-        });
+      userQuery.once('value').then(function (snapshot) {
+        let total = snapshot.numChildren();
+        resolve(total);
+      });
     });
   }
 

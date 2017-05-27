@@ -1,5 +1,5 @@
 <popup  #popup1 (confirmClick)="onDeleteClick()">
-  Are you sure you want to delete user {{item.name}} ?
+  Are you sure you want to delete item {{item.name}} ?
 </popup>
 
 
@@ -14,51 +14,67 @@
         <div class='row'>
             <div class='col-md-6'>
 
-              <div class='row'>
-                <div class='col-md-3'>Borrower:</div>
-                <div  class='col-md-6'>{{item.loan?.loanerName}}</div>
-              </div>
+                <b>Borrower details</b>
+
+
+
+            <div  class='row'>
+            <img class="avatar"
+                 [style.width.px]='50'
+                 [style.height.px]='50'
+                 [style.margin-left.px]='50'
+                 [src]='item.loan?.userPhoto'>
+            </div>
+
+          <div class='row'>
+              <div  class='col-md-7'>{{item.loan?.loanerName}}</div>
+            </div>
+
 
                 <div class='row'>
-                    <div class='col-md-3'>Due Date:</div>
+                    <div class='col-md-4'>Due Date:</div>
                     <div  class='col-md-6'>{{item?.loan?.formattedShortDate}}</div>
                 </div>
               <br>
-              <div *ngIf="item.reserved">Reservation details</div>
+              <div *ngIf="item.reserved"><b>Reservation details</b></div>
               <div  *ngFor='let res of reserved' class='row'>
 
-
-                <div  class='col-md-3'>Reserved by:</div>
-                <div class='col-md-6'>{{res.userName}}</div>
+                <div  class='row'>
+                  <img class="avatar"
+                       [style.width.px]='50'
+                       [style.height.px]='50'
+                       [style.margin-left.px]='50'
+                       [src]='res?.userPhoto'>
+                </div>
+                <div class='col-md-7'>{{res.userName}}</div>
                 <br>
-                <div  class='col-md-3'>Pickup Date:</div>
-                <div class='col-md-3'>{{res.formattedShortpUpDate}}</div>
+                <div  class='col-md-4'>Pickup Date:</div>
+                <div class='col-md-5'>{{res.formattedShortpUpDate}}</div>
                 <br>
-                <div  class='col-md-3'>Return Date:</div>
-                <div class='col-md-3'>{{res.formattedShortRetDate}}</div>
+                <div  class='col-md-4'>Return Date:</div>
+                <div class='col-md-5'>{{res.formattedShortRetDate}}</div>
                 <br>
-                <div>------------------------------------------------------------</div>
+                <div class='col-md-11'>------------------------------------------------------------</div>
               </div>
 <br>
+              <b>Misc details</b>
               <div class='row'>
-                <div class='col-md-3'>Number of days:</div>
+                <div class='col-md-4'>Numb of days:</div>
                 <div class='col-md-2'>{{item?.reservationDays}}</div>
               </div>
 
 
               <div class='row'>
-                <div class='col-md-3'>Notice:</div>
-                <div class='col-md-6'>{{item?.description}}</div>
+                <div class='col-md-2'>Notice:</div>
+                <div class='col-md-9'>{{item?.description}}</div>
               </div>
 
               <div class='row'>
-                <div class='col-md-3'>Status:</div>
+                <div class='col-md-4'>Status:</div>
                 <div class='col-md-6'>{{item?.status}}</div>
               </div>
 
-              <div *ngIf="item.status=='Notify' " class='col-md-12'>
-              <button type="button" (click)="sendEmail(item.loan?.eMail, item.loan?.loanerName)" class="btn btn-warning">Send a reminder</button>
-              </div>
+
             </div>
 
             <div  *ngIf="item.photoURL" class='col-md-6'>
@@ -80,12 +96,18 @@
     </div>
 
     <div class='panel-footer'>
+
         <a class='btn btn-default' (click)='onBack()' style='width:80px'>
             <i class='glyphicon glyphicon-chevron-left'></i> Back
         </a>
 
-      <a class="btn btn-default" [routerLink]="['/edit-item/'+item.$key]">Edit</a>
-      <a (click)="deleteDialog()"  class="btn btn-danger">Delete</a>
+      <a class="btn btn-default" [routerLink]="['/edit-item/'+item.$key]"><i class='glyphicon glyphicon-edit'></i> Edit</a>
 
+      <a (click)="deleteDialog()"  class="btn btn-danger">  <i class='glyphicon glyphicon-trash'></i> Delete</a>
+
+      <span *ngIf="item.status=='Notify'">
+        <a class='btn btn-warning' (click)="sendEmail(item.loan?.userEmail, item.loan?.loanerName, item.loan?.formattedShortDate)" style='width:150px'>
+    <i class='glyphicon glyphicon-bell'></i> Send a reminder</a>
+</span>
     </div>
 </div>

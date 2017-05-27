@@ -9,7 +9,8 @@ import {Popup} from 'ng2-opd-popup';
 
 @Component({
   moduleId: module.id, // can now use realtive path (omit app/pages..)
-  templateUrl: 'item-detail.component.html'
+  templateUrl: 'item-detail.component.html',
+  styleUrls: ['item-detail.component.css']
 })
 export class ItemDetailComponent implements OnInit {
   @ViewChild('popup1') popup1: Popup;
@@ -20,6 +21,9 @@ export class ItemDetailComponent implements OnInit {
   reserved: any[];
   name;
   eMail = '';
+  loanExistt;
+  timeInMs;
+  dueDate;
   borrower;
   // userDetail: [any];
   imageUrl: any;
@@ -37,9 +41,23 @@ export class ItemDetailComponent implements OnInit {
   ngOnInit(): void {
 
     this.id = this._route.snapshot.params['id'];
+
+    // Receive a promise from exist
+    this._uService.loanExist(this.id).then(exist => {
+      this.loanExistt = exist;
+      console.log('itemDetail-loanExsist is: ' +  this.loanExistt);
+    });
+
     this._uService.getItemDetails(this.id).subscribe(item => {
       this.item = item;
       this.name = item.name;
+
+      // Get nested itemDetails if node loan exist
+      if (this.loanExistt) {
+        this.dueDate = item.loan.formattedShortDate;
+     //   this.borrowerName = item.loan.loanerName;
+        this.timeInMs = item.loan.timeInMillis;
+      }
       /*
        let storageRef = firebase.storage().ref();
        let spaceRef = storageRef.child(this.item.path);
@@ -55,15 +73,14 @@ export class ItemDetailComponent implements OnInit {
     this._uService.getItemDetailsResInfo(this.id).subscribe(res => {
       this.reserved = res;
     });
-  }
 
-  sendEmail(eMail, borrower) {
-    let body_message = 'Hello ' + borrower + '\n You have forgot to return the item: ' + this.name + '.\n\nPlease return it  as soon as possible' + '\n\n\n\nRegards The Borrowing Team';
+  } // ng init
+
+  sendEmail(eMail, borrower, date) {
+    let body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Borrowing Team';
     let email = eMail;
     let subject = 'Reminder of overdue item';
-
     let mailto_link = 'mailto:' + email + '?subject=' + subject + '&body=' + encodeURIComponent(body_message);
-
      window.open(mailto_link, 'emailWindow');
   }
 
@@ -80,8 +97,8 @@ export class ItemDetailComponent implements OnInit {
       widthProsentage: 40, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: true, // You can hide this in case you want to use custom buttons
-      confirmBtnContent: "Delete", // The text on your confirm button
-      cancleBtnContent: "Cancel", // the text on your cancel button
+      confirmBtnContent: "Yes", // The text on your confirm button
+      cancleBtnContent: "No", // the text on your cancel button
       confirmBtnClass: "btn btn-danger", // your class for styling the confirm button
       cancleBtnClass: "btn btn-default", // you class for styling the cancel button
       animation: "bounceIn" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'

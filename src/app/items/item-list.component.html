@@ -12,32 +12,69 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
 
-
       <ul class="nav navbar-nav navbar-left">
-        <li *ngIf="tabs"><a [routerLink]="['/add']">Add item</a></li>
+        <li *ngIf="tabs"><a [routerLink]="['']"><i class='glyphicon glyphicon-list-alt'></i> Items</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-left">
-        <li *ngIf="tabs"><a [routerLink]="['']">List items</a></li>
+        <li *ngIf="tabs"><a [routerLink]="['/users']"> <i class='glyphicon glyphicon-user'></i> Users</a></li>
       </ul>
 
+      <!--
       <ul class="nav navbar-nav navbar-left">
-        <li *ngIf="tabs"><a [routerLink]="['/users']">List users</a></li>
+        <li *ngIf="tabs"><a [routerLink]="['/users']">Overview</a></li>
       </ul>
-
+-->
       <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
-        <li *ngIf="tabs"><a (click)="logout()">Logout</a></li>
+        <li *ngIf="tabs"><a (click)="logout()">	<i class='glyphicon glyphicon-log-out'> Logout</i></a></li>
       </ul>
 
 
-    </div><!--/.nav-collapse -->
+    </div>
   </div>
 </nav>
 
 
 
+<popup  #popup1 (confirmClick)="onAddSubmit()">
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label  class="col-sm-3 control-label">Item name</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" name="email" [(ngModel)]="email" id="email" placeholder="email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label  class="col-sm-3 control-label">Entity</label>
+      <div class="col-sm-7">
+        <input type="password" class="form-control" name="password" [(ngModel)]="password" id="password" placeholder="password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label  class="col-sm-3 control-label">Description</label>
+
+      <div class="col-sm-7">
+       <textarea style="background-color:black;color:white;" [(ngModel)]='description' name="description" rows="30" cols="120">
+</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-group text-right">
+        <div class="col-sm-offset-3 col-sm-7">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="RequireLogin" name="RequireLogin"> Remember Me
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
 
 
+</popup>
 
 
 
@@ -47,12 +84,12 @@
 
     <img src="../../assets/images/logo_bannerjpg_placeholder.jpg"/>
 
-    <ul class="nav navbar-nav left" >
+    <ul class="nav navbar-nav left">
       <h3>Total items: {{nrOfItem}} </h3>
     </ul>
 
-    <ul class="nav navbar-nav navbar-right" >
-      <img  class="avatar" align="left" [src]="userImage">
+    <ul class="nav navbar-nav navbar-right">
+      <img class="avatar" align="left" [src]="userImage">
       <li><a>{{theUser}} </a></li>
     </ul>
 
@@ -72,19 +109,34 @@
 
     <div class='row' style="margin-bottom:10px" *ngIf='listFilter'>
 
-        <h3>Searched for : {{listFilter}} </h3>
+      <h3>Searched for : {{listFilter}} </h3>
 
     </div>
 
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
       <div class="btn-group mr-3" role="group" aria-label="First group">
-        <button type="button" class="btn btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All</button>
-        <button type="button" class="btn btn-default" [class.active]="filterBy==='available'" (click)="filterBy='available'">In stock</button>
-        <button  class="btn btn-default" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
+        <button type="button" class="btn btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All
+        </button>
+        <button type="button" class="btn btn-default" [class.active]="filterBy==='available'"
+                (click)="filterBy='available'">In stock
+        </button>
+        <button class="btn btn-default" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
       </div>
 
-      <div class="btn-group mr-3 " role="group"  aria-label="Second group">
-        <button  type="button" class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">Overdue</button>
+      <div class="btn-group mr-3 " role="group" aria-label="Second group">
+        <button type="button" class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">
+          Overdue
+        </button>
+      </div>
+
+
+      <div class="btn-group mr-3 " role="group" aria-label="Second group">
+
+        <button type="button" class="btn btn-default"  (click)='addDialog()'>Add item</button>
+
+        <!--
+        <button type="button" class="btn btn-default" [routerLink]="['/add']">Add item</button>
+-->
       </div>
 
     </div>
@@ -93,4 +145,3 @@
   </div>
 
 </div>
-
