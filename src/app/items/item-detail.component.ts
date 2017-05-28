@@ -72,6 +72,7 @@ export class ItemDetailComponent implements OnInit {
 
     this._uService.getItemDetailsResInfo(this.id).subscribe(res => {
       this.reserved = res;
+      console.log('reservation object is: ' + this.reserved);
     });
 
   } // ng init

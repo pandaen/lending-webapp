@@ -42,33 +42,40 @@
     <div class="form-group">
       <label  class="col-sm-3 control-label">Item name</label>
       <div class="col-sm-7">
-        <input type="text" class="form-control" name="email" [(ngModel)]="email" id="email" placeholder="email">
+        <input type="text" class="form-control" name="email" [(ngModel)]="email" id="email" placeholder="Name">
       </div>
     </div>
+
     <div class="form-group">
       <label  class="col-sm-3 control-label">Entity</label>
       <div class="col-sm-7">
-        <input type="password" class="form-control" name="password" [(ngModel)]="password" id="password" placeholder="password">
+        <input type="password" class="form-control" name="entity" [(ngModel)]="password" id="entity" placeholder="Choose entity">
       </div>
     </div>
+
+
+    <div class="form-group">
+      <label  class="col-sm-3 control-label">Reservation Days</label>
+      <div class="col-sm-2">
+        <input class="form-control" type="number" value="3" id="reservationDays">
+      </div>
+    </div>
+
+
     <div class="form-group">
       <label  class="col-sm-3 control-label">Description</label>
-
       <div class="col-sm-7">
-       <textarea style="background-color:black;color:white;" [(ngModel)]='description' name="description" rows="30" cols="120">
+
+        <textarea  (ngModel)='description' name="description" ide="description'" rows="2" cols="32">
 </textarea>
+
       </div>
     </div>
+
+
     <div class="form-group">
-      <div class="form-group text-right">
-        <div class="col-sm-offset-3 col-sm-7">
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" id="RequireLogin" name="RequireLogin"> Remember Me
-            </label>
-          </div>
-        </div>
-      </div>
+      <label  class="col-sm-3 control-label">Image</label>
+      <input   id="image" name="image" [(ngModel)]="image" type="file" >
     </div>
 
   </form>
@@ -124,8 +131,7 @@
       </div>
 
       <div class="btn-group mr-3 " role="group" aria-label="Second group">
-        <button type="button" class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">
-          Overdue
+        <button type="button" class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">Overdue
         </button>
       </div>
 

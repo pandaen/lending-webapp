@@ -3,7 +3,7 @@ import {UserService} from '../admin/adminShared/user.service';
 import {AngularFire} from 'angularfire2';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {Popup} from 'ng2-opd-popup';
-
+// import {CropperSettings} from 'ng2-img-cropper';
 @Component({
   moduleId: module.id, // can now use realtive path (omit app/pages..)
   templateUrl: 'item-list.component.html',
@@ -20,6 +20,9 @@ export class ItemListComponent implements OnInit {
   filterBy: string = 'all';
   listFilter: string;          // Set deafult search here
   nrOfItem;
+ // data: any;
+ // cropperSettings: CropperSettings;
+
   // add
   name;
   description;
@@ -28,6 +31,16 @@ export class ItemListComponent implements OnInit {
   reservationDays;
 
   constructor(public af: AngularFire, private uService: UserService, public flashMessage: FlashMessagesService) {
+/*
+    this.cropperSettings = new CropperSettings();
+    this.cropperSettings.width = 100;
+    this.cropperSettings.height = 100;
+    this.cropperSettings.croppedWidth =100;
+    this.cropperSettings.croppedHeight = 100;
+    this.cropperSettings.canvasWidth = 400;
+    this.cropperSettings.canvasHeight = 300;
+    this.data = {};
+*/
   }
 
   ngOnInit() {
@@ -75,7 +88,7 @@ export class ItemListComponent implements OnInit {
       reservationDays: '',
       status: 'Available',
       photoURL: ''
-    }
+    };
 
     this.uService.addItem(item);
 

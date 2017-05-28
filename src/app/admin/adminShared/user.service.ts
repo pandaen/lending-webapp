@@ -247,6 +247,10 @@ export class UserService implements CanActivate {
     return this.items.update(id, item);
   }
 
+  writeNotify(id) {
+    firebase.database().ref('/items/').child(id).update({'status': 'Notify'});
+  }
+
 
   notifyUSer(id) {
     return new Promise((resolve, reject) => {

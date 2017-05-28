@@ -16,6 +16,7 @@ import {EditUserComponent} from '../users/edit-user/edit-user.component';
 import {UserListNestComponent} from '../users/user-list-nest/user-list-nest.component';
 import {UserFilterPipe} from '../users/user-filter.pipe';
 import {PopupModule} from 'ng2-opd-popup';
+// import {ImageCropperComponent} from 'ng2-img-cropper';
 
 /*
 const AdminRoutes: Routes = [
