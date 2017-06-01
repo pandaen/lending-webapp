@@ -15,7 +15,7 @@ import {current} from 'codelyzer/util/syntaxKind';
 export class ItemListComponent implements OnInit {
   @ViewChild('popup1') popup1: Popup;
   pageTitle: string = 'Borrowing Admin panel';
-  items: any;
+  items;
   entities: any;
   currentEntityName;
   joinedEntities: any = [];
@@ -48,6 +48,11 @@ export class ItemListComponent implements OnInit {
 
   constructor(public af: AngularFire, private _uService: UserService, public flashMessage: FlashMessagesService) {
 
+    this._uService.items.subscribe(items => {
+      this.items = items;
+    });
+
+
     this.cropperSettings = new CropperSettings();
     this.cropperSettings.width = 50;
     this.cropperSettings.height = 50;
@@ -56,43 +61,44 @@ export class ItemListComponent implements OnInit {
     this.cropperSettings.canvasWidth = 350;
     this.cropperSettings.canvasHeight = 280;
     this.data = {};
-
   }  // constructor
 
   ngOnInit() {
+
+
+
+// Get initial info
     this.theUser = this._uService.loggedInUserDisplayName;
     this.tabs = this._uService.userLoggedIn;
     this.userImage = this._uService.userImage;
 
 
-    // Get Admin Entities
+    // Get EntitiesName for dropdown
     this._uService.getAdminEntities().subscribe(entities => {
       this.entities = entities;
-      console.log('admin entities is:' + JSON.stringify(entities));
     });
 
-
-
-    // Get current user Entity (ID) return a promise
-    this._uService.getCurrentUserEntity().then(user => {
-      this.currentUser = user;
-      console.log('currentUser entity is: ' + this.currentUser.entity);
-      this.userEntityName = this.currentUser.entityName;
-
-      // Get Admin items
-      this._uService.getAdminItems(this.currentUser.entity).subscribe(items => {
-        this.items = items;
-      }); // Get Admin items
-    });  // get User EntityID
-
-
-
-// Get Joined Entities
+    // Get JoinedEntitiesName for dorpdown
     this._uService.getJoinedentities().then(joinedEntities => {
       this.joinedEntities = joinedEntities;
-      console.log('joined array is: ' + JSON.stringify(this.joinedEntities, null, ''));
       console.log('joined has AdminAccess: ' + this.joinedEntities[0]['entityName']);
     });
+
+
+
+      // Get currentUser Entity (ID) for set default selectOption return a promise
+         this._uService.getCurrentUserEntity().then(user => {
+         this.currentUser = user;
+         this.userEntityName = this.currentUser.entityName;
+         console.log('currentUser entityName is: ' + this.userEntityName);
+
+
+
+         // Get  items that is in your entity for tabel
+         });  // get User EntityID
+
+
+
 
     /*
      // Get all Entitys for dropdown option
@@ -110,6 +116,8 @@ export class ItemListComponent implements OnInit {
      });
 
 
+
+
      // Receive a promise with nrOfItems
      this._uService.nrOfItems().then(nr => {
      this.nrOfItem = nr;
@@ -117,55 +125,20 @@ export class ItemListComponent implements OnInit {
      */
 
 
-    //  this.itemFilterBy(this.currentUser.entity);
-
-    /*
-     this._uService.itemFilterBy(this.currentUser.entity).subscribe(items => {
-     this.items = items;
-     });
-     */
-
-
   } // ngInit
-
-
-
-
 
 
 // Dropdown Click
   onclickedValue(entityId) {
-
     if (entityId.$key) {
       console.log('clicke value in if is: ' + entityId.$key);
-    }else {
-    console.log('clicke value is: ' + entityId.entity);
+      this._uService.entitySubject.next(entityId.$key);
+    } else {
+      console.log('clicke value is: ' + entityId.entity);
+      this._uService.entitySubject.next(entityId.entity);
     }
-
-    // console.log('clicke value is: ' + entityId.$key + 'and joined entity is ' + jentityId.entity);
-
-// this.itemFilterBy(entityId);
-    /*
-     this._uService.itemFilterBy(entityId.$key).subscribe(items => {
-     this.items = items;
-     });
-     */
-    //   console.log('clicke value is: ' + JSON.stringify(entityId, null, ''));
-
-
-    /*
-     this._uService.itemFilterBy(this.currentUser.entity).subscribe(items => {
-     this.items = items;
-     });
-     */
   }
 
-  /*
-   itemFilterBy(item: string) {
-   this._uService.itemSubject.next(item);
-   return this.items;
-   }
-   */
 
   addDialog() {
     this.popup1.options = {

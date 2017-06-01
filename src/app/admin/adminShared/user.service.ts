@@ -34,7 +34,6 @@ export class UserService implements CanActivate {
   entities: FirebaseListObservable<any[]>;
   itemSubject: Subject<any>;
   reservations: FirebaseListObservable<any[]>;
-  item: FirebaseObjectObservable<any>;
   users: FirebaseListObservable<any[]>;
   user: FirebaseObjectObservable<any>;
   usersRef: any;
@@ -44,10 +43,10 @@ export class UserService implements CanActivate {
   loan: any;
   nrOfItem;
 
-  // daniels getitem
-  itemsYouCanAdministrate;
-// items = af.database.list('/items');
+
   usersEntityMap: FirebaseListObservable<any>;
+  item: FirebaseObjectObservable<any>;
+  entitySubject: Subject<any>;
 
 
   constructor(private _router: Router, private af: AngularFire, private db: AngularFireDatabase) {
@@ -57,10 +56,18 @@ export class UserService implements CanActivate {
     this.folder = 'images';   // firebase location
     this.usersRef = firebase.database().ref('/users');
     this.itemsRef = firebase.database().ref('/items');
-
-
     this.entities = af.database.list('/entities');
     this.usersEntityMap = af.database.list('/usersEntityMap');
+
+
+    this.entitySubject = new Subject();
+    this.items = db.list('/items', {
+      query: {
+        orderByChild: 'entity',
+        equalTo: this.entitySubject
+      }
+    });
+
 
   }
 
@@ -203,20 +210,20 @@ export class UserService implements CanActivate {
    */
 
   // Get your items that lies in your created entityes
-  getAdminItems(entityid) {
-//  this.itemSubject = new Subject();
+  // getAdminItems(entityid) {
+   getAdminItems() {
+  this.entitySubject = new Subject();
     this.items = this.db.list('/items', {
       query: {
         orderByChild: 'entity',
-        equalTo: entityid
+        equalTo: this.entitySubject
       }
     });
-    return this.items;
+  //  return this.items;
   }
 
 
   getAdminEntities() {
-//  this.itemSubject = new Subject();
     this.entities = this.db.list('/entities', {
       query: {
         orderByChild: 'owner',

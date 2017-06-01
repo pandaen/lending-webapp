@@ -24,10 +24,10 @@ export class ItemListNestComponent implements OnChanges {
   imageUrl: any;
 
 
-  constructor(private _uService: UserService, private _router: Router) { }
+  constructor(private _uService: UserService, private _router: Router) {
+  }
 
   ngOnChanges() {
-    console.log('ngOnChanges runned');
     if (this.items) {
       this.notifyUserCheck();
       this.filterItems(this.filterBy);
@@ -36,29 +36,24 @@ export class ItemListNestComponent implements OnChanges {
 
 
   notifyUserCheck() {
-     this.items.filter(items => {
-     if (items.loan) {
-     let ms = items.loan['timeInMillis'];
+    this.items.filter(items => {
+      if (items.loan) {
+        let ms = items.loan['timeInMillis'];
 
-     let notify: string;
-     let currentDate = new Date();
+        let notify: string;
+        let currentDate = new Date();
         currentDate.setHours(0o0, 0o0);
+        let oneDay = 24 * 60 * 60 * 1000;
+        let diffDays = Math.ceil((ms - currentDate.getTime()) / (oneDay));
+        let returnText = 'none';
 
-
-     let oneDay = 24 * 60 * 60 * 1000;
-     let diffDays = Math.ceil((ms - currentDate.getTime()) / (oneDay));
-     let returnText = 'none';
-
-     if (diffDays < 0) {
-     if (!(items.status === 'Notify')) {
-     this._uService.writeNotify(items.$key);
-     console.log('Overskrev item' + items);
-     }
-     console.log('all notify user is: ' + diffDays);
-     }
-     console.log('all loans is: ' + diffDays);
-     } // if itemLoan
-     });
+        if (diffDays < 0) {
+          if (!(items.status === 'Notify')) {
+            this._uService.writeNotify(items.$key);
+          }
+        }
+      } // if itemLoan
+    });
   }  // userNotify
 
 
@@ -68,10 +63,11 @@ export class ItemListNestComponent implements OnChanges {
     switch (filter) {
       case 'all':
         this.visibleItems = this.items.slice(0);
+
         break;
       case 'available':
         this.visibleItems = this.items.filter(items => {
-          console.log('visible item avalible is: ' + this.visibleItems.length );
+          console.log('visible item avalible is: ' + this.visibleItems.length);
           return items.status.toLocaleLowerCase() === 'available';
         });
         break;
@@ -89,25 +85,6 @@ export class ItemListNestComponent implements OnChanges {
     }  // switch
 
   } // filterItem
-
-
-  /*
-   getItemPhoto(id)
-   {
-   this._uService.getItemDetails(id).subscribe(item => {
-   this.item = item;
-   let storageRef = firebase.storage().ref();
-   let spaceRef = storageRef.child(this.item.path);
-   storageRef.child(item.path).getDownloadURL().then((url) => {
-   // Set image url
-   console.log('imgUrl is: ' + url);
-   return this.imageUrl = url;
-   }).catch((error) => {
-   console.log(error);
-   });
-   });
-   }
-   */
 
   setClickedRow(index, id) {
     this.currentRow = index;
