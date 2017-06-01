@@ -18,7 +18,7 @@
 
 
 
-            <div  class='row'>
+            <div  class='row'  *ngIf="item.loan?.userPhoto">
             <img class="avatar"
                  [style.width.px]='50'
                  [style.height.px]='50'
@@ -65,8 +65,8 @@
 
 
               <div class='row'>
-                <div class='col-md-2'>Notice:</div>
-                <div class='col-md-9'>{{item?.description}}</div>
+                <div class='col-md-3'>Description:</div>
+                <div class='col-md-9' style="border:1px; border-style:solid; border-color:black; padding: 1px;">{{item?.description}}</div>
               </div>
 
               <div class='row'>

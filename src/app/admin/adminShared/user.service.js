@@ -16,7 +16,7 @@ var router_1 = require("@angular/router");
 var UserService = (function () {
     function UserService(_router) {
         this._router = _router;
-        //  loggedInUser: string;
+        //  loggedInUserDisplayName: string;
         // authUser: any;
         this.userLoggedIn = false;
         /*
@@ -44,10 +44,10 @@ var UserService = (function () {
     UserService.prototype.verifyUser = function () {
         /*
               this.authUser = firebase.auth().currentUser;
-      
+
               if (this.authUser) {
                   alert('Welcome ${this.authUser.email}');
-                  this.loggedInUser = this.authUser.email;
+                  this.loggedInUserDisplayName = this.authUser.email;
                   this.userLoggedIn = true;
                   this._router.navigate(['/items']);
               }
