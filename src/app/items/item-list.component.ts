@@ -93,7 +93,6 @@ export class ItemListComponent implements OnInit {
       this.currentUser = user;
       this.userEntityName = this.currentUser.entityName;
       this._uService.entitySubject.next(this.currentUser.entity);
-      console.log('currentEntity set');
     });  // get User EntityID
 
 
@@ -145,7 +144,7 @@ console.log('selected value is: ' + this.selectDefault);
   addDialog() {
     this.popup1.options = {
       header: 'Add item',
-      color: 'green', // red, blue....
+      color: '#green', // red, blue....
       widthProsentage: 40, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: true, // You can hide this in case you want to use custom buttons

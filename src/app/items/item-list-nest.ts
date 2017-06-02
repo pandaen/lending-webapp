@@ -62,7 +62,7 @@ export class ItemListNestComponent implements OnChanges {
         break;
       case 'available':
         this.visibleItems = this.items.filter(items => {
-          console.log('visible item avalible is: ' + this.visibleItems.length);
+        //  console.log('visible item avalible is: ' + this.visibleItems.length);
           return items.status.toLocaleLowerCase() === 'available';
         });
         break;

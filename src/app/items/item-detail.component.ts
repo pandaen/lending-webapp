@@ -45,7 +45,6 @@ export class ItemDetailComponent implements OnInit {
     // Receive a promise from exist
     this._uService.loanExist(this.id).then(exist => {
       this.loanExistt = exist;
-      console.log('itemDetail-loanExsist is: ' +  this.loanExistt);
     });
 
     this._uService.getItemDetails(this.id).subscribe(item => {
@@ -72,7 +71,6 @@ export class ItemDetailComponent implements OnInit {
 
     this._uService.getItemDetailsResInfo(this.id).subscribe(res => {
       this.reserved = res;
-      console.log('reservation object is: ' + this.reserved);
     });
 
   } // ng init
@@ -94,7 +92,7 @@ export class ItemDetailComponent implements OnInit {
 
     this.popup1.options = {
       header: "Delete Item",
-      color: "#F8FF4A", // red, blue....
+      color: "#000000", // red, blue....
       widthProsentage: 40, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: true, // You can hide this in case you want to use custom buttons

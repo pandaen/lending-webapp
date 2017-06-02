@@ -251,7 +251,6 @@ export class UserService implements CanActivate {
 
   getJoinedentities() {
     let authUid= this.authState.auth.uid;
-    console.log('runned getJoinedEntitys');
     let joinedEntities: IItem[] = [];
     return new Promise((resolve, reject) => {
         let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();

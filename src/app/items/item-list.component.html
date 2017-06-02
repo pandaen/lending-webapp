@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand">Borrowing admin-console</a>
+      <img src="../../assets/images/logo_banner_small.png"/>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
 
@@ -59,7 +59,7 @@
                     [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
             </option>
           </optgroup>
-          <optgroup label="Joined entities">
+          <optgroup label="Joined & promoted entities">
             <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"> {{jEntity?.entityName}}</option>
           </optgroup>
         </select>
@@ -130,6 +130,7 @@
 <div class="panel panel-primary">
   <div class='panel-heading'>
 
+
     <img src="../../assets/images/logo_bannerjpg_placeholder.jpg"/>
 
     <div class="col-sm-1">
@@ -143,7 +144,7 @@
                   [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
           </option>
         </optgroup>
-        <optgroup label="Joined entities">
+        <optgroup label="Joined & promoted entities">
           <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"
                   [attr.selected]="userEntityName==entity?.name ? true : null"> {{jEntity?.entityName}}
           </option>
@@ -165,8 +166,8 @@
 
   <div class='panel-body'>
     <div class="search" align="right">
-      <div class='col-md-3'>
-        <input type='text' [(ngModel)]='listFilter' placeholder="Search for items"/>  <!-- bind listFilter -->
+      <div class='col-md-9'>
+        <input class="form-control mr-sm-5" type='text' [(ngModel)]='listFilter' placeholder="Search for items"/>  <!-- bind listFilter -->
       </div>
     </div>
 
