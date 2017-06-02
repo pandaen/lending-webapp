@@ -15,8 +15,6 @@ export class ItemListNestComponent implements OnChanges {
   @Input() filterBy: string;
   @Input() listFilter: string;
   visibleItems: IItem[] = [];
-  dummyItems: IItem[] = [];
-  dummyFilter: string = 'Notify';
   imageWidth: number = 50;
   imageMargin: number = 2;
   item: any;
@@ -58,12 +56,9 @@ export class ItemListNestComponent implements OnChanges {
 
 
   filterItems(filter) {
-
-
     switch (filter) {
       case 'all':
         this.visibleItems = this.items.slice(0);
-
         break;
       case 'available':
         this.visibleItems = this.items.filter(items => {
