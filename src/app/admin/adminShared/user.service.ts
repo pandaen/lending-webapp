@@ -24,7 +24,7 @@ import {EditItemComponent} from '../../items/edit-item/edit-item.component';
 export class UserService implements CanActivate {
   loggedInUserDisplayName: string;
   userImage: string;// auth image
-  currentUser: any;
+  currentUserEntity: any;
   authUser: any;
   userLoggedIn: boolean = false;
   tabs: boolean;
@@ -32,9 +32,9 @@ export class UserService implements CanActivate {
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
   entities: FirebaseListObservable<any[]>;
-  itemSubject: Subject<any>;
   reservations: FirebaseListObservable<any[]>;
   users: FirebaseListObservable<any[]>;
+  itemSubject: Subject<any>;
   user: FirebaseObjectObservable<any>;
   usersRef: any;
   itemsRef: any;
@@ -47,6 +47,7 @@ export class UserService implements CanActivate {
   usersEntityMap: FirebaseListObservable<any>;
   item: FirebaseObjectObservable<any>;
   entitySubject: Subject<any>;
+  userSubject: Subject<any>;
 
 
   constructor(private _router: Router, private af: AngularFire, private db: AngularFireDatabase) {
@@ -60,11 +61,21 @@ export class UserService implements CanActivate {
     this.usersEntityMap = af.database.list('/usersEntityMap');
 
 
+    // Get dropdown items
     this.entitySubject = new Subject();
     this.items = db.list('/items', {
       query: {
         orderByChild: 'entity',
         equalTo: this.entitySubject
+      }
+    });
+
+    // Get dropdown users
+    this.userSubject = new Subject();
+    this.users = db.list('/users', {
+      query: {
+        orderByChild: 'entity',
+        equalTo: this.userSubject
       }
     });
 
@@ -145,7 +156,7 @@ export class UserService implements CanActivate {
         fullname: user.displayName || '',
       });
     } else {
-      //    console.log("User exist in db");
+     return;
     }
   }
 
@@ -174,7 +185,6 @@ export class UserService implements CanActivate {
    }, function (error) {
    console.error(error);
    });
-
    */
 
   logout() {
@@ -193,6 +203,7 @@ export class UserService implements CanActivate {
       let userUid = this.authState.auth.uid;
       let fullUserRef = firebase.database().ref('/users/' + userUid);
       fullUserRef.once('value', (snapshot) => {
+        this.currentUserEntity = snapshot.val().entity;
         resolve(snapshot.val());
       }, function (error) {
         console.error(error);
@@ -200,27 +211,32 @@ export class UserService implements CanActivate {
     });
   }
 
+
+
   /*
-   getCurrentUserEntityCallback() {
-   this.getCurrentUserEntity().then(user => {
-   this.currentUser = user;
-   console.log('currentUser is in uService: ' + user);
+   // Get your items that lies in your created entityes
+   getAdminItems() {
+   this.entitySubject = new Subject();
+   this.items = this.db.list('/items', {
+   query: {
+   orderByChild: 'entity',
+   equalTo: this.entitySubject
+   }
    });
+   //  return this.items;
+   }
+
+   getYourUsers() {
+   this.userSubject = new Subject();
+   this.items = this.db.list('/users', {
+   query: {
+   orderByChild: 'entity',
+   equalTo: this.userSubject
+   }
+   });
+   //  return this.items;
    }
    */
-
-  // Get your items that lies in your created entityes
-  // getAdminItems(entityid) {
-   getAdminItems() {
-  this.entitySubject = new Subject();
-    this.items = this.db.list('/items', {
-      query: {
-        orderByChild: 'entity',
-        equalTo: this.entitySubject
-      }
-    });
-  //  return this.items;
-  }
 
 
   getAdminEntities() {
@@ -234,28 +250,27 @@ export class UserService implements CanActivate {
   }
 
   getJoinedentities() {
+    let authUid= this.authState.auth.uid;
     console.log('runned getJoinedEntitys');
     let joinedEntities: IItem[] = [];
-   return new Promise((resolve, reject) => {
-
-    let pendingQuery = firebase.database().ref('/usersEntityMap').orderByChild("xoQNWrirTPOWtFaBZBQUJqek4Og1");
-    pendingQuery.once("value").then(function (snapshot) {
-        let total = snapshot.numChildren();
-        snapshot.forEach(function (childSnapshot) {
-          let usersUid = childSnapshot.key;
-          let isEntityAdmin = childSnapshot.child("adminAccess").exists();
-          let entityName = childSnapshot.child("entityName").val();
-          let admin = isEntityAdmin === true? 'Yes':'No';
-          if (isEntityAdmin) {
-          console.log('user is entity admin on: ' + entityName + ' and is admin: ' + admin);
-         // console.log('entity details: ' + JSON.stringify(childSnapshot));
-           joinedEntities.push(childSnapshot.val());
-          resolve(joinedEntities);
-          }
+    return new Promise((resolve, reject) => {
+        let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();
+        userQuery.once('value').then(function (snapshot) {
+          let total = snapshot.numChildren();
+          snapshot.forEach(function (childSnapshot) {
+             let match = childSnapshot.val().userUid === authUid;
+            let isEntityAdmin = childSnapshot.val().adminAccess === true;
+            let admin = isEntityAdmin === true ? 'Yes' : 'No';
+            let entityName = childSnapshot.val().entityName;
+            if (match && isEntityAdmin) {
+              console.log('user is entity admin on: ' + entityName + ' and is admin: ' + admin);
+              joinedEntities.push(childSnapshot.val());
+              resolve(joinedEntities);
+            }
+          });
         });
-        console.log('Total: '+total);
-      });
-    });
+      }
+    );
   }
 
 
@@ -264,7 +279,7 @@ export class UserService implements CanActivate {
     return this.items;
   }
 
-  // Get all entities
+// Get all entities
   getEntities() {
     this.entities = this.af.database.list('/entities') as FirebaseListObservable<IItem[]>;
     return this.entities;
@@ -307,9 +322,14 @@ export class UserService implements CanActivate {
 
 
   uploadImage(photoURI, key) {
-    console.log(JSON.stringify(photoURI).split(',')[3].split('"')[0]);
+   // console.log(JSON.stringify(photoURI).split(',')[3].split('"')[0]);
     if (photoURI != null) {
-      firebase.storage().ref('images/' + this.currentUser.entity + '/' + key)
+      this.getCurrentUserEntity().then(user => {
+        this.currentUserEntity = user['entity'];
+      });  // ge
+
+
+      firebase.storage().ref('images/' + this.currentUserEntity + '/' + key)
         .putString(JSON.stringify(photoURI).split(',')[3].split('"')[0], 'base64').then(function (snapshot) {
         this.af.database.list('/items').update(key, {
           photoURL: snapshot.downloadURL

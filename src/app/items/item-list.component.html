@@ -35,8 +35,9 @@
   </div>
 </nav>
 
-
-
+<!--
+<popup #popup1 (confirmClick)="onAddSubmit()">
+ -->
 <popup #popup1 (confirmClick)="onAddSubmit()">
 
   <form class="form-horizontal">
@@ -50,31 +51,28 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">Entity</label>
 
-   <!--
       <div class="col-sm-7">
-      <select  class="form-control" [(ngModel)]="selectedItemAdd"   (ngModelChange)="onclickedValue($event)"  >
-        <optgroup label="Your entities">
-          <option *ngFor="let entity of entities "   [ngValue]="entity"   [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}</option>
-        </optgroup>
-        <optgroup label="Joined entities">
-          <option *ngFor="let jEntity of joinedEntities "  [ngValue]="jEntity" > {{jEntity?.entityName}}</option>
-        </optgroup>
-      </select>
+        <!-- <select  class="form-control" [(ngModel)]="selectedItemAdd"   (ngModelChange)="onClickEntityPopup($event)"  > -->
+        <select class="form-control" [(ngModel)]="selectedItemAdd" name="selectedItemAdd"  (ngModelChange)="onClickEntityPopup($event)">
+          <optgroup label="Your entities">
+            <option *ngFor="let entity of entities " [ngValue]="entity"
+                    [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
+            </option>
+          </optgroup>
+          <optgroup label="Joined entities">
+            <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"> {{jEntity?.entityName}}</option>
+          </optgroup>
+        </select>
       </div>
--->
 
-
-      <div class="col-sm-7">
-        <input type="text" class="form-control" name="n/a" [(ngModel)]="n/a" id="entity"
-               placeholder="Choose entity">
-      </div>
     </div>
 
 
     <div class="form-group">
       <label class="col-sm-3 control-label">Reservation Days</label>
       <div class="col-sm-2">
-        <input class="form-control" type="number" value="3" id="reservationDays">
+        <input class="form-control" type="number" name="reservationDays" [(ngModel)]='reservationDays' value="3"
+               id="reservationDays">
       </div>
     </div>
 
@@ -83,9 +81,8 @@
       <label class="col-sm-3 control-label">Description</label>
       <div class="col-sm-7">
 
-        <textarea (ngModel)='description' name="description" ide="description'" rows="2" cols="32">
+        <textarea [(ngModel)]='description' name="description" ide="description'" rows="2" cols="32">
 </textarea>
-
       </div>
     </div>
 
@@ -108,8 +105,8 @@
         <div>
           <div align="center">
             <img id="imageID"
-              [src]="data && data.image ? data.image :  'http://placehold.it/128x128'"
-              class="profile-img"><br>
+                 [src]="data && data.image ? data.image :  'http://placehold.it/128x128'"
+                 class="profile-img"><br>
           </div>
           <button type="button" (click)="onChangingImageClick()">Choose Image</button>
         </div>
@@ -127,8 +124,6 @@
 
     </div>
   </form>
-
-
 </popup>
 
 
@@ -137,20 +132,21 @@
 
     <img src="../../assets/images/logo_bannerjpg_placeholder.jpg"/>
 
-    <div  class="col-sm-1">
+    <div class="col-sm-1">
       <label>Current entity:</label>
     </div>
 
-
-
-
-    <div  class="col-sm-3">
-      <select  class="form-control" [(ngModel)]="selectedItem"  (ngModelChange)="onclickedValue($event)"  >
+    <div class="col-sm-3">
+      <select class="form-control" [(ngModel)]="selectedItem" (ngModelChange)="onclickedValue($event)">
         <optgroup label="Your entities">
-        <option *ngFor="let entity of entities "   [ngValue]="entity"   [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}</option>
+          <option *ngFor="let entity of entities " [ngValue]="entity"
+                  [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
+          </option>
         </optgroup>
         <optgroup label="Joined entities">
-          <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"   [attr.selected]="userEntityName==entity?.name ? true : null"> {{jEntity?.entityName}}</option>
+          <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"
+                  [attr.selected]="userEntityName==entity?.name ? true : null"> {{jEntity?.entityName}}
+          </option>
         </optgroup>
       </select>
     </div>

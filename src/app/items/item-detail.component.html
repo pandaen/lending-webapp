@@ -64,7 +64,7 @@
               </div>
 
 
-              <div class='row'>
+              <div  *ngIf="item?.description" class='row'>
                 <div class='col-md-3'>Description:</div>
                 <div class='col-md-9' style="border:1px; border-style:solid; border-color:black; padding: 1px;">{{item?.description}}</div>
               </div>

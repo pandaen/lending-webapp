@@ -41,13 +41,17 @@ export class ItemListComponent implements OnInit {
   currentUser: any;
   selectedItem;
   selectedItemAdd;
-  reservationDays;
+  reservationDays = 3;
+  selectDefault;
+  selectTempEntityName;
 
   // join interface
   adminAccess;
 
   constructor(public af: AngularFire, private _uService: UserService, public flashMessage: FlashMessagesService) {
 
+
+    // Subscribe for item changes
     this._uService.items.subscribe(items => {
       this.items = items;
     });
@@ -73,31 +77,24 @@ export class ItemListComponent implements OnInit {
     this.userImage = this._uService.userImage;
 
 
-    // Get EntitiesName for dropdown
+    // Get EntitiesNames for dropdown
     this._uService.getAdminEntities().subscribe(entities => {
       this.entities = entities;
     });
 
-    // Get JoinedEntitiesName for dorpdown
+    // Get JoinedEntitiesNames for dropdown
     this._uService.getJoinedentities().then(joinedEntities => {
       this.joinedEntities = joinedEntities;
-      console.log('joined has AdminAccess: ' + this.joinedEntities[0]['entityName']);
     });
 
 
-
-      // Get currentUser Entity (ID) for set default selectOption return a promise
-         this._uService.getCurrentUserEntity().then(user => {
-         this.currentUser = user;
-         this.userEntityName = this.currentUser.entityName;
-         console.log('currentUser entityName is: ' + this.userEntityName);
-
-
-
-         // Get  items that is in your entity for tabel
-         });  // get User EntityID
-
-
+    // Get currentUser Entity (ID) for set default selectOption return a promise
+    this._uService.getCurrentUserEntity().then(user => {
+      this.currentUser = user;
+      this.userEntityName = this.currentUser.entityName;
+      this._uService.entitySubject.next(this.currentUser.entity);
+      console.log('currentEntity set');
+    });  // get User EntityID
 
 
     /*
@@ -131,12 +128,17 @@ export class ItemListComponent implements OnInit {
 // Dropdown Click
   onclickedValue(entityId) {
     if (entityId.$key) {
-      console.log('clicke value in if is: ' + entityId.$key);
       this._uService.entitySubject.next(entityId.$key);
     } else {
-      console.log('clicke value is: ' + entityId.entity);
       this._uService.entitySubject.next(entityId.entity);
     }
+  }
+
+  onClickEntityPopup() {
+    this.selectDefault = this.selectedItemAdd.$key;
+    this.selectTempEntityName = this.selectedItemAdd.$key;
+console.log('selected value is: ' + this.selectDefault);
+
   }
 
 
@@ -154,33 +156,25 @@ export class ItemListComponent implements OnInit {
       animation: 'bounceInDown' // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
     };
 
+    // set default entry for popup form
+    this.selectDefault = this.currentUser.entity;
+    this.selectTempEntityName = this.userEntityName;
     this.popup1.show(this.popup1.options);
   }
 
   onAddSubmit() {
-    console.log('Item added successful!');
-    console.log('this.description' + this.description);
-
-
-    /*
      let item = {
-     description: 'Picture test',
-     entity: this.selectedItem.$key,
-     entityName: this.selectedItem.entity,
-     name: 'Usb',
-     reservationDays: '3',
+     description: this.description,
+     entity: this.selectDefault,
+     entityName: this.selectTempEntityName,
+     name: this.name,
+     reservationDays: this.reservationDays,
      status: 'Available',
      photoURL: this.data
      };
-
      this._uService.addItem(item);
-     */
-// this._uService.uploadPhoto('null',this.data.image.split(/,(.+)/)[1]);
-  }
+  } // onSubmitt
 
-  getEntityName() {
-    return this.currentUser.entityName;
-  }
 
 // Change cropped image
   onChangingImageClick() {
