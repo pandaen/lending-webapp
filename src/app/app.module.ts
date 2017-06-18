@@ -11,6 +11,7 @@ import {FlashMessagesModule} from 'angular2-flash-messages';
 import {NoAdminComponent} from './error/no-admin/no-admin.component';
 
 
+
 //  Firebase Settings
 export const firebaseConfig = {
   apiKey: 'AIzaSyAHfCQArz_9VdSVJ0rGhaEMYeZuv8JJCIY',

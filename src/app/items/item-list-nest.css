@@ -1,17 +1,15 @@
-.red { background-color: #F8B3AC;
-}
-
-.table tr:hover  {
-  background-color:#48C6F4 ;
+.table th {
   color: white;
 }
 
-/*  stribed rows
-.table:not(.red) tr:nth-child(even){
-
-  background-color: #f2f2f2
+.table tr:hover  {
+  background-color:#D9D9D9 ;
+  color: white;
+  cursor: pointer;
 }
-*/
+
+tr:nth-child(even){background-color: #f2f2f2}
+
 .myDiv {
   width: 800px;
   height: 200px;
@@ -20,6 +18,11 @@
   left: 50%;
   margin-left: -30%;
   margin-top: -10%;
+}
+
+.verticalCenter {
+  vertical-align:middle;
+/* margin-top: 20%; */
 }
 
 .avatar {
@@ -41,3 +44,4 @@
   border-radius: 60%;
 
 }
+

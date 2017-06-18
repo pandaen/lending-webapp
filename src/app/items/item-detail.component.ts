@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IItem} from './item';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 import {UserService} from '../admin/adminShared/user.service';
 import * as firebase from 'firebase';
 import {FlashMessagesService} from "angular2-flash-messages";
@@ -104,6 +104,7 @@ export class ItemDetailComponent implements OnInit {
     };
 
 this.popup1.show(this.popup1.options);
+
   }
 
   onDeleteClick() {

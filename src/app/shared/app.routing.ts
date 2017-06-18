@@ -2,7 +2,6 @@ import {RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {ErrorComponent} from '../error/error.component';
 import {NoAdminComponent} from '../error/no-admin/no-admin.component';
-
 @NgModule({
   imports: [RouterModule.forRoot([
     {path: 'noAdmin', component: NoAdminComponent},

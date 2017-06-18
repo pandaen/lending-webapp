@@ -9,35 +9,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <img src="../../assets/images/logo_banner_small.png"/>
+
     </div>
     <div id="navbar" class="collapse navbar-collapse">
-
-      <ul class="nav navbar-nav navbar-left">
-        <li *ngIf="tabs"><a [routerLink]="['']"><i class='glyphicon glyphicon-list-alt'></i> Items</a></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-left">
-        <li *ngIf="tabs"><a [routerLink]="['/users']"> <i class='glyphicon glyphicon-user'></i> Users</a></li>
-      </ul>
-
-      <!--
-      <ul class="nav navbar-nav navbar-left">
-        <li *ngIf="tabs"><a [routerLink]="['/users']">Overview</a></li>
-      </ul>
--->
-      <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
-        <li *ngIf="tabs"><a (click)="logout()"> <i class='glyphicon glyphicon-log-out'> Logout</i></a></li>
-      </ul>
-
 
     </div>
   </div>
 </nav>
 
-<!--
-<popup #popup1 (confirmClick)="onAddSubmit()">
- -->
+
 <popup #popup1 (confirmClick)="onAddSubmit()">
 
   <form class="form-horizontal">
@@ -52,14 +32,13 @@
       <label class="col-sm-3 control-label">Entity</label>
 
       <div class="col-sm-7">
-        <!-- <select  class="form-control" [(ngModel)]="selectedItemAdd"   (ngModelChange)="onClickEntityPopup($event)"  > -->
         <select class="form-control" [(ngModel)]="selectedItemAdd" name="selectedItemAdd"  (ngModelChange)="onClickEntityPopup($event)">
           <optgroup label="Your entities">
             <option *ngFor="let entity of entities " [ngValue]="entity"
                     [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
             </option>
           </optgroup>
-          <optgroup label="Joined & promoted entities">
+          <optgroup label="Promoted entities">
             <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"> {{jEntity?.entityName}}</option>
           </optgroup>
         </select>
@@ -94,7 +73,8 @@
         <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
         <br>
         <img
-          [src]="data && data.image ? data.image :  'http://placehold.it/128x128'"
+          [src]="data && data.image ? data.image : 'http://placehold.it/128x128'"
+
           class="profile-img">
         <button type="button" class="btn btn-default" (click)='onChangingImageClick()'>Ok</button>
       </div>
@@ -113,15 +93,6 @@
       </div>
 
 
-      <!--
-            <label  class="col-sm-3 control-label">Image</label>
-          </div>
-            <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper><br>
-            <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
-            </div>
-            -->
-
-
     </div>
   </form>
 </popup>
@@ -130,82 +101,122 @@
 <div class="panel panel-primary">
   <div class='panel-heading'>
 
+    <div class="row">
 
-    <img src="../../assets/images/logo_bannerjpg_placeholder.jpg"/>
 
-    <div class="col-sm-1">
-      <label>Current entity:</label>
-    </div>
+      <img src="./assets/icons/logo.svg" class="bannerLogo">
+      <div class="bannerTitle"><b>Borrowing</b></div>
+      <div class="bannerText"> - Lending and borrowing made easy!</div>
 
-    <div class="col-sm-3">
-      <select class="form-control" [(ngModel)]="selectedItem" (ngModelChange)="onclickedValue($event)">
-        <optgroup label="Your entities">
-          <option *ngFor="let entity of entities " [ngValue]="entity"
-                  [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
-          </option>
-        </optgroup>
-        <optgroup label="Joined & promoted entities">
-          <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"
-                  [attr.selected]="userEntityName==entity?.name ? true : null"> {{jEntity?.entityName}}
-          </option>
-        </optgroup>
-      </select>
-    </div>
+      <div class="col-sm-5" >
+        <ul>
+          <li *ngIf="tabs" class="one"><a > <img src="./assets/icons/items.svg"
+                                                                    class="grey-button-icon"> Items</a></li>
+          <li *ngIf="tabs" class="two" (click)="redirect('users')"><a><img src="./assets/icons/users.svg"
+                                                                         class="grey-button-icon"> Users</a></li>
 
-    <ul class="nav navbar-nav navbar-right">
-      <img class="avatar" align="left" [src]="userImage">
-      <li><a>{{theUser}} </a></li>
-    </ul>
-
-    <!--
-        <ul class="nav navbar-nav navbar-right">
-          <li><a>{{theUser}} Logged in</a></li>
+          <li *ngIf="tabs" class="three"><a [routerLink]="['/users']"><img src="./assets/icons/entities.svg"
+                                                                           class="grey-button-icon"> Entities</a></li>
+          <hr/>
         </ul>
-    -->
+      </div>
+
+
+      <div class="logindetail">
+        <div class="loginTextGroup">
+          <div class="loginName">
+            {{theUser}}
+          </div>
+          <a class="loginText" (click)="logout()">Log out</a>
+        </div>
+        <img class="avatar" [src]="userImage">
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-2 currentEntity">
+        <label>Current entity:</label>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-3">
+        <select class="form-control selectbox " [(ngModel)]="selectedItem" (ngModelChange)="onclickedValue($event)">
+          <optgroup label="Your entities">
+            <option *ngFor="let entity of entities " [ngValue]="entity"
+                    [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
+            </option>
+          </optgroup>
+          <optgroup label="Promoted entities">
+            <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"
+                    [attr.selected]="userEntityName==entity?.name ? true : null"> {{jEntity?.entityName}}
+            </option>
+          </optgroup>
+        </select>
+
+      </div>
+
+
+      <div class='col-md-2 ' style="float: right">
+        <div class="input-group searchbox">
+          <span class="input-group-addon search-icon " id="basic-addon1"></span>
+          <input type="text" class="form-control searchbox" [(ngModel)]='listFilter' placeholder="Search for items"
+                 aria-describedby="basic-addon1">
+        </div>
+      </div>
+
+
+    </div>
   </div>
 
   <div class='panel-body'>
-    <div class="search" align="right">
-      <div class='col-md-9'>
-        <input class="form-control mr-sm-5" type='text' [(ngModel)]='listFilter' placeholder="Search for items"/>  <!-- bind listFilter -->
-      </div>
+
+
+    <button type="button" class="buttonFilter btn1" [class.active]="filterBy==='all'" (click)="filterBy='all'">All items
+    </button>
+
+    <button type="button" class="buttonFilter btn2" [class.active]="filterBy==='available'"
+            (click)="filterBy='available'">In stock
+    </button>
+
+    <button class="buttonFilter btn3" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
+
+
+    <button type="button" class="buttonFilter btn4" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">
+      Overdue
+    </button>
+
+
+    <!--
+          <div class="btn-group mr-3" role="group" aria-label="First group">
+            <button type="button" class="btn buttonFilter" [class.active]="filterBy==='all'" (click)="filterBy='all'">All
+            </button>
+            <button type="button" class="btn buttonFilter" [class.active]="filterBy==='available'"
+                    (click)="filterBy='available'">In stock
+            </button>
+            <button class="btn btn-default" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
+          </div>
+
+          <div class="btn-group mr-3 " role="group" aria-label="Second group">
+            <button type="button" class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">
+              Overdue
+            </button>
+          </div>
+    -->
+
+
+    <div style="float: right">
+      <button type="button" class="buttonFilter" (click)='addDialog()'><i class='glyphicon glyphicon-plus'></i> Add an
+        item
+      </button>
     </div>
-
-    <div class='row' style="margin-bottom:10px" *ngIf='listFilter'>
-
-      <h3>Searched for : {{listFilter}} </h3>
-
-    </div>
-
-    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-      <div class="btn-group mr-3" role="group" aria-label="First group">
-        <button type="button" class="btn btn-default" [class.active]="filterBy==='all'" (click)="filterBy='all'">All
-        </button>
-        <button type="button" class="btn btn-default" [class.active]="filterBy==='available'"
-                (click)="filterBy='available'">In stock
-        </button>
-        <button class="btn btn-default" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
-      </div>
-
-      <div class="btn-group mr-3 " role="group" aria-label="Second group">
-        <button type="button" class="btn btn-default" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">
-          Overdue
-        </button>
-      </div>
-
-
-      <div class="btn-group mr-3 " role="group" aria-label="Second group">
-
-        <button type="button" class="btn btn-default" (click)='addDialog()'>Add item</button>
-
-        <!--
-        <button type="button" class="btn btn-default" [routerLink]="['/add']">Add item</button>
--->
-      </div>
-
-    </div>
-
-    <app-item-list-nest [filterBy]="filterBy" [items]="items" [listFilter]="listFilter"></app-item-list-nest>
   </div>
+
+
+  <div style="margin-bottom: 15px"></div>
+  <app-item-list-nest [filterBy]="filterBy" [items]="items" [listFilter]="listFilter"></app-item-list-nest>
+
 
 </div>

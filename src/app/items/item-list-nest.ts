@@ -20,6 +20,7 @@ export class ItemListNestComponent implements OnChanges {
   item: any;
   currentRow: Number;
   imageUrl: any;
+  nrOfItem;
 
 
   constructor(private _uService: UserService, private _router: Router) {
@@ -29,6 +30,7 @@ export class ItemListNestComponent implements OnChanges {
     if (this.items) {
       this.notifyUserCheck();
       this.filterItems(this.filterBy);
+    this.nrOfItem = this.visibleItems.length;
     }
   }
 

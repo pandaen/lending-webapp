@@ -2,20 +2,209 @@ thead {
     color: darkgrey;
 }
 
+
+
 .search {
   float: right;
+}
+
+.search-icon{
+  background: url(../../assets/icons/search.svg) no-repeat left ;
+  /*
+  // height: 20px;
+  width: 20px;
+  */
+}
+
+
+
+
+.avatar {
+  background: url(../../assets/images/NoPhoto_small.png);
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 60%;
+  margin: 0 0 10px 4px;
+}
+
+.logindetail {
+  color: black;
+  float:right;
+}
+
+.loginTextGroup {
+  padding: 0 0;
+  float: left;
+}
+
+.loginText {
+   margin-left: 50px;
+  font-family: 'Roboto', sans-serif;
+  display: inline;
+}
+
+.loginName {
+  margin-left: 1px;
+}
+
+.grey-button-icon {
+  height: 20px;
+  width: 20px;
+  float: left;
+  margin-left: 45px;
 
 }
 
-.avatar {
-  background-image: url('http://placehold.it/128x128');
+.btnMenuGroup {
+margin-left: 20px;
+  /*
+  margin: 4px 2px;
+  display: inline;
+  text-align: center;
+  text-decoration: none;
+  padding: 1px 3px;
+  border: none;
+  */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
 
-  width: 50px;
-  height: 50px;
+.bannerLogo {
+  color: white;
+  height: 70px;
+  width: 70px;
+  float: left;
+}
+.bannerTitle {
+  color: #422744;
+  display: inline;
+  font-size: 30px;
+  margin-left: 10px;
+  font-family: 'Montserrat', sans-serif;
+  float: left;
+}
 
-  background-size: cover;
+.bannerText {
+  color: black;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 22px;
+  white-space: nowrap;
+  display: inline;
+  font-family: 'Roboto', sans-serif;
+  float: left;
+}
 
-  background-position: center;
 
-  border-radius: 60%;
+.logout {
+  color: #422744;
+}
+
+.selectbox {
+-webkit-appearance: menulist-button;
+height: 40px;
+  color: #422744;
+  margin-left: 10px;
+  font-size: 20px;
+  font-family: 'Montserrat', sans-serif;
+  display: inline;
+  width: 230px;
+  transition: width 1s;
+  font-weight: bold;
+}
+.selectbox:hover {
+  width: 300px;
+
+}
+
+.searchbox{
+  width: 130px;
+}
+
+
+
+.currentEntity {
+  color: black;
+  margin-right:20px
+
+}
+
+
+/*  menu   */
+ul li {
+  display: inline;
+  text-align: center;
+}
+
+a {
+  display: inline-block;
+  width: 28%;
+  padding: .75rem 0;
+  margin: 0;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  cursor: pointer;
+}
+
+
+.two:hover ~ hr {
+  margin-left: 40%;
+}
+
+.three:hover ~ hr {
+  margin-left: 70%;
+}
+
+
+hr {
+  height: .50rem;
+  width: 15%;
+  margin: 0;
+  background: #00C8F9;
+  border: none;
+  margin-left: 10%;
+  transition: .3s ease-in-out;
+}
+
+
+.buttonFilter {
+  background-color: #E8E9EB;
+  color: #4E4F4F;
+  border: 2px solid #E8E9EB;
+  border: none;
+  padding: 4px 12px;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.btn1.active {
+  background-color: #48c6f4;
+  color: white;
+}
+
+.btn2.active {
+  background-color: #80e08f ;
+  color: #205555;
+}
+
+.btn3.active {
+  background-color: #f8b2ab;
+  color: #53384d;
+}
+
+.btn4.active {
+  background-color: #feed2b ;
+  color: #68582c;
 }

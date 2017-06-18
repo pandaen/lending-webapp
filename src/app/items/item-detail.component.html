@@ -1,3 +1,4 @@
+
 <popup  #popup1 (confirmClick)="onDeleteClick()">
   Are you sure you want to delete item {{item.name}} ?
 </popup>
@@ -59,7 +60,7 @@
 <br>
               <b>Misc details</b>
               <div class='row'>
-                <div class='col-md-4'>Numb of days:</div>
+                <div class='col-md-4'>Nr of loan days:</div>
                 <div class='col-md-2'>{{item?.reservationDays}}</div>
               </div>
 
@@ -103,7 +104,7 @@
 
       <a class="btn btn-default" [routerLink]="['/edit-item/'+item.$key]"><i class='glyphicon glyphicon-edit'></i> Edit</a>
 
-      <a (click)="deleteDialog()"  class="btn btn-danger">  <i class='glyphicon glyphicon-trash'></i> Delete</a>
+      <a (click)="deleteDialog()"  class="btn btn-danger pull-right">  <i class='glyphicon glyphicon-trash'></i> Delete</a>
 
       <span *ngIf="item.status=='Notify'">
         <a class='btn btn-warning' (click)="sendEmail(item.loan?.userEmail, item.loan?.loanerName, item.loan?.formattedShortDate)" style='width:150px'>

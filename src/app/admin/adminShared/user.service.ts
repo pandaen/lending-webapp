@@ -32,6 +32,7 @@ export class UserService implements CanActivate {
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
   entities: FirebaseListObservable<any[]>;
+  joinedEntities: FirebaseListObservable<any[]>;
   reservations: FirebaseListObservable<any[]>;
   users: FirebaseListObservable<any[]>;
   itemSubject: Subject<any>;
@@ -94,7 +95,7 @@ export class UserService implements CanActivate {
       return true;
     }
 
-    this.logout();
+
     this._router.navigate(['/login']);
     //  console.log('Redirected by: verifyLogin()');
     return false;
@@ -142,6 +143,7 @@ export class UserService implements CanActivate {
     });
   }
 
+
   writeDbUser(exist) {
     if (!exist) {
       console.log('User added in db');
@@ -156,7 +158,7 @@ export class UserService implements CanActivate {
         fullname: user.displayName || '',
       });
     } else {
-     return;
+      return;
     }
   }
 
@@ -194,7 +196,7 @@ export class UserService implements CanActivate {
       //     console.log('Logged out...');
     }).catch(
       (err) => {
-        alert(`${err.message} Unable to logout. Try again!`);
+        alert(`${err.message} Logout. failed!`);
       });
   }
 
@@ -210,7 +212,6 @@ export class UserService implements CanActivate {
       });
     });
   }
-
 
 
   /*
@@ -249,20 +250,31 @@ export class UserService implements CanActivate {
     return this.entities;
   }
 
+  /*
+   getJoinedEntities() {
+   this.joinedEntities = this.db.list('/usersEntityMap', {
+   query: {
+   orderByChild: 'userUid',
+   equalTo: this.authState.auth.uid
+   }
+   });
+   return this.joinedEntities;
+   }
+   */
+
   getJoinedentities() {
-    let authUid= this.authState.auth.uid;
+    let authUid = this.authState.auth.uid;
     let joinedEntities: IItem[] = [];
     return new Promise((resolve, reject) => {
         let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();
         userQuery.once('value').then(function (snapshot) {
           let total = snapshot.numChildren();
           snapshot.forEach(function (childSnapshot) {
-             let match = childSnapshot.val().userUid === authUid;
+            let match = childSnapshot.val().userUid === authUid;
             let isEntityAdmin = childSnapshot.val().adminAccess === true;
             let admin = isEntityAdmin === true ? 'Yes' : 'No';
             let entityName = childSnapshot.val().entityName;
             if (match && isEntityAdmin) {
-              console.log('user is entity admin on: ' + entityName + ' and is admin: ' + admin);
               joinedEntities.push(childSnapshot.val());
               resolve(joinedEntities);
             }
@@ -313,33 +325,35 @@ export class UserService implements CanActivate {
   }
 
 
-  addItem(item) {
+  addItem(item, photo) {
     this.af.database.list('/items').push(item).then(x => {
-      this.uploadImage(item.photoURL, x.key);
+      console.log('-1');
+      this.uploadImage(photo, x.key);
     });
   }
 
 
   uploadImage(photoURI, key) {
-   // console.log(JSON.stringify(photoURI).split(',')[3].split('"')[0]);
-    if (photoURI != null) {
+    if (photoURI !== undefined) {
       this.getCurrentUserEntity().then(user => {
         this.currentUserEntity = user['entity'];
       });  // ge
-
-
-      firebase.storage().ref('images/' + this.currentUserEntity + '/' + key)
-        .putString(JSON.stringify(photoURI).split(',')[3].split('"')[0], 'base64').then(function (snapshot) {
+      let photo = (JSON.stringify(photoURI).split(',')[1].split('"')[0]);
+      firebase.storage().ref('images/' + this.currentUserEntity + '/' + key).putString(photo, 'base64').then(function (snapshot) {
         this.af.database.list('/items').update(key, {
           photoURL: snapshot.downloadURL
         });
         console.log('Uploaded', snapshot.totalBytes, 'bytes.');
       }.bind(this));
+
     }
+
   }
 
 
   deleteItem(id) {
+    firebase.storage().ref('images/' + this.currentUserEntity + '/' + id).delete().catch(() => {
+    });
     return this.items.remove(id);
   }
 
@@ -351,6 +365,7 @@ export class UserService implements CanActivate {
   updateUser(id, user) {
     return this.users.update(id, user);
   }
+
 
   updateItem(id, item, dueDate) {
     // Update Date

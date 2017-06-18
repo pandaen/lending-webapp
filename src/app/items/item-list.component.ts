@@ -4,9 +4,7 @@ import {AngularFire} from 'angularfire2';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {Popup} from 'ng2-opd-popup';
 import {CropperSettings} from 'ng2-img-cropper';
-import {IUser} from '../users/user';
-import {current} from 'codelyzer/util/syntaxKind';
-// import {CropperSettings} from 'ng2-img-cropper';
+import {Router} from '@angular/router';
 @Component({
   moduleId: module.id, // can now use realtive path (omit app/pages..)
   templateUrl: 'item-list.component.html',
@@ -30,7 +28,7 @@ export class ItemListComponent implements OnInit {
   data: any;
   cropperSettings: CropperSettings;
   userEntityName;
-
+//
 
   // add
   name;
@@ -45,14 +43,17 @@ export class ItemListComponent implements OnInit {
   selectDefault;
   selectTempEntityName;
 
+  // subscriptions
+  sub1;
+  sub2;
   // join interface
   adminAccess;
 
-  constructor(public af: AngularFire, private _uService: UserService, public flashMessage: FlashMessagesService) {
-
+  constructor(public af: AngularFire, private _uService: UserService, public flashMessage: FlashMessagesService, private _router: Router) {
+//
 
     // Subscribe for item changes
-    this._uService.items.subscribe(items => {
+    this.sub1 = this._uService.items.subscribe(items => {
       this.items = items;
     });
 
@@ -65,6 +66,7 @@ export class ItemListComponent implements OnInit {
     this.cropperSettings.canvasWidth = 350;
     this.cropperSettings.canvasHeight = 280;
     this.data = {};
+
   }  // constructor
 
   ngOnInit() {
@@ -78,7 +80,7 @@ export class ItemListComponent implements OnInit {
 
 
     // Get EntitiesNames for dropdown
-    this._uService.getAdminEntities().subscribe(entities => {
+    this.sub2 = this._uService.getAdminEntities().subscribe(entities => {
       this.entities = entities;
     });
 
@@ -133,18 +135,20 @@ export class ItemListComponent implements OnInit {
     }
   }
 
+// add dropdown click
   onClickEntityPopup() {
     this.selectDefault = this.selectedItemAdd.$key;
-    this.selectTempEntityName = this.selectedItemAdd.$key;
-console.log('selected value is: ' + this.selectDefault);
+    this.selectTempEntityName = this.selectedItemAdd.name;
+    console.log('selected value is: ' + this.selectTempEntityName);
 
   }
 
 
   addDialog() {
+
     this.popup1.options = {
       header: 'Add item',
-      color: '#green', // red, blue....
+      color: 'green', // red, blue....
       widthProsentage: 40, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: true, // You can hide this in case you want to use custom buttons
@@ -158,20 +162,24 @@ console.log('selected value is: ' + this.selectDefault);
     // set default entry for popup form
     this.selectDefault = this.currentUser.entity;
     this.selectTempEntityName = this.userEntityName;
+    console.log('default entity is: ' + this.selectTempEntityName);
     this.popup1.show(this.popup1.options);
+
   }
 
   onAddSubmit() {
-     let item = {
-     description: this.description,
-     entity: this.selectDefault,
-     entityName: this.selectTempEntityName,
-     name: this.name,
-     reservationDays: this.reservationDays,
-     status: 'Available',
-     photoURL: this.data
-     };
-     this._uService.addItem(item);
+    let item = {
+      description: this.description || 'No description…yet',
+      entity: this.selectDefault,
+      entityName: this.selectTempEntityName,
+      name: this.name || '',
+      reservationDays: this.reservationDays || '',
+      status: 'Available',
+    };
+    console.log('data.image is:' + this.data.image);
+    console.log('photoURL is: ' + JSON.stringify(this.data, null, ''));
+    this._uService.addItem(item, this.data.image);
+    this.popup1.hide();
   } // onSubmitt
 
 
@@ -180,8 +188,24 @@ console.log('selected value is: ' + this.selectDefault);
     this.changingImage = !this.changingImage;
   }
 
+  redirect(param) {
+
+    if (param === 'users') {
+      this.unSubscribeAll();
+      this._router.navigate(['/users']);
+    } else {
+      return;
+    }
+  }
+
+  unSubscribeAll() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+  }
+
 
   logout() {
+    this.unSubscribeAll();
     this._uService.logout();
     this.flashMessage.show('Signed out', {cssClass: 'alert-success', timeout: 3000});
   }
