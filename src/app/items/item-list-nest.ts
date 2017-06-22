@@ -73,6 +73,11 @@ export class ItemListNestComponent implements OnChanges {
           return items.status.toLocaleLowerCase() === 'out';
         });
         break;
+        case 'reserved':
+        this.visibleItems = this.items.filter(items => {
+          return items.reserved != null;
+        });
+        break;
       case 'notify':
         this.visibleItems = this.items.filter(items => {
           return items.status.toLocaleLowerCase() === 'notify';

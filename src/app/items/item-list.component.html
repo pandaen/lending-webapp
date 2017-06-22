@@ -148,6 +148,7 @@
             <option *ngFor="let entity of entities " [ngValue]="entity"
                     [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
             </option>
+            <option>demo</option>
           </optgroup>
           <optgroup label="Promoted entities">
             <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"
@@ -183,6 +184,7 @@
 
     <button class="buttonFilter btn3" [class.active]="filterBy==='out'" (click)="filterBy='out'">Out now</button>
 
+    <button class="buttonFilter btn3" [class.active]="filterBy==='reserved'" (click)="filterBy='reserved'">Reserved</button>
 
     <button type="button" class="buttonFilter btn4" [class.active]="filterBy==='notify'" (click)="filterBy='notify'">
       Overdue

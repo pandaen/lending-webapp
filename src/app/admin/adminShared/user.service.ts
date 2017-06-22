@@ -71,6 +71,7 @@ export class UserService implements CanActivate {
       }
     });
 
+    /*
     // Get dropdown users
     this.userSubject = new Subject();
     this.users = db.list('/users', {
@@ -79,9 +80,19 @@ export class UserService implements CanActivate {
         equalTo: this.userSubject
       }
     });
+    */
+
+    // Get dropdown users
+    this.userSubject = new Subject();
+    this.users = db.list('/usersEntityMap', {
+      query: {
+        orderByChild: 'entity',
+        equalTo: this.userSubject
+      }
+    });
 
 
-  }
+  } // constructor
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
