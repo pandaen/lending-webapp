@@ -79,18 +79,35 @@ export class ItemListComponent implements OnInit {
     this.userImage = this._uService.userImage;
 
 
-    // Get EntitiesNames for dropdown
+
+
     this.sub2 = this._uService.getAdminEntities().subscribe(entities => {
       this.entities = entities;
     });
 
-    // Get JoinedEntitiesNames for dropdown
-    this._uService.getJoinedentities().then(joinedEntities => {
-      this.joinedEntities = joinedEntities;
+
+
+
+
+
+    // Get JoinedEntitiesNames for table
+    this._uService.getJoinedEntities().subscribe(jEntities => {
+      this.joinedEntities = jEntities;
+
+      console.log('joinedentities is: ' + JSON.stringify(this.joinedEntities,null,""));
+
+    //  console.log('joinedentities.lenght is: ' + this.joinedEntities.length);
+    //  console.log('joinedentities is: ' + this.joinedEntities);
+    //  console.log('jEntities is: ' + jEntities);
+
     });
+    //  this.joinedEntities = this._uService.joinedEntities;
 
 
-    // Get currentUser Entity (ID) for set default selectOption return a promise
+
+
+
+    // Get currentUser Entity (ID) for set default selectOption return a promise, used by getAdminitem
     this._uService.getCurrentUserEntity().then(user => {
       this.currentUser = user;
       this.userEntityName = this.currentUser.entityName;
@@ -140,7 +157,6 @@ export class ItemListComponent implements OnInit {
     this.selectDefault = this.selectedItemAdd.$key;
     this.selectTempEntityName = this.selectedItemAdd.name;
     console.log('selected value is: ' + this.selectTempEntityName);
-
   }
 
 
@@ -189,18 +205,19 @@ export class ItemListComponent implements OnInit {
   }
 
   redirect(param) {
-
+    this.unSubscribeAll();
     if (param === 'users') {
-      this.unSubscribeAll();
-      this._router.navigate(['/users']);
+      this._router.navigate([param]);  // users
+    } else if (param === 'entities') {
+      this._router.navigate([param]); // 'entities'
     } else {
-      return;
+      return; // on currentPage do noting
     }
   }
 
   unSubscribeAll() {
     this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
+   // this.sub2.unsubscribe();
   }
 
 

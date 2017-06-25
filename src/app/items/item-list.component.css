@@ -103,8 +103,7 @@ margin-left: 20px;
   color: #422744;
 }
 
-.selectbox {
--webkit-appearance: menulist-button;
+.currentEntityText {
 height: 40px;
   color: #422744;
   margin-left: 10px;
@@ -112,12 +111,7 @@ height: 40px;
   font-family: 'Montserrat', sans-serif;
   display: inline;
   width: 230px;
-  transition: width 1s;
   font-weight: bold;
-}
-.selectbox:hover {
-  width: 300px;
-
 }
 
 .searchbox{

@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 // ------
 
 
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {
@@ -21,7 +21,7 @@ import {EditItemComponent} from '../../items/edit-item/edit-item.component';
 
 
 @Injectable()
-export class UserService implements CanActivate {
+export class UserService implements CanActivate , OnInit {
   loggedInUserDisplayName: string;
   userImage: string;// auth image
   currentUserEntity: any;
@@ -32,7 +32,7 @@ export class UserService implements CanActivate {
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
   entities: FirebaseListObservable<any[]>;
-  joinedEntities: FirebaseListObservable<any[]>;
+ // joinedEntities: FirebaseListObservable<any[]>;
   reservations: FirebaseListObservable<any[]>;
   users: FirebaseListObservable<any[]>;
   itemSubject: Subject<any>;
@@ -62,7 +62,8 @@ export class UserService implements CanActivate {
     this.usersEntityMap = af.database.list('/usersEntityMap');
 
 
-    // Get dropdown items
+
+    // getAdmin items with subject
     this.entitySubject = new Subject();
     this.items = db.list('/items', {
       query: {
@@ -71,16 +72,18 @@ export class UserService implements CanActivate {
       }
     });
 
+
+
     /*
-    // Get dropdown users
-    this.userSubject = new Subject();
-    this.users = db.list('/users', {
-      query: {
-        orderByChild: 'entity',
-        equalTo: this.userSubject
-      }
-    });
-    */
+     // Get dropdown users
+     this.userSubject = new Subject();
+     this.users = db.list('/users', {
+     query: {
+     orderByChild: 'entity',
+     equalTo: this.userSubject
+     }
+     });
+     */
 
     // Get dropdown users
     this.userSubject = new Subject();
@@ -94,7 +97,15 @@ export class UserService implements CanActivate {
 
   } // constructor
 
+  ngOnInit () {
 
+  // Set currentUserEntity , used by getAdminItems
+  let userUid = this.authState.auth.uid;
+  let fullUserRef = firebase.database().ref('/users/' + userUid);
+  fullUserRef.once('value', (snapshot) => {
+    this.currentUserEntity = snapshot.val().entity;
+  });
+}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const url: string = state.url;
     return this.verifyLogin(url);
@@ -112,9 +123,9 @@ export class UserService implements CanActivate {
     return false;
   }
 
-  verifyUser(isAdmin) {
+  verifyUser(exist) {
     // if (this.authState && isAdmin) {
-    if (this.authState && isAdmin) {
+    if (this.authState && exist) {
       //  alert(`Welcome ${this.authState.auth.email}`);
       this.loggedInUserDisplayName = this.authState.auth.displayName;
       this.userImage = this.authState.auth.photoURL;
@@ -134,7 +145,7 @@ export class UserService implements CanActivate {
     }).then((success) => {
       //    console.log('login ok..');
       this.existInDb();
-      this.isAdmin();
+      //   this.isAdmin();
       //  this.verifyUser();
     }).catch(
       (err) => {
@@ -148,40 +159,8 @@ export class UserService implements CanActivate {
     let fullUserRef = firebase.database().ref('/users/' + userUid);
     fullUserRef.once('value', (snapshot) => {
       let exist = snapshot.exists();
-      this.writeDbUser(exist);
-    }, function (error) {
-      console.error(error);
-    });
-  }
-
-
-  writeDbUser(exist) {
-    if (!exist) {
-      console.log('User added in db');
-      let user = this.authState.auth;
-      this.usersRef.child(user.uid).set({
-        uid: user.uid,
-        entity: 'No entity, join an entity to get started',
-        entityName: 'No entity, join an entity to get started',
-        email: user.email || '',
-        isAdmin: 'false',
-        photoURL: user.photoURL || '',
-        fullname: user.displayName || '',
-      });
-    } else {
-      return;
-    }
-  }
-
-
-  isAdmin() {
-    let userUid = this.authState.auth.uid;
-    let fullUserRef = firebase.database().ref('/users/' + userUid);
-    fullUserRef.once('value', (snapshot) => {
-      let isAdmin = snapshot.child('isAdmin').val();
-      let isAdminB = (isAdmin === 'true');
-      //    console.log('in method isAdmin User isAdminB ' + isAdminB);
-      this.verifyUser(isAdminB);
+      this.verifyUser(exist);
+      // this.writeDbUser(exist);
     }, function (error) {
       console.error(error);
     });
@@ -189,6 +168,37 @@ export class UserService implements CanActivate {
 
 
   /*
+   writeDbUser(exist) {
+   if (!exist) {
+   console.log('User added in db');
+   let user = this.authState.auth;
+   this.usersRef.child(user.uid).set({
+   uid: user.uid,
+   entity: 'No entity, join an entity to get started',
+   entityName: 'No entity, join an entity to get started',
+   email: user.email || '',
+   isAdmin: 'false',
+   photoURL: user.photoURL || '',
+   fullname: user.displayName || '',
+   });
+   } else {
+   return;
+   }
+   }
+
+   isAdmin() {
+   let userUid = this.authState.auth.uid;
+   let fullUserRef = firebase.database().ref('/users/' + userUid);
+   fullUserRef.once('value', (snapshot) => {
+   let isAdmin = snapshot.child('isAdmin').val();
+   let isAdminB = (isAdmin === 'true');
+   //    console.log('in method isAdmin User isAdminB ' + isAdminB);
+   this.verifyUser(isAdminB);
+   }, function (error) {
+   console.error(error);
+   });
+   }
+
    isGranted() {
    let userUid = this.authState.auth.uid;
    let fullUserRef = firebase.database().ref('/myDemoUsers/' + userUid);
@@ -225,19 +235,18 @@ export class UserService implements CanActivate {
   }
 
 
-  /*
+/*
    // Get your items that lies in your created entityes
    getAdminItems() {
-   this.entitySubject = new Subject();
+   // this.entitySubject = new Subject();
    this.items = this.db.list('/items', {
    query: {
    orderByChild: 'entity',
-   equalTo: this.entitySubject
+   equalTo:  this.currentUserEntity
    }
    });
-   //  return this.items;
    }
-
+*/
    getYourUsers() {
    this.userSubject = new Subject();
    this.items = this.db.list('/users', {
@@ -248,7 +257,7 @@ export class UserService implements CanActivate {
    });
    //  return this.items;
    }
-   */
+
 
 
   getAdminEntities() {
@@ -261,41 +270,52 @@ export class UserService implements CanActivate {
     return this.entities;
   }
 
-  /*
-   getJoinedEntities() {
-   this.joinedEntities = this.db.list('/usersEntityMap', {
-   query: {
-   orderByChild: 'userUid',
-   equalTo: this.authState.auth.uid
-   }
-   });
-   return this.joinedEntities;
-   }
-   */
 
-  getJoinedentities() {
-    let authUid = this.authState.auth.uid;
-    let joinedEntities: IItem[] = [];
-    return new Promise((resolve, reject) => {
-        let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();
-        userQuery.once('value').then(function (snapshot) {
-          let total = snapshot.numChildren();
-          snapshot.forEach(function (childSnapshot) {
-            let match = childSnapshot.val().userUid === authUid;
-            let isEntityAdmin = childSnapshot.val().adminAccess === true;
-            let admin = isEntityAdmin === true ? 'Yes' : 'No';
-            let entityName = childSnapshot.val().entityName;
-            if (match && isEntityAdmin) {
-              joinedEntities.push(childSnapshot.val());
-              resolve(joinedEntities);
-            }
-          });
-        });
+  getJoinedEntities() {
+    let uid = this.authState.auth.uid;
+    let joinedEntities: any = [];
+    return Observable.create((observer) => {
+    let userQuery = firebase.database().ref('/usersEntityMap').orderByChild("userUid").equalTo(uid);
+    userQuery.on('child_added', function(snapshot) {
+      let isEntityAdmin = snapshot.val().adminAccess === true;
+      if (isEntityAdmin) {
+        joinedEntities.push(snapshot.val());
       }
-    );
+   //   console.log('joinedentities on uservice is: ' + joinedEntities);
+      observer.next(joinedEntities);
+    });
+    });
   }
 
 
+
+
+
+
+  /*
+    getJoinedentities() {
+      let authUid = this.authState.auth.uid;
+      let joinedEntities: IItem[] = [];
+      return new Promise((resolve, reject) => {
+          let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();
+          userQuery.once('value').then(function (snapshot) {
+            let total = snapshot.numChildren();
+            snapshot.forEach(function (childSnapshot) {
+              let match = childSnapshot.val().userUid === authUid;
+              let isEntityAdmin = childSnapshot.val().adminAccess === true;
+              let admin = isEntityAdmin === true ? 'Yes' : 'No';
+              let entityName = childSnapshot.val().entityName;
+              if (match && isEntityAdmin) {
+                joinedEntities.push(childSnapshot.val());
+                resolve(joinedEntities);
+              }
+            });
+          });
+        });
+    }
+  */
+
+  // get all items
   getItems() {
     this.items = this.af.database.list('/items') as FirebaseListObservable<IItem[]>;
     return this.items;
