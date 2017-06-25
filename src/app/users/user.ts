@@ -6,4 +6,5 @@ export interface IUser {
   photoURL?: string;
   entityName?: string;
   entity?: string;
+  adminAccess?: string;
 }

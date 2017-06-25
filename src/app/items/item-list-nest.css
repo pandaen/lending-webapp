@@ -3,7 +3,7 @@
 }
 
 
-.table tr:not(:first-child):hover  {
+.table tr:hover  {
   background-color:#D9D9D9 ;
   color: white;
   cursor: pointer;

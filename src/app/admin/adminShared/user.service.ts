@@ -85,7 +85,7 @@ export class UserService implements CanActivate , OnInit {
      });
      */
 
-    // Get dropdown users
+    // Get  users for table
     this.userSubject = new Subject();
     this.users = db.list('/usersEntityMap', {
       query: {
@@ -259,7 +259,7 @@ export class UserService implements CanActivate , OnInit {
    }
 
 
-
+// Get your entities
   getAdminEntities() {
     this.entities = this.db.list('/entities', {
       query: {
@@ -343,7 +343,7 @@ export class UserService implements CanActivate , OnInit {
     return this.reservations;
   }
 
-
+// Get all users
   getUsers() {
     this.users = this.af.database.list('/users') as FirebaseListObservable<IItem[]>;
     return this.users;
