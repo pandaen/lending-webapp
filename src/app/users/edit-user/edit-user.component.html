@@ -1,0 +1,38 @@
+<div class='panel panel-primary' xmlns:date="http://www.w3.org/1999/xhtml">
+  <div class='panel-heading' style='font-size:large'>
+    {{pageTitle + ': ' + fullname}}
+  </div>
+
+  <form (submit)="onEditSubmit()">
+    <div class="form-group">
+      <label>User name</label>
+      <input class="form-control" type="text" [(ngModel)]="fullname" name="fullname" readonly>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input class="form-control" type="text" [(ngModel)]="email" name="email" >
+    </div>
+
+    <div class="form-group">
+      <label>Entity</label>
+      <input class="form-control" type="text" [(ngModel)]="entityName" name="entityName" required>
+    </div>
+
+    <div class="form-group">
+      <label>Admin</label>
+      <select class="form-control" type="text" [(ngModel)]="isAdmin" name="isAdmin" required>
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+      </select>
+    </div>
+
+    <input type="submit" value="update" class="btn btn-success">
+  </form>
+
+  <div class='panel-footer'>
+    <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+      <i class='glyphicon glyphicon-chevron-left'></i> Back
+    </a>
+
+  </div>
+</div>

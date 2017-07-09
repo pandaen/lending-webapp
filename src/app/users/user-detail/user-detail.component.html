@@ -1,0 +1,56 @@
+
+<popup #popup1 (confirmClick)="onDeleteClick()">
+  Are you sure you want to delete {{user.fullname}} ?
+</popup>
+
+
+<div class='panel panel-primary' *ngIf='user'>
+  <div class='panel-heading' style='font-size:large'>
+    {{pageTitle + ': ' + user.fullname}}
+  </div>
+
+  <div class='panel-body'>
+    <div class='row'>
+      <div class='col-md-6'>
+
+        <div class='row'>
+          <div class='col-md-3'>Email:</div>
+          <div class='col-md-6'>{{user.email}}</div>
+        </div>
+
+        <div class='row'>
+          <div class='col-md-3'>Entity:</div>
+          <div class='col-md-6'>{{user.entityName}}</div>
+        </div>
+
+        <div class='row'>
+          <div class='col-md-3'>Role:</div>
+          <div [ngSwitch]="user?.isAdmin">
+            <div *ngSwitchCase="'true'" class='col-md-6'>Admin</div>
+            <div *ngSwitchCase="'false'" class='col-md-6'>Normal</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class='col-md-6'>
+        <img class='center-block img-thumbnail'
+             [style.width.px]='200'
+             [style.margin.px]='2'
+             src='{{user?.photoURL}}'
+             [title]='user?.name'>
+      </div>
+
+    </div>
+
+    <div class='panel-footer'>
+      <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+        <i class='glyphicon glyphicon-chevron-left'></i> Back
+      </a>
+
+      <a class="btn btn-default" [routerLink]="['/edit-user/'+user.$key]"><i class='glyphicon glyphicon-edit'></i>Edit</a>
+
+      <a (click)="deleteDialog()" class="btn btn-danger"> <i class='glyphicon glyphicon-trash'></i> Delete</a>
+
+    </div>
+  </div>

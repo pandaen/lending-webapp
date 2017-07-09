@@ -1,0 +1,73 @@
+<div class="panel panel-primary">
+  <div class='panel-heading'>
+
+    <div class="row">
+
+
+      <img src="./assets/icons/logo.svg" class="bannerLogo">
+      <div class="bannerTitle"><b>Borrowing</b></div>
+      <div class="bannerText"> - Lending and borrowing made easy!</div>
+
+      <div class="col-sm-5" >
+        <ul>
+          <li *ngIf="tabs" class="one" (click)="redirect('')"><a> <img src="./assets/icons/items.svg" class="grey-button-icon"> Items</a></li>
+          <li *ngIf="tabs" class="two"><a><img src="./assets/icons/users.svg" class="grey-button-icon"> Users</a></li>
+          <li *ngIf="tabs" class="three" (click)="redirect('entities')"><a><img src="./assets/icons/entities.svg" class="grey-button-icon"> Entities</a></li>
+          <hr/>
+        </ul>
+      </div>
+
+
+      <div class="logindetail">
+        <div class="loginTextGroup">
+          <div class="loginName">
+            {{theUser}}
+          </div>
+          <a class="loginText" (click)="logout()"> Log out</a>
+        </div>
+        <img class="avatar" [src]="userImage">
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-2 currentEntity">
+        <label>Current entity:</label>
+        <div class="currentEntityText">
+          {{userEntityName}}
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+
+      <div class='col-md-2 ' style="float: right">
+        <div class="input-group searchbox">
+          <span class="input-group-addon search-icon " id="basic-addon1"></span>
+          <input type="text" class="form-control searchbox" [(ngModel)]='listFilter' placeholder="Search for users"
+                 aria-describedby="basic-addon1">
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <div class='panel-body'>
+
+
+
+      <button class="buttonFilter" [class.active]="filterBy==='all'" (click)="filterBy='all'">All users</button>
+      <button class="buttonFilter" [class.active]="filterBy==='users'" (click)="filterBy='users'">Users</button>
+      <button class="buttonFilter" [class.active]="filterBy==='admin'" (click)="filterBy='admin'">Admins </button>
+
+  </div>
+
+
+
+  <div style="margin-bottom: 15px"></div>
+    <app-user-list-nest [filterBy]="filterBy" [users]="users" [listFilter]="listFilter"></app-user-list-nest>
+
+</div>
