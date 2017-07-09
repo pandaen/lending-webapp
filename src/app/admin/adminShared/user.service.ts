@@ -47,6 +47,7 @@ export class UserService implements CanActivate , OnInit {
 
   usersEntityMap: FirebaseListObservable<any>;
   item: FirebaseObjectObservable<any>;
+  currentLibrary: FirebaseObjectObservable<any>;
   entitySubject: Subject<any>;
   userSubject: Subject<any>;
 
@@ -60,7 +61,6 @@ export class UserService implements CanActivate , OnInit {
     this.itemsRef = firebase.database().ref('/items');
     this.entities = af.database.list('/entities');
     this.usersEntityMap = af.database.list('/usersEntityMap');
-
 
 
     // getAdmin items with subject
@@ -221,6 +221,8 @@ export class UserService implements CanActivate , OnInit {
       });
   }
 
+
+  // OUTDATED WITH PROMISE
   getCurrentUserEntity() {
     return new Promise((resolve, reject) => {
       let userUid = this.authState.auth.uid;
@@ -233,6 +235,11 @@ export class UserService implements CanActivate , OnInit {
       });
     });
   }
+
+  getCurrentUserLibrary () {
+    return this.currentLibrary = this.db.object('/users/' + this.authState.auth.uid +'/entityName' ,{preserveSnapshot: true});
+  }
+
 
 
 /*
@@ -486,6 +493,8 @@ export class UserService implements CanActivate , OnInit {
     });
   }
 
+
+  // OPPSOLID???
   nrOfUsers() {
     return new Promise((resolve, reject) => {
       let userQuery = firebase.database().ref('/users').orderByKey();
@@ -498,4 +507,15 @@ export class UserService implements CanActivate , OnInit {
       });
     });
   }
+
+
+  setEntity(id,name) {
+    let userUid = this.authState.auth.uid;
+
+    firebase.database().ref('/users/').child(userUid).update({'entity': id, 'entityName': name});
+  }
+
+
+
+
 }// class
