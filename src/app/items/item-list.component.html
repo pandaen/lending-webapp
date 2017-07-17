@@ -14,12 +14,12 @@
 
       <div class="col-sm-7">
         <select class="form-control" [(ngModel)]="selectedItemAdd" name="selectedItemAdd"  (ngModelChange)="onClickEntityPopup($event)">
-          <optgroup label="Your entities">
+          <optgroup label="My library">
             <option *ngFor="let entity of entities " [ngValue]="entity"
                     [attr.selected]="userEntityName==entity?.name ? true : null"> {{entity?.name}}
             </option>
           </optgroup>
-          <optgroup label="Promoted entities">
+          <optgroup label="Granted library">
             <!--
             <option *ngFor="let jEntity of joinedEntities " [ngValue]="jEntity"> {{jEntity?.entityName}}</option>
             -->
@@ -88,8 +88,8 @@
 
 
       <img src="./assets/icons/logo.svg" class="bannerLogo">
-      <div class="bannerTitle"><b>Borrowing</b></div>
-      <div class="bannerText"> - Lending and borrowing made easy!</div>
+      <div class="bannerTitle"><b>Pigify</b></div>
+      <div class="bannerText"> - Your Library of Things!</div>
 
       <div class="col-sm-5" >
         <ul>

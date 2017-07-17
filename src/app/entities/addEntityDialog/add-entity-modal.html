@@ -1,0 +1,110 @@
+<div [@dialog] *ngIf="visible" class="dialog">
+
+  <div class='panel panel-primary'>
+
+    <div class='panel-heading' style='font-size:large'>
+      Add new library
+    </div>
+
+
+    <div class='panel-body'>
+
+
+      <div style="float: left; width: 43%;">
+
+        <div class="col-sm-8">
+          <p class="form-control-static">Library name</p>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="libraryName" [(ngModel)]="libraryName" id="libraryName"
+                 placeholder="Library name">
+          <br>
+        </div>
+
+        <div class="col-sm-8">
+          <p class="form-control-static">Location</p>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="entityLocation" [(ngModel)]="entityLocation" id="entityLocation"
+                 placeholder="Location">
+          <br>
+        </div>
+
+        <div class="col-sm-5">
+          <p class="form-control-static">Room</p>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="entityRoom" [(ngModel)]="entityRoom" id="entityRoom"
+                 placeholder="Room">
+          <br>
+        </div>
+
+
+        <div class="col-sm-5">
+          <p class="form-control-static">Opening days</p>
+        </div>
+        <div class="col-sm-8">
+          <ss-multiselect-dropdown [options]="myOptions" [(ngModel)]="entityDays" [settings]="selectSettings"
+                                   [texts]="texts"></ss-multiselect-dropdown>
+        </div>
+
+
+        <div class="col-sm-10">
+          <p class="form-control-static">Opening time (from/to)</p>
+        </div>
+        <div class="col-sm-6">
+          <input class="form-control" type="time" name="fromHours" [(ngModel)]='fromHours' id="fromHours"
+                 placeholder="Open from">
+          <br>
+        </div>
+
+        <div class="col-sm-6">
+          <input class="form-control" type="time" name="toHours" [(ngModel)]='toHours' id="toHours"
+                 placeholder="Open to">
+          <br>
+        </div>
+
+
+      </div>
+      <div style="float: left; width: 33%;">
+
+        <div class="col-sm-12">
+          <p class="form-control-static">Standard number of loan days</p>
+        </div>
+        <div class="col-xs-5">
+          <input class="form-control" type="number" name="entityDays" [(ngModel)]='resDays' value="3"
+                 id="reservationDays">
+          <br>
+        </div>
+
+
+        <div class="col-sm-12">
+          <p class="form-control-static">Terms and conditions</p>
+        </div>
+        <div class="col-xs-5">
+          <textarea [(ngModel)]='termsAndConditions' name="termsAndConditions" ide="termsAndConditions'" rows="10" cols="42">
+</textarea>
+          <br>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class='panel-footer'>
+
+      <a class='btn btn-danger' (click)="close()" style='width:80px'>
+        <i class='glyphicon glyphicon-chevron-left'></i> Cancel
+      </a>
+
+      <a (click)="deleteDialog()"  class="btn btn-success pull-right">  <i class='glyphicon glyphicon-plus'></i> Save</a>
+
+
+
+    </div>
+  </div>
+
+
+  <button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X</button>
+</div>
+<div *ngIf="visible" class="overlay" (click)="close()"></div>

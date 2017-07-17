@@ -5,8 +5,8 @@
 
 
       <img src="./assets/icons/logo.svg" class="bannerLogo">
-      <div class="bannerTitle"><b>Borrowing</b></div>
-      <div class="bannerText"> - Lending and borrowing made easy!</div>
+      <div class="bannerTitle"><b>Pigify</b></div>
+      <div class="bannerText"> - Your Library of Things!</div>
 
       <div class="col-sm-5" >
         <ul>
@@ -59,7 +59,7 @@
 
 
     <div style="float: right">
-      <button type="button" class="buttonFilter" (click)='createEntity()'><i class='glyphicon glyphicon-plus'></i> Create new entity
+      <button type="button" class="buttonFilter" (click)="showDialog = !showDialog"><i class='glyphicon glyphicon-plus'></i> Create new library
       </button>
     </div>
   </div>
@@ -67,7 +67,11 @@
 
 
 
-
   <div style="margin-bottom: 15px"></div>
   <app-entity-list-nest  [entities]="entities" [joinedEntities]="joinedEntities" [userEntityName]="userEntityName" [listFilter]="listFilter"></app-entity-list-nest>
   </div>
+
+
+<app-addentity-dialog [(visible)]="showDialog">
+</app-addentity-dialog>
+

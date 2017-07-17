@@ -20,6 +20,8 @@ import {PopupModule} from 'ng2-opd-popup';
 import {EntityListComponent} from '../entities/entity-list/entity-list.component';
 import {EntityListNestComponent} from '../entities/entity-list-nest/entity-list-nest.component';
 import {EntityFilterPipe} from '../entities/entity-filter.pipe';
+import {AddEntityDialogComponent} from '../entities/addEntityDialog/add-entity-modal';
+import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 
 /*
  const AdminRoutes: Routes = [
@@ -63,6 +65,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    AddEntityDialogComponent,
     ItemListComponent,
     ItemDetailComponent,
     LoginComponent,
@@ -82,6 +85,7 @@ const routes: Routes = [
   ],
   imports: [
     SharedModule,
+    MultiselectDropdownModule,
     PopupModule.forRoot(),
 
     /*  RouterModule.forChild([

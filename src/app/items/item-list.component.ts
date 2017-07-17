@@ -30,7 +30,7 @@ export class ItemListComponent implements OnInit {
   userEntityName;
 //
 
-  // add
+  // add item
   name;
   description;
   entity;

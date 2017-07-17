@@ -277,7 +277,7 @@ export class UserService implements CanActivate , OnInit {
     return this.entities;
   }
 
-
+// get granted entities
   getJoinedEntities() {
     let uid = this.authState.auth.uid;
     let joinedEntities: any = [];

@@ -10,6 +10,9 @@ import {NavbarComponent} from './component/navbar/navbar.component';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 import {NoAdminComponent} from './error/no-admin/no-admin.component';
 
+// Modal dialog
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 //  Firebase Settings
@@ -29,6 +32,7 @@ const firebaseAuthConfig = {
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FlashMessagesModule,
     ItemModule, // must be before approtuing
     AppRoutingModule,
@@ -39,7 +43,9 @@ const firebaseAuthConfig = {
     NavbarComponent,
     NoAdminComponent,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
+  // Modal window is declared here, because its not explicitly used (in a template)
+ // entryComponents: [ AddLibraryModal ]
 })
-export class AppModule {
-}
+export class AppModule { }
