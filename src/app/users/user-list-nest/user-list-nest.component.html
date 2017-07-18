@@ -16,9 +16,7 @@
       <td width=10>
       <img  class="avatar" [src]='user.photoURL'
                [title]='user.fullname'> </td>
-      <div style="margin-top: 10% ">
       <td>{{ user?.fullname }}</td>
-      </div>
       <td>{{ user?.email}}</td>
       <td>
           <span *ngIf="user?.adminAccess==true ">

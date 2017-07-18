@@ -16,7 +16,7 @@
           <p class="form-control-static">Library name</p>
         </div>
         <div class="col-sm-8">
-          <input type="text" class="form-control" name="libraryName" [(ngModel)]="libraryName" id="libraryName"
+          <input type="text" class="form-control" name="entityName" [(ngModel)]="entityName" id="entityName"
                  placeholder="Library name">
           <br>
         </div>
@@ -97,7 +97,7 @@
         <i class='glyphicon glyphicon-chevron-left'></i> Cancel
       </a>
 
-      <a (click)="deleteDialog()"  class="btn btn-success pull-right">  <i class='glyphicon glyphicon-plus'></i> Save</a>
+      <a (click)="onAddSubmit()"  class="btn btn-success pull-right">  <i class='glyphicon glyphicon-plus'></i> Save</a>
 
 
 

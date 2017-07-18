@@ -48,17 +48,12 @@ export class EntityListComponent implements OnInit {
     });
 
 
-    // Get JoinedEntitiesNames for table & dropdown
+  /*  // Get JoinedEntitiesNames for table & dropdown (NOT IN USE )
     this._uService.getJoinedEntities().subscribe(jEntities => {
       this.joinedEntities = jEntities;
 
-     // console.log('joinedentities is: ' + JSON.stringify(this.joinedEntities,null,""));
-
-      //  console.log('joinedentities is: ' + this.joinedEntities);
-      //  console.log('jEntities is: ' + jEntities);
-
     });
-
+*/
     // get Current user library
     this._uService.getCurrentUserLibrary().subscribe(snapshots => {
       this.userEntityName = snapshots.val();

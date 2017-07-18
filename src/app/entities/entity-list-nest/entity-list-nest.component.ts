@@ -9,7 +9,7 @@ import {UserService} from '../../admin/adminShared/user.service';
 })
 export class EntityListNestComponent implements OnInit, OnChanges  {
   @Input() entities: IEntity[];
-  @Input() joinedEntities: IEntity[];
+ // @Input() joinedEntities: IEntity[];
   @Input() userEntityName: any;
   @Input() listFilter: string;
   visibleEntities: IEntity[] = [];
@@ -27,12 +27,11 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
 
   } // ngOnInit
 
-
+// called when
   ngOnChanges () {
-   this.visibleJoinedEntities = this.joinedEntities.slice(0);
+ //  this.visibleJoinedEntities = this.joinedEntities.slice(0);
     if(this.entities) {
       this.visibleEntities = this.entities.slice(0);
-      console.log('visibleEntities.length is: ' + this.visibleEntities.length);
     }
   }
 

@@ -22,6 +22,9 @@ export class ItemListNestComponent implements OnChanges {
   imageUrl: any;
   nrOfItem;
 
+  sendID;
+  // toggle switch
+  showDialog: boolean;
 
   constructor(private _uService: UserService, private _router: Router) {
   }
@@ -90,7 +93,11 @@ export class ItemListNestComponent implements OnChanges {
 
   setClickedRow(index, id) {
     this.currentRow = index;
-    this._router.navigate(['/item/' + id]);
+this.sendID = id;
+console.log('clicked id is: ' + this.sendID);
+    this.showDialog = !this.showDialog;
+  // this._router.navigate(['/item/' + id]);
+
   }
 
 

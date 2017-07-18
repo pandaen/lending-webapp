@@ -90,19 +90,12 @@ export class ItemListComponent implements OnInit {
 
 
 
-    // Get JoinedEntitiesNames for table
+  /*  // Get JoinedEntitiesNames for table (NOT IN USE)
     this._uService.getJoinedEntities().subscribe(jEntities => {
       this.joinedEntities = jEntities;
-
-      console.log('joinedentities is: ' + JSON.stringify(this.joinedEntities,null,""));
-
-    //  console.log('joinedentities.lenght is: ' + this.joinedEntities.length);
-    //  console.log('joinedentities is: ' + this.joinedEntities);
-    //  console.log('jEntities is: ' + jEntities);
-
     });
     //  this.joinedEntities = this._uService.joinedEntities;
-
+*/
 
 
 
@@ -178,7 +171,6 @@ export class ItemListComponent implements OnInit {
     // set default entry for popup form
     this.selectDefault = this.currentUser.entity;
     this.selectTempEntityName = this.userEntityName;
-    console.log('default entity is: ' + this.selectTempEntityName);
     this.popup1.show(this.popup1.options);
 
   }

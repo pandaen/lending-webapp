@@ -277,7 +277,8 @@ export class UserService implements CanActivate , OnInit {
     return this.entities;
   }
 
-// get granted entities
+// get granted entities , NOT IN USE (show use of observer)
+  /*
   getJoinedEntities() {
     let uid = this.authState.auth.uid;
     let joinedEntities: any = [];
@@ -293,13 +294,13 @@ export class UserService implements CanActivate , OnInit {
     });
     });
   }
+*/
 
 
 
 
 
-
-  /*
+  /* NOT IN USE (SHOW USE OF PROMISE)
     getJoinedentities() {
       let authUid = this.authState.auth.uid;
       let joinedEntities: IItem[] = [];
@@ -515,7 +516,31 @@ export class UserService implements CanActivate , OnInit {
     firebase.database().ref('/users/').child(userUid).update({'entity': id, 'entityName': name});
   }
 
+  addEntity(name, office, reservationDays, termsAndConditions) {
 
+    let entityPromise = this.entities.push({
+      name: name,
+      owner: this.authState.auth.uid,
+      ownerName: this.authState.auth.displayName|| 'emailauthher',
+      office: office,
+      reservationDays:reservationDays,
+      termsAndConditions:termsAndConditions
+    });
+
+    entityPromise.then((resolve) => {
+      this.usersEntityMap.push({
+        userUid: this.authState.auth.uid,
+        fullname: this.authState.auth.displayName,
+        email:this.authState.auth.email,
+        photoURL: this.authState.auth.photoURL,
+        entity: resolve.key,
+        entityName: name,
+        adminAccess: true,
+        newUser: false
+      });
+    })
+    return entityPromise;
+  }
 
 
 }// class

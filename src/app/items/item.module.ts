@@ -22,6 +22,7 @@ import {EntityListNestComponent} from '../entities/entity-list-nest/entity-list-
 import {EntityFilterPipe} from '../entities/entity-filter.pipe';
 import {AddEntityDialogComponent} from '../entities/addEntityDialog/add-entity-modal';
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
+import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 
 /*
  const AdminRoutes: Routes = [
@@ -82,6 +83,7 @@ const routes: Routes = [
     ImageCropperComponent,
     EntityListComponent,
     EntityListNestComponent,
+    ItemDialogComponent,
   ],
   imports: [
     SharedModule,
