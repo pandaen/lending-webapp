@@ -70,6 +70,25 @@
   padding: 14px 40px;
 }
 
+.emailLoginButton {
+  top: 61%;
+  left: 50%;
+  position: absolute;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: #b7b8ba;
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 70px;
+  cursor: pointer;
+  padding: 14px 98px;
+}
+
+
 .bannerTitle {
   color: #422744;
   margin-left: 10px;

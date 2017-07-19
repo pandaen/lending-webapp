@@ -17,7 +17,7 @@
 
 
     <tr *ngFor='let item of visibleItems | itemFilter:listFilter , let i = index '   (click)="setClickedRow(i,item.$key)" [class.active]='i == currentRow'>
-      <td width=10>
+      <td >
         <div *ngIf="item.photoURL">
           <img   style="float: left" [src]='item.photoURL'
                [style.width.px]='imageWidth'
@@ -31,14 +31,14 @@
 
    <!--   <td><a   item.$key  >{{ item.name }}</a></td>  -->
 
-      <td width=10>
+      <td >
         <div *ngIf="item?.loan">
           <img class="avatar" style="float: left" [src]='item.loan?.userPhoto'
                [style.width.px]='imageWidth'
                [style.margin.px]='imageMargin'></div>
       </td>
 
-      <div style="margin-top: 9% ">
+      <div  >
       <td *ngIf="item.loan">{{ item.loan.loanerName}}</td>
       <td *ngIf="(!item.loan)"></td>
       </div>

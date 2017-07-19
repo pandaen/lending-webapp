@@ -8,12 +8,12 @@
       <div class="bannerTitle"><b>Pigify</b></div>
       <div class="bannerText"> - Your Library of Things!</div>
 
-      <div class="col-sm-5" >
+      <div class="col-sm-6" >
         <ul>
           <li *ngIf="tabs" class="one" (click)="redirect('')"><a> <img src="./assets/icons/items.svg" class="grey-button-icon"> Items</a></li>
           <li *ngIf="tabs" class="two" (click)="redirect('users')"><a><img src="./assets/icons/users.svg" class="grey-button-icon"> Users</a></li>
 
-          <li *ngIf="tabs" class="three"><a><img src="./assets/icons/entities.svg" class="grey-button-icon"> Entities</a></li>
+          <li *ngIf="tabs" class="three"><a><img src="./assets/icons/entities.svg" class="grey-button-icon"> Libraries</a></li>
           <hr/>
         </ul>
       </div>
@@ -33,7 +33,7 @@
 
       <div class="row">
         <div class="col-sm-2 currentEntity">
-          <label>Current entity:</label>
+          <label>Current library:</label>
           <div class="currentEntityText">
             {{userEntityName}}
           </div>

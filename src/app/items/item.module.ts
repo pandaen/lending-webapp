@@ -26,6 +26,7 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 
 import {ModalModule} from 'angular2-modal';
 import {BootstrapModalModule} from 'angular2-modal/plugins/bootstrap';
+import {EmailLoginDialogComponent} from '../home/emailLoginDialog/email-login-dialog/email-login-dialog.component';
 
 /*
  const AdminRoutes: Routes = [
@@ -87,6 +88,7 @@ const routes: Routes = [
     EntityListComponent,
     EntityListNestComponent,
     ItemDialogComponent,
+    EmailLoginDialogComponent,
   ],
   imports: [
     SharedModule,

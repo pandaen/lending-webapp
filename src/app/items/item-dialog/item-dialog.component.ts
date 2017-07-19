@@ -30,11 +30,19 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   id: any;
   item: any;
   reserved: any[];
-  name;
   eMail = '';
   loanExistt;
   timeInMs;
   dueDate;
+  // real data
+  name;
+  description;
+  reservationDays;
+
+  // Dummy data
+  dummyName;
+  dummyDesc;
+  dummyresDay;
   borrower;
   // toggle editMod
   editMode = false;
@@ -58,8 +66,10 @@ export class ItemDialogComponent implements OnInit, OnChanges {
     });
 
     this._uService.getItemDetails(this.id).subscribe(item => {
-      this.item = item;
       this.name = item.name;
+      this.description = item.description;
+      this.reservationDays = item.reservationDays;
+      this.item = item;
 
       // Get nested itemDetails if node loan exist
       if (this.loanExistt) {
@@ -69,6 +79,10 @@ export class ItemDialogComponent implements OnInit, OnChanges {
       }
 
     });
+    // sett dummy data
+    this.dummyName = this.name;
+    this.dummyDesc = this.description;
+    this.dummyresDay = this.reservationDays;
 
     this._uService.getItemDetailsResInfo(this.id).subscribe(res => {
       this.reserved = res;
@@ -77,9 +91,18 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   } // ngOnChanges
 
 
+  onEditSubmit() {
+     let item = {
+     name: this.dummyName,
+     description: this.dummyDesc,
+     reservationDays: this.dummyresDay
+     }
+     this._uService.updateItem(this.id, item);
+     this.close();
+  }
+
+
   deleteDialog() {
-
-
     this.modal.confirm()
       .size('sm')
       .isBlocking(true)
@@ -87,13 +110,17 @@ export class ItemDialogComponent implements OnInit, OnChanges {
       .keyboard(27)
       .title('Delete item: aNewItem?')
       .titleHtml('Alert')
-      .body('Delete item: ' +this.item.name +'?')
+      .body('Delete item: ' + this.item.name + '?')
       .okBtn('Yes')
       .okBtnClass('btn btn-danger')
       .cancelBtn('No')
       .open().catch((err: any) => console.log('ERROR: ' + err))
-      .then((dialog: any) => { return dialog.result; })
-      .then((result: any) => { this.onDeleteClick(); })
+      .then((dialog: any) => {
+        return dialog.result;
+      })
+      .then((result: any) => {
+        this.onDeleteClick();
+      })
       .catch((err: any) => console.log('Canceled!'));
 
   }
@@ -102,9 +129,15 @@ export class ItemDialogComponent implements OnInit, OnChanges {
     this._uService.deleteItem(this.id);
     this.close();
     this.modal
-      .open('Delete successfull! ', overlayConfigFactory({ isBlocking: false }, BSModalContext));
+      .open('Delete successfull! ', overlayConfigFactory({isBlocking: false}, BSModalContext));
   }
 
+  cancelEditMode() {
+    this.editMode = false;
+    this.dummyName = this.name;
+    this.dummyDesc = this.description;
+    this.dummyresDay = this.reservationDays;
+  }
 
   sendEmail(eMail, borrower, date) {
     let body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Borrowing Team';

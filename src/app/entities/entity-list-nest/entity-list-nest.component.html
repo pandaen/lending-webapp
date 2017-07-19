@@ -2,7 +2,7 @@
   <table class='table table-striped'>
     <thead>
     <tr bgcolor="#422744">
-      <th>Entity name</th>
+      <th>Library name</th>
       <th>Type</th>
       <th>Status</th>
       <th>Role</th>
@@ -10,32 +10,32 @@
     </thead>
 
     <tbody>
+    <!--
     <tr *ngFor='let entity of visibleJoinedEntities |  entityFilter:list, let i = index' (click)="setClickedRow(i,entity.entity,entity.entityName)" [class.active]='i == currentRow'>
 
 
-      <div style="margin-top: 10% ">
+      <div  style="margin-bottom: 40px ">
         <td>{{ entity?.entityName }}</td>
       </div>
       <td>Granted</td>
-      <td *ngIf="entity.entityName === userEntityName">Current library</td>
+      <td *ngIf="entity.entityName === userEntityName">Currently selected</td>
       <td>
           ...
       </td>
     </tr>
-
+-->
     <tr *ngFor='let entity of visibleEntities |  entityFilter:list, let i = index' (click)="setClickedRow(i,entity.$key, entity.name)" [class.active]='i == currentRow'>
 
 
-      <div style="margin-top: 10% ">
+      <div style="margin-top: 10px ">
         <td>{{ entity?.name }}</td>
       </div>
       <td>Owner</td>
-      <td *ngIf="entity.name === userEntityName">Current library</td>
+      <td *ngIf="entity.name === userEntityName">Currently selected</td>
       <td>
-        ...
+
       </td>
     </tr>
-
     </tbody>
   </table>
 </div>

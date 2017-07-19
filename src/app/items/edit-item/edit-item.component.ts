@@ -55,12 +55,12 @@ export class EditItemComponent implements OnInit {
   */
 
   onEditSubmit() {
-
+/*
     let item = {
       name: this.name,
      description: this.description,
     }
-  /*
+
     let somDuedate = {formattedShortDate: this.dueDate}
     console.log('this.id is: ' + this.id);
 
@@ -69,9 +69,10 @@ export class EditItemComponent implements OnInit {
     } else {
       this._uService.updateItem(this.id, item, null);
     }
-*/
+
 
     this._router.navigate(['']);
+    */
   }
 
   onBack(): void {

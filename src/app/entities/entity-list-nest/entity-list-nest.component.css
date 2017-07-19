@@ -5,7 +5,7 @@
 
 .table tr:hover  {
   background-color:#D9D9D9 ;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 

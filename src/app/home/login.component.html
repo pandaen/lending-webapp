@@ -12,4 +12,12 @@
   with Facebook
 </button>
 
+
+<button class="emailLoginButton" (click)="emailShowDialog = !emailShowDialog"><img src="./assets/icons/email.svg" width="20" height="20"/> Email
+</button>
+
+
 </body>
+
+<app-email-login-dialog [(visible)]="emailShowDialog">
+</app-email-login-dialog>

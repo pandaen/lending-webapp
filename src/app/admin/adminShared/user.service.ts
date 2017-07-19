@@ -45,6 +45,10 @@ export class UserService implements CanActivate , OnInit {
   nrOfItem;
 
 
+  // email auth
+  public  fireAuth: any;
+
+
   usersEntityMap: FirebaseListObservable<any>;
   item: FirebaseObjectObservable<any>;
   currentLibrary: FirebaseObjectObservable<any>;
@@ -62,6 +66,9 @@ export class UserService implements CanActivate , OnInit {
     this.entities = af.database.list('/entities');
     this.usersEntityMap = af.database.list('/usersEntityMap');
 
+
+    // email auth
+    this.fireAuth = firebase.auth();
 
     // getAdmin items with subject
     this.entitySubject = new Subject();
@@ -405,11 +412,13 @@ export class UserService implements CanActivate , OnInit {
   }
 
 
-  updateItem(id, item, dueDate) {
-    // Update Date
+  updateItem(id, item) {
+
+   /* // Update Date
     if (dueDate) {
       firebase.database().ref('/items/').child(id).child('loan').update({'formattedShortDate': dueDate});
     }
+    */
     return this.items.update(id, item);
   }
 
@@ -539,6 +548,14 @@ export class UserService implements CanActivate , OnInit {
       });
     })
     return entityPromise;
+  }
+
+  loginWithEmail(email, pass) {
+     this.fireAuth.signInWithEmailAndPassword(email, pass).then(authData => {
+       this._router.navigate(['']);
+     }, error => {
+       alert(error);
+     });
   }
 
 

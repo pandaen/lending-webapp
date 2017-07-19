@@ -1,23 +1,28 @@
-
 <div [@dialog] *ngIf="visible" class="dialog">
 
   <div class='panel panel-primary'>
 
     <div class='title'>
-      {{ item.name}}
+      <div *ngIf="!editMode">
+        {{name}}
+      </div>
+      <div *ngIf="editMode">
+        <input type="text" [(ngModel)]="dummyName" name="dummyName" required>
+      </div>
+
     </div>
 
 
     <div class='panel-body'>
 
 
-      <div class='row'>
-        <div class="col-sm-7">
+      <div style="width: 820px;border: 1px solid #fff;">
+        <div style="float: left; width: 500px;  border: 1px solid #fff;">
           <div class='col-md-0'><b>Status:</b></div>
           <span *ngIf="item.status=='Out' ">
                     <img src="../../assets/images/out-icon.png"
-                         style="max-height:50%;max-width:50%"/>
-                     {{item.status}}
+                         style="max-height:4%;max-width:4%"/>
+                     Currently out. Return date {{item?.loan?.formattedShortDate}}
                 </span>
           <span *ngIf="item.status=='Available' ">
                     <img src="../../assets/images/available-icon.png"
@@ -27,31 +32,59 @@
 
           <span *ngIf="item.status=='Notify' ">
                     <img src="../../assets/images/notify-icon.png"
-                         style="max-height:50%;max-width:50%"/>
+                         style="max-height:4%;max-width:4%"/>
             Overdue
             </span>
           <br>
           <br>
           <div><b>Standard number of loan days for this item:</b></div>
-          <div>{{item?.reservationDays}}</div>
-          <br>
-          <div><b>Description:</b></div>
-          <div class="descScroll">{{item?.description}}d</div>
-
 
           <div *ngIf="!editMode">
-          <button class='buttonEdit' (click)="editMode = true">
-            <img src="./assets/icons/edit.svg" class="edit-button-icon">Edit
-          </button>
+            <div>{{item?.reservationDays}}</div>
           </div>
 
           <div *ngIf="editMode">
-          <button class='buttonDelete' (click)="deleteDialog()">Delete this item
-          </button>
+            <div class="col-xs-2">
+              <input class="form-control" type="number" name="dummyresDay" [(ngModel)]='dummyresDay' value="3"
+                     id="dummyresDay">
+            </div>
+          </div>
+
+          <span *ngIf="item?.loan">
+          <br>
+          <b>Borrower:</b>
+
+             <div  class='row'  *ngIf="item.loan?.userPhoto">
+            <img class="avatar"
+                 [style.width.px]='50'
+                 [style.height.px]='50'
+                 [style.margin-left.px]='50'
+                 [src]='item.loan?.userPhoto'>
+      {{item.loan?.loanerName}}
+            </div>
+          </span>
+
+          <br>
+          <div><b>Description:</b></div>
+          <div *ngIf="!editMode" class="descScroll">{{description}}</div>
+
+          <textarea *ngIf="editMode" [(ngModel)]='dummyDesc' name="description" ide="description'" rows="16" cols="64">
+      </textarea>
+
+
+          <div *ngIf="!editMode">
+            <button class='buttonEdit' (click)="editMode = true">
+              <img src="./assets/icons/edit.svg" class="edit-button-icon">Edit
+            </button>
+          </div>
+
+          <div *ngIf="editMode">
+            <button class='buttonDelete' (click)="deleteDialog()">Delete this item
+            </button>
           </div>
         </div> <!--column1 -->
 
-        <div class="col-xs-4">
+        <div style="float: left; width: 300px;  border: 1px solid #73AD21;">
 
           <div *ngIf="item.photoURL">
             <img class="img-thumbnail"
@@ -74,17 +107,17 @@
           </button>
 
           <div *ngIf="editMode">
-          <button class='buttonCancel' (click)="editMode = false">Cancel
-          </button>
+            <button class='buttonCancel' (click)="cancelEditMode()">Cancel
+            </button>
 
-          <button class='buttonSave' (click)="close()">
-            <i class='glyphicon glyphicon-plus btnSaveIcon'></i>Save
-          </button>
+            <button class='buttonSave' (click)="onEditSubmit()">
+              <i class='glyphicon glyphicon-plus btnSaveIcon'></i>Save
+            </button>
           </div>
 
 
         </div> <!-- Column 2-->
-      </div> <!-- row -->
+      </div> <!-- width -->
     </div> <!-- panelBody-->
 
 
@@ -93,4 +126,6 @@
 
   <button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X</button>
 </div>
+
 <div *ngIf="visible" class="overlay" (click)="close()"></div>
+

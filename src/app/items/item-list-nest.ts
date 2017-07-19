@@ -94,7 +94,6 @@ export class ItemListNestComponent implements OnChanges {
   setClickedRow(index, id) {
     this.currentRow = index;
 this.sendID = id;
-console.log('clicked id is: ' + this.sendID);
     this.showDialog = !this.showDialog;
   // this._router.navigate(['/item/' + id]);
 
