@@ -1,0 +1,18 @@
+<div [@dialog] *ngIf="visible" class="dialog">
+
+
+
+          <input type="text" [(ngModel)]='emailField' name="emailField" ide="emailField'" placeholder="email"/>
+          <input type="password" [(ngModel)]='passField' name="passField" ide="passField'"  placeholder="password"/>
+          <button (click)="login()">login</button>
+          <p class="message">Forgot <a href="#">password?</a></p>
+
+
+
+
+<!--
+  <button *ngIf="closable" (click)="close()" aria-label="Close" class="dialog__close-btn">X</button>
+-->
+</div>
+<div *ngIf="visible" class="overlay" (click)="close()"></div>
+
