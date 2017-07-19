@@ -1,3 +1,117 @@
+.title {
+  color: #422744;
+  font-size: 50px;
+}
+
+
+
+.edit-button-icon {
+  height: 20px;
+  width: 20px;
+  float: left;
+  margin-right: 10px;
+}
+
+.btnSaveIcon {
+  margin-right: 10px;
+}
+
+.calendar-button-icon {
+  height: 25px;
+  width: 25px;
+  float: left;
+  margin-right: 20px;
+}
+
+.descScroll {
+
+  width: 450px;
+  height: 300px;
+  word-wrap:break-word;
+  overflow: auto;
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.buttonEdit {
+  background-color: #3D8DFF;
+  color: #FFF;
+  padding: 10px 16px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+   margin-top: 30px;
+  cursor: pointer;
+}
+
+.buttonCancel {
+  background-color: #f8b2ab;
+  color: #FFF;
+  padding: 10px 16px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+   margin-top: 150px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.buttonDelete {
+  background-color: #f8b2ab;
+  color: #FFF;
+  padding: 10px 16px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+
+}
+
+.buttonSave {
+  background-color: #80e08f;
+  color: #FFF;
+  padding: 10px 16px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+ /* margin: 30px 2px; */
+  cursor: pointer;
+}
+
+
+.buttonCalendar {
+  background-color: #3D8DFF;
+  color: #FFF;
+  padding: 10px 32px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+  margin: 30px 2px;
+  cursor: pointer;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -18,7 +132,7 @@
   margin-left: auto;
   min-height: 200px;
   width: 90%;
-  max-width: 850px;
+  max-width: 830px;
   background-color: #fff;
   padding: 12px;
   box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
@@ -37,5 +151,5 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  font-size: 1.2em;
+  font-size: 1.9em;
 }

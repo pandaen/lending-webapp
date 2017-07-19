@@ -24,6 +24,9 @@ import {AddEntityDialogComponent} from '../entities/addEntityDialog/add-entity-m
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 
+import {ModalModule} from 'angular2-modal';
+import {BootstrapModalModule} from 'angular2-modal/plugins/bootstrap';
+
 /*
  const AdminRoutes: Routes = [
  {
@@ -87,6 +90,8 @@ const routes: Routes = [
   ],
   imports: [
     SharedModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule,
     MultiselectDropdownModule,
     PopupModule.forRoot(),
 

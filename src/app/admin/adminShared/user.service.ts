@@ -366,7 +366,6 @@ export class UserService implements CanActivate , OnInit {
 
   addItem(item, photo) {
     this.af.database.list('/items').push(item).then(x => {
-      console.log('-1');
       this.uploadImage(photo, x.key);
     });
   }

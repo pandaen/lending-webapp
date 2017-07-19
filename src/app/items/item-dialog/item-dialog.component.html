@@ -1,8 +1,9 @@
+
 <div [@dialog] *ngIf="visible" class="dialog">
 
   <div class='panel panel-primary'>
 
-    <div class='panel-heading' style='font-size:large'>
+    <div class='title'>
       {{ item.name}}
     </div>
 
@@ -10,25 +11,83 @@
     <div class='panel-body'>
 
 
-
       <div class='row'>
-        <div class='col-md-4'>Status:</div>
-        <div class='col-md-6'>{{item?.status}}</div>
-      </div>
+        <div class="col-sm-7">
+          <div class='col-md-0'><b>Status:</b></div>
+          <span *ngIf="item.status=='Out' ">
+                    <img src="../../assets/images/out-icon.png"
+                         style="max-height:50%;max-width:50%"/>
+                     {{item.status}}
+                </span>
+          <span *ngIf="item.status=='Available' ">
+                    <img src="../../assets/images/available-icon.png"
+                         style="max-height:4%;max-width:4%"/>
+                     {{item.status}}
+                </span>
 
-    </div>
+          <span *ngIf="item.status=='Notify' ">
+                    <img src="../../assets/images/notify-icon.png"
+                         style="max-height:50%;max-width:50%"/>
+            Overdue
+            </span>
+          <br>
+          <br>
+          <div><b>Standard number of loan days for this item:</b></div>
+          <div>{{item?.reservationDays}}</div>
+          <br>
+          <div><b>Description:</b></div>
+          <div class="descScroll">{{item?.description}}d</div>
 
-    <div class='panel-footer'>
 
-      <a class='btn btn-danger' (click)="close()" style='width:80px'>
-        <i class='glyphicon glyphicon-chevron-left'></i> Cancel
-      </a>
+          <div *ngIf="!editMode">
+          <button class='buttonEdit' (click)="editMode = true">
+            <img src="./assets/icons/edit.svg" class="edit-button-icon">Edit
+          </button>
+          </div>
 
-      <a  class="btn btn-success pull-right">  <i class='glyphicon glyphicon-plus'></i> Save</a>
+          <div *ngIf="editMode">
+          <button class='buttonDelete' (click)="deleteDialog()">Delete this item
+          </button>
+          </div>
+        </div> <!--column1 -->
+
+        <div class="col-xs-4">
+
+          <div *ngIf="item.photoURL">
+            <img class="img-thumbnail"
+                 [style.width.px]='200'
+                 [style.margin.px]='2'
+                 [src]='item?.photoURL'
+            >
+          </div>
+
+          <div *ngIf="!item.photoURL">
+            <img class="img-thumbnail" class='center-block img-responsive'
+                 [style.width.px]='200'
+                 [style.margin.px]='2'
+                 src='../../assets/images/NoPhoto.png'
+            >
+          </div>
+
+          <button class='buttonCalendar' (click)="close()">
+            <img src="./assets/icons/calendar.svg" class="calendar-button-icon">Item calendar
+          </button>
+
+          <div *ngIf="editMode">
+          <button class='buttonCancel' (click)="editMode = false">Cancel
+          </button>
+
+          <button class='buttonSave' (click)="close()">
+            <i class='glyphicon glyphicon-plus btnSaveIcon'></i>Save
+          </button>
+          </div>
 
 
+        </div> <!-- Column 2-->
+      </div> <!-- row -->
+    </div> <!-- panelBody-->
 
-    </div>
+
   </div>
 
 

@@ -23,7 +23,7 @@ export class ItemListNestComponent implements OnChanges {
   nrOfItem;
 
   sendID;
-  // toggle switch
+  // toggle itemDialog switch
   showDialog: boolean;
 
   constructor(private _uService: UserService, private _router: Router) {

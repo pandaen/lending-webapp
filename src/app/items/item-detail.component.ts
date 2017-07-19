@@ -57,16 +57,6 @@ export class ItemDetailComponent implements OnInit {
      //   this.borrowerName = item.loan.loanerName;
         this.timeInMs = item.loan.timeInMillis;
       }
-      /*
-       let storageRef = firebase.storage().ref();
-       let spaceRef = storageRef.child(this.item.path);
-       storageRef.child(this.item.path).getDownloadURL().then((url) => {
-       // Set image url
-       this.imageUrl = url;
-       }).catch((error) => {
-       console.log(error);
-       });
-       */
     });
 
     this._uService.getItemDetailsResInfo(this.id).subscribe(res => {
