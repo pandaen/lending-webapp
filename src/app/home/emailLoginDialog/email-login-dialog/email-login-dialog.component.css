@@ -1,3 +1,8 @@
+
+a {
+  cursor: pointer;
+}
+
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -19,7 +24,7 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4CAF50;
+  background: darkgrey;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -30,7 +35,7 @@
   cursor: pointer;
 }
 .dialog button:hover,.dialog button:active,.dialog button:focus {
-  background: #43A047;
+  background: lightgrey;
 }
 .dialog .message {
   margin: 15px 0 0;
@@ -38,7 +43,7 @@
   font-size: 12px;
 }
 .dialog .message a {
-  color: #4CAF50;
+  color: blueviolet;
   text-decoration: none;
 }
 

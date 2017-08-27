@@ -1,12 +1,23 @@
 <div [@dialog] *ngIf="visible" class="dialog">
 
 
-
+  <div *ngIf="!forgotMode">
           <input type="text" [(ngModel)]='emailField' name="emailField" ide="emailField'" placeholder="email"/>
           <input type="password" [(ngModel)]='passField' name="passField" ide="passField'"  placeholder="password"/>
           <button (click)="login()">login</button>
-          <p class="message">Forgot <a href="#">password?</a></p>
 
+
+          <p class="message">Forgot <a (click)="forgotMode = true">password?</a></p>
+  </div>
+
+  <div *ngIf="forgotMode">
+
+    <h3>Enter your email</h3>
+    <p>An email will be sent to you</p>
+    <input type="text" [(ngModel)]='forgotField' name="forgotField" ide="forgotField'" placeholder="registered@email.com"/>
+    <button (click)="showForgotPassword()">Submit</button>
+  <p class="message">Already <a  (click)="forgotMode = false">registered?</a></p>
+  </div>
 
 
 

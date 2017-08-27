@@ -15,9 +15,8 @@
 
     <div class='panel-body'>
 
-
-      <div style="width: 820px;border: 1px solid #fff;">
-        <div style="float: left; width: 500px;  border: 1px solid #fff;">
+      <div style="width: 820px;">
+        <div style="float: left; width: 500px;  border: none">
           <div class='col-md-0'><b>Status:</b></div>
           <span *ngIf="item.status=='Out' ">
                     <img src="../../assets/images/out-icon.png"
@@ -35,88 +34,135 @@
                          style="max-height:4%;max-width:4%"/>
             Overdue
             </span>
-          <br>
-          <br>
-          <div><b>Standard number of loan days for this item:</b></div>
 
-          <div *ngIf="!editMode">
-            <div>{{item?.reservationDays}}</div>
-          </div>
-
-          <div *ngIf="editMode">
-            <div class="col-xs-2">
-              <input class="form-control" type="number" name="dummyresDay" [(ngModel)]='dummyresDay' value="3"
-                     id="dummyresDay">
+          <div *ngIf="!calenderMode">
+            <br>
+            <br>
+            <div><b>Standard number of loan days for this item:</b></div>
+            <div *ngIf="!editMode">
+              <div>{{item?.reservationDays}}</div>
             </div>
-          </div>
+          </div>  <!-- calender-->
 
-          <span *ngIf="item?.loan">
-          <br>
-          <b>Borrower:</b>
-
-             <div  class='row'  *ngIf="item.loan?.userPhoto">
-            <img class="avatar"
-                 [style.width.px]='50'
-                 [style.height.px]='50'
-                 [style.margin-left.px]='50'
-                 [src]='item.loan?.userPhoto'>
-      {{item.loan?.loanerName}}
+          <div *ngIf="!calenderMode">
+            <div *ngIf="editMode">
+              <div class="col-xs-2">
+                <input class="form-control" type="number" name="dummyresDay" [(ngModel)]='dummyresDay' value="3"
+                       id="dummyresDay">
+              </div>
             </div>
-          </span>
+          </div>  <!-- calender-->
 
-          <br>
-          <div><b>Description:</b></div>
-          <div *ngIf="!editMode" class="descScroll">{{description}}</div>
 
-          <textarea *ngIf="editMode" [(ngModel)]='dummyDesc' name="description" ide="description'" rows="16" cols="64">
+          <div *ngIf="!calenderMode">
+            <div *ngIf="item?.loan">
+              <br>
+              <b>Borrower:</b>
+
+              <div class='row' *ngIf="item.loan?.userPhoto">
+                <img class="avatar"
+                     [style.width.px]='50'
+                     [style.height.px]='50'
+                     [style.margin-left.px]='50'
+                     [src]='item.loan?.userPhoto'>
+                {{item.loan?.loanerName}}
+              </div>
+            </div>
+            <br>
+            <div><b>Description:</b></div>
+            <div *ngIf="!editMode" class="descScroll">{{description}}</div>
+
+            <textarea *ngIf="editMode" [(ngModel)]='dummyDesc' name="description" ide="description'" rows="16"
+                      cols="64">
       </textarea>
 
+          </div> <!-- calender -->
 
-          <div *ngIf="!editMode">
-            <button class='buttonEdit' (click)="editMode = true">
-              <img src="./assets/icons/edit.svg" class="edit-button-icon">Edit
-            </button>
+          <div *ngIf="!calenderMode">
+            <div *ngIf="!editMode">
+              <button class='buttonEdit' (click)="editMode = true">
+                <img src="./assets/icons/edit.svg" class="edit-button-icon">Edit
+              </button>
+            </div>
+          </div> <!--Delete item -->
+
+          <div *ngIf="!calenderMode">
+            <div *ngIf="editMode ">
+              <button class='buttonDelete' (click)="deleteDialog()">Delete this item
+              </button>
+            </div>
+          </div> <!-- NOT calender -->
+
+
+          <div *ngIf="calenderMode">
+            <br>
+            <br>
+            <div *ngIf="item.photoURL">
+              <img class="img-thumbnail"
+                   [style.width.px]='200'
+                   [style.margin.px]='2'
+                   [src]='item?.photoURL'
+              >
+            </div>
+
+            <div *ngIf="!item.photoURL">
+              <img class="img-thumbnail" class='center-block img-responsive'
+                   [style.width.px]='200'
+                   [style.margin.px]='2'
+                   src='../../assets/images/NoPhoto.png'
+              >
+            </div>
           </div>
 
-          <div *ngIf="editMode">
-            <button class='buttonDelete' (click)="deleteDialog()">Delete this item
-            </button>
+          <div *ngFor='let res of reserved' class='row'>
+            {{res.formattedShortpUpDate}} - {{res.formattedShortRetDate}}:
+            <br>
+            {{res.userName}}
+            -----------------------------
           </div>
+
+
         </div> <!--column1 -->
 
-        <div style="float: left; width: 300px;  border: 1px solid #73AD21;">
 
-          <div *ngIf="item.photoURL">
-            <img class="img-thumbnail"
-                 [style.width.px]='200'
-                 [style.margin.px]='2'
-                 [src]='item?.photoURL'
-            >
-          </div>
+        <div *ngIf="!calenderMode">
+          <div>
+            <div *ngIf="item.photoURL">
+              <img class="img-thumbnail"
+                   [style.width.px]='200'
+                   [style.margin.px]='2'
+                   [src]='item?.photoURL'
+              >
+            </div>
 
-          <div *ngIf="!item.photoURL">
-            <img class="img-thumbnail" class='center-block img-responsive'
-                 [style.width.px]='200'
-                 [style.margin.px]='2'
-                 src='../../assets/images/NoPhoto.png'
-            >
-          </div>
+            <div *ngIf="!item.photoURL">
+              <img class="img-thumbnail" class='center-block img-responsive'
+                   [style.width.px]='200'
+                   [style.margin.px]='2'
+                   src='../../assets/images/NoPhoto.png'
+              >
+            </div>
 
-          <button class='buttonCalendar' (click)="close()">
-            <img src="./assets/icons/calendar.svg" class="calendar-button-icon">Item calendar
-          </button>
-
-          <div *ngIf="editMode">
-            <button class='buttonCancel' (click)="cancelEditMode()">Cancel
+            <button class='buttonCalendar' (click)="calenderMode = true">
+              <img src="./assets/icons/calendar.svg" class="calendar-button-icon">Item calendar
             </button>
 
-            <button class='buttonSave' (click)="onEditSubmit()">
-              <i class='glyphicon glyphicon-plus btnSaveIcon'></i>Save
-            </button>
-          </div>
+            <div *ngIf="editMode">
+              <button class='buttonCancel' (click)="cancelEditMode()">Cancel
+              </button>
+
+              <button class='buttonSave' (click)="onEditSubmit()">
+                <i class='glyphicon glyphicon-plus btnSaveIcon'></i>Save
+              </button>
+            </div>
 
 
-        </div> <!-- Column 2-->
+          </div> <!-- Column 2-->
+
+        </div> <!-- calendarMode -->
+        <div *ngIf="calenderMode">
+          Calendar
+        </div>
       </div> <!-- width -->
     </div> <!-- panelBody-->
 

@@ -559,4 +559,8 @@ export class UserService implements CanActivate , OnInit {
   }
 
 
+  forgotPasswordUser(email: any) {
+    return this.fireAuth.sendPasswordResetEmail(email);
+  }
+
 }// class

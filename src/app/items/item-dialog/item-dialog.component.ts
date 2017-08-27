@@ -44,8 +44,9 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   dummyDesc;
   dummyresDay;
   borrower;
-  // toggle editMod
+  // toggle Modes
   editMode = false;
+  calenderMode = null;
   userDetail: any[];
 
   errorMessage: string;
@@ -152,6 +153,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
     this.visible = false;
     this.visibleChange.emit(this.visible);
     this.editMode = false;
+    this.calenderMode = false;
   }
 
 
