@@ -15,7 +15,6 @@ import {UserDetailComponent} from '../users/user-detail/user-detail.component';
 import {EditUserComponent} from '../users/edit-user/edit-user.component';
 import {UserListNestComponent} from '../users/user-list-nest/user-list-nest.component';
 import {UserFilterPipe} from '../users/user-filter.pipe';
-import {ImageCropperComponent} from 'ng2-img-cropper';
 import {PopupModule} from 'ng2-opd-popup';
 import {EntityListComponent} from '../entities/entity-list/entity-list.component';
 import {EntityListNestComponent} from '../entities/entity-list-nest/entity-list-nest.component';
@@ -27,6 +26,7 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import {ModalModule} from 'angular2-modal';
 import {BootstrapModalModule} from 'angular2-modal/plugins/bootstrap';
 import {EmailLoginDialogComponent} from '../home/emailLoginDialog/email-login-dialog/email-login-dialog.component';
+import {ImageCropperComponent} from 'ng2-img-cropper';
 
 /*
  const AdminRoutes: Routes = [
@@ -71,6 +71,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AddEntityDialogComponent,
+    ImageCropperComponent,
     ItemListComponent,
     ItemDetailComponent,
     LoginComponent,
@@ -84,7 +85,6 @@ const routes: Routes = [
     EditUserComponent,
     UserDetailComponent,
     UserListNestComponent,
-    ImageCropperComponent,
     EntityListComponent,
     EntityListNestComponent,
     ItemDialogComponent,

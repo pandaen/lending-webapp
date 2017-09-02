@@ -130,18 +130,21 @@ export class UserService implements CanActivate , OnInit {
     return false;
   }
 
-  verifyUser(exist) {
+  verifyUser(exist,usrName) {
     // if (this.authState && isAdmin) {
     if (this.authState && exist) {
       //  alert(`Welcome ${this.authState.auth.email}`);
-      this.loggedInUserDisplayName = this.authState.auth.displayName;
-      this.userImage = this.authState.auth.photoURL;
+      this.loggedInUserDisplayName = this.authState.auth.displayName === null ? usrName: this.authState.auth.displayName;
+      this.userImage = this.authState.auth.photoURL === null ? "":this.authState.auth.photoURL;
+
       this.userLoggedIn = true;
       this.tabs = this.userLoggedIn;
-      //    console.log('tabs is: ' + this.tabs);
-      this._router.navigate(['']);
+
+      //this._router.navigate(['']);
+      window.location.href = 'http://www.pigify.com';
     } else {
-      this._router.navigate(['/noAdmin']);
+      window.location.href = 'http://www.pigify.com';
+    //  this._router.navigate(['/noAdmin']);
     }
   }
 
@@ -165,8 +168,11 @@ export class UserService implements CanActivate , OnInit {
     let userUid = this.authState.auth.uid;
     let fullUserRef = firebase.database().ref('/users/' + userUid);
     fullUserRef.once('value', (snapshot) => {
+
+
+      let userName = snapshot.child("fullname").val();
       let exist = snapshot.exists();
-      this.verifyUser(exist);
+      this.verifyUser(exist,userName);
       // this.writeDbUser(exist);
     }, function (error) {
       console.error(error);
@@ -552,7 +558,7 @@ export class UserService implements CanActivate , OnInit {
 
   loginWithEmail(email, pass) {
      this.fireAuth.signInWithEmailAndPassword(email, pass).then(authData => {
-       this._router.navigate(['']);
+       this.existInDb();
      }, error => {
        alert(error);
      });

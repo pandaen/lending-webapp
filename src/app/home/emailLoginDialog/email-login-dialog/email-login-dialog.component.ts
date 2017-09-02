@@ -1,6 +1,7 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {trigger, state, style, animate, transition} from '@angular/animations';
 import {UserService} from '../../../admin/adminShared/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-email-login-dialog',
