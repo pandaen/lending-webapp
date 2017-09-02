@@ -140,8 +140,7 @@ export class UserService implements CanActivate , OnInit {
       this.userLoggedIn = true;
       this.tabs = this.userLoggedIn;
 
-      //this._router.navigate(['']);
-      window.location.href = 'http://www.pigify.com';
+      this._router.navigate(['']);
     } else {
       window.location.href = 'http://www.pigify.com';
     //  this._router.navigate(['/noAdmin']);
