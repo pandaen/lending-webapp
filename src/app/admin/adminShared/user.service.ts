@@ -142,7 +142,7 @@ export class UserService implements CanActivate , OnInit {
 
       this._router.navigate(['']);
     } else {
-      window.location.href = 'http://www.pigify.com';
+      window.location.href = 'http://www.pigify.com/onlineadminaccess';
     //  this._router.navigate(['/noAdmin']);
     }
   }
@@ -164,11 +164,9 @@ export class UserService implements CanActivate , OnInit {
 
 
   existInDb() {
-    let userUid = this.authState.auth.uid;
+  let userUid = firebase.auth().currentUser.uid;
     let fullUserRef = firebase.database().ref('/users/' + userUid);
     fullUserRef.once('value', (snapshot) => {
-
-
       let userName = snapshot.child("fullname").val();
       let exist = snapshot.exists();
       this.verifyUser(exist,userName);
@@ -223,14 +221,15 @@ export class UserService implements CanActivate , OnInit {
    */
 
   logout() {
-    this.userLoggedIn = false;
+
     this.af.auth.logout().then((success) => {
       this._router.navigate(['/login']);
-      //     console.log('Logged out...');
+    //       console.log('Logged out...');
     }).catch(
       (err) => {
         alert(`${err.message} Logout. failed!`);
       });
+
   }
 
 
@@ -534,7 +533,7 @@ export class UserService implements CanActivate , OnInit {
     let entityPromise = this.entities.push({
       name: name,
       owner: this.authState.auth.uid,
-      ownerName: this.authState.auth.displayName|| 'emailauthher',
+      ownerName: this.authState.auth.displayName|| 'emailName',
       office: office,
       reservationDays:reservationDays,
       termsAndConditions:termsAndConditions
@@ -556,11 +555,7 @@ export class UserService implements CanActivate , OnInit {
   }
 
   loginWithEmail(email, pass) {
-     this.fireAuth.signInWithEmailAndPassword(email, pass).then(authData => {
-       this.existInDb();
-     }, error => {
-       alert(error);
-     });
+    return this.fireAuth.signInWithEmailAndPassword(email, pass);
   }
 
 

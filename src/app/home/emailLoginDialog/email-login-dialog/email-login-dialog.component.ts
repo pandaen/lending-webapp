@@ -31,6 +31,8 @@ export class EmailLoginDialogComponent implements OnInit {
   public passField: any;
   public forgotField: any;
 
+  public errorMessage: any;
+
   constructor(private  _userService: UserService) {
   }
 
@@ -38,7 +40,15 @@ export class EmailLoginDialogComponent implements OnInit {
   }
 
   login() {
-    this._userService.loginWithEmail(this.emailField, this.passField);
+    if(this.emailField && this.passField) {
+      this._userService.loginWithEmail(this.emailField, this.passField).then(authData => {
+    this._userService.existInDb();
+      }, error => {
+          this.errorMessage = error.code;
+      });
+    } else {
+      this.errorMessage = "All fields required";
+    }
   }
 
   showForgotPassword() {

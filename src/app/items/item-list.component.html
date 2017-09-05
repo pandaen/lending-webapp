@@ -178,7 +178,7 @@
 
 
     <div style="float: right">
-      <button type="button" class="buttonFilter" (click)='addDialog()'><i class='glyphicon glyphicon-plus'></i> Add an
+      <button type="button" [disabled]="userEntityName ==='No library, join a library to get started' "  class="buttonFilter"  (click)='addDialog()'><i class='glyphicon glyphicon-plus'></i> Add an
         item
       </button>
     </div>

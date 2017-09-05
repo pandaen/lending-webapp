@@ -154,7 +154,6 @@ export class ItemListComponent implements OnInit {
 
 
   addDialog() {
-
     this.popup1.options = {
       header: 'Add item',
       color: 'green', // red, blue....
@@ -176,18 +175,23 @@ export class ItemListComponent implements OnInit {
   }
 
   onAddSubmit() {
-    let item = {
-      description: this.description || 'No description…yet',
-      entity: this.selectDefault,
-      entityName: this.selectTempEntityName,
-      name: this.name || '',
-      reservationDays: this.reservationDays || '',
-      status: 'Available',
-    };
-    console.log('data.image is:' + this.data.image);
-    console.log('photoURL is: ' + JSON.stringify(this.data, null, ''));
-    this._uService.addItem(item, this.data.image);
-    this.popup1.hide();
+    // if no entity
+    if(this.userEntityName !== 'No library, join a library to get started' ) {
+      let item = {
+        description: this.description || 'No description…yet',
+        entity: this.selectDefault,
+        entityName: this.selectTempEntityName,
+        name: this.name || '',
+        reservationDays: this.reservationDays || '',
+        status: 'Available',
+      };
+
+      this._uService.addItem(item, this.data.image);
+      this.popup1.hide();
+    }else {
+      alert('Please select a library in Library-tab!');
+    }
+
   } // onSubmitt
 
 
@@ -209,7 +213,7 @@ export class ItemListComponent implements OnInit {
 
   unSubscribeAll() {
     this.sub1.unsubscribe();
-   // this.sub2.unsubscribe();
+    this.sub2.unsubscribe();
   }
 
 

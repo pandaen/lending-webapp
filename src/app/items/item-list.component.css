@@ -179,7 +179,7 @@ hr {
   margin: 4px 2px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
-  cursor: pointer;
+
 }
 
 .btn1.active {

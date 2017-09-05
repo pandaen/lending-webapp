@@ -35,7 +35,7 @@ a {
   cursor: pointer;
 }
 .dialog button:hover,.dialog button:active,.dialog button:focus {
-  background: lightgrey;
+  background:  blueviolet;
 }
 .dialog .message {
   margin: 15px 0 0;
@@ -45,6 +45,13 @@ a {
 .dialog .message a {
   color: blueviolet;
   text-decoration: none;
+}
+
+.error {
+  text-align: center;
+  color: red;
+  margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .container {

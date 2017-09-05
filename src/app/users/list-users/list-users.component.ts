@@ -125,7 +125,6 @@ export class ListUsersComponent implements OnInit {
   unSubscribeAll() {
     this.sub1.unsubscribe();
     this.sub2.unsubscribe();
-    console.log('unsub runned on userlist');
   }
 
   logout() {

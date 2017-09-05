@@ -23,7 +23,6 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
   } // constructor
 
   ngOnInit() {
-  console.log('visibleJoinedEntities is: ' + this.visibleJoinedEntities.length);
 
   } // ngOnInit
 
@@ -40,7 +39,6 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
     this.currentRow = index;
     //  this._router.navigate(['/user/' + id]);
     this._uService.setEntity(id,name);
-    console.log('clicked row with id ' +id +' : name is: ' + name);
   }
 
 } // class

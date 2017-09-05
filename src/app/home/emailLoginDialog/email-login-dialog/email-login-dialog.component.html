@@ -2,12 +2,23 @@
 
 
   <div *ngIf="!forgotMode">
-          <input type="text" [(ngModel)]='emailField' name="emailField" ide="emailField'" placeholder="email"/>
-          <input type="password" [(ngModel)]='passField' name="passField" ide="passField'"  placeholder="password"/>
-          <button (click)="login()">login</button>
+
+    <form>
+      <input type="text" autofocus [(ngModel)]='emailField' name="emailField" ide="emailField'" placeholder="email"/>
+      <input type="password" [(ngModel)]='passField' name="passField" ide="passField'"  placeholder="password"/>
+
+      <div class="error">
+        {{errorMessage}}
+      </div>
+
+      <button (click)="login()">login</button>
+      <p class="message">Forgot <a (click)="forgotMode = true">password?</a></p>
+
+    </form>
 
 
-          <p class="message">Forgot <a (click)="forgotMode = true">password?</a></p>
+
+
   </div>
 
   <div *ngIf="forgotMode">

@@ -77,7 +77,6 @@ export class EntityListComponent implements OnInit {
 
   unSubscribeAll() {
     this.sub2.unsubscribe();
-    console.log('unsub runned on entitieslist');
   }
 
 
