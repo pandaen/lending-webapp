@@ -42,7 +42,9 @@ export class EmailLoginDialogComponent implements OnInit {
   login() {
     if(this.emailField && this.passField) {
       this._userService.loginWithEmail(this.emailField, this.passField).then(authData => {
-    this._userService.existInDb();
+    this._userService.hasALibrary().then(hasLib => {
+    this._userService.existInDb(hasLib);
+    });
       }, error => {
           this.errorMessage = error.code;
       });

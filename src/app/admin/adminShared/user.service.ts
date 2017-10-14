@@ -21,7 +21,7 @@ import {EditItemComponent} from '../../items/edit-item/edit-item.component';
 
 
 @Injectable()
-export class UserService implements CanActivate , OnInit {
+export class UserService implements CanActivate, OnInit {
   loggedInUserDisplayName: string;
   userImage: string;// auth image
   currentUserEntity: any;
@@ -32,7 +32,7 @@ export class UserService implements CanActivate , OnInit {
   private authState: FirebaseAuthState;
   items: FirebaseListObservable<any[]>;
   entities: FirebaseListObservable<any[]>;
- // joinedEntities: FirebaseListObservable<any[]>;
+  // joinedEntities: FirebaseListObservable<any[]>;
   reservations: FirebaseListObservable<any[]>;
   users: FirebaseListObservable<any[]>;
   itemSubject: Subject<any>;
@@ -46,7 +46,7 @@ export class UserService implements CanActivate , OnInit {
 
 
   // email auth
-  public  fireAuth: any;
+  public fireAuth: any;
 
 
   usersEntityMap: FirebaseListObservable<any>;
@@ -80,7 +80,6 @@ export class UserService implements CanActivate , OnInit {
     });
 
 
-
     /*
      // Get dropdown users
      this.userSubject = new Subject();
@@ -104,15 +103,16 @@ export class UserService implements CanActivate , OnInit {
 
   } // constructor
 
-  ngOnInit () {
+  ngOnInit() {
 
-  // Set currentUserEntity , used by getAdminItems
-  let userUid = this.authState.auth.uid;
-  let fullUserRef = firebase.database().ref('/users/' + userUid);
-  fullUserRef.once('value', (snapshot) => {
-    this.currentUserEntity = snapshot.val().entity;
-  });
-}
+    // Set currentUserEntity , used by getAdminItems
+    let userUid = this.authState.auth.uid;
+    let fullUserRef = firebase.database().ref('/users/' + userUid);
+    fullUserRef.once('value', (snapshot) => {
+      this.currentUserEntity = snapshot.val().entity;
+    });
+  }
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const url: string = state.url;
     return this.verifyLogin(url);
@@ -130,12 +130,12 @@ export class UserService implements CanActivate , OnInit {
     return false;
   }
 
-  verifyUser(exist,usrName) {
+  verifyUser(exist, usrName) {
     // if (this.authState && isAdmin) {
     if (this.authState && exist) {
       //  alert(`Welcome ${this.authState.auth.email}`);
-      this.loggedInUserDisplayName = this.authState.auth.displayName === null ? usrName: this.authState.auth.displayName;
-      this.userImage = this.authState.auth.photoURL === null ? "":this.authState.auth.photoURL;
+      this.loggedInUserDisplayName = this.authState.auth.displayName === null ? usrName : this.authState.auth.displayName;  // hvis displayname null vis authUsername eller userName
+      this.userImage = this.authState.auth.photoURL === null ? '' : this.authState.auth.photoURL;
 
       this.userLoggedIn = true;
       this.tabs = this.userLoggedIn;
@@ -143,7 +143,7 @@ export class UserService implements CanActivate , OnInit {
       this._router.navigate(['']);
     } else {
       window.location.href = 'http://www.pigify.com/onlineadminaccess';
-    //  this._router.navigate(['/noAdmin']);
+      //  this._router.navigate(['/noAdmin']);
     }
   }
 
@@ -152,8 +152,11 @@ export class UserService implements CanActivate , OnInit {
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup,
     }).then((success) => {
-      //    console.log('login ok..');
-      this.existInDb();
+
+
+      this.hasALibrary().then(hasLib => {
+        this.existInDb(hasLib);
+      });
       //   this.isAdmin();
       //  this.verifyUser();
     }).catch(
@@ -163,18 +166,45 @@ export class UserService implements CanActivate , OnInit {
   }
 
 
-  existInDb() {
-  let userUid = firebase.auth().currentUser.uid;
-    let fullUserRef = firebase.database().ref('/users/' + userUid);
+  existInDb(hasAlibrary) {
+    const userUid = firebase.auth().currentUser.uid;
+    const fullUserRef = firebase.database().ref('/users/' + userUid);
+
+  // console.log("hasALibrary is: " + hasAlibrary);
     fullUserRef.once('value', (snapshot) => {
-      let userName = snapshot.child("fullname").val();
-      let exist = snapshot.exists();
-      this.verifyUser(exist,userName);
+      const userName = snapshot.child('fullname').val();
+     // const exist = snapshot.exists();
+      this.verifyUser(hasAlibrary, userName);
       // this.writeDbUser(exist);
     }, function (error) {
       console.error(error);
     });
   }
+
+
+  // User has buy a library
+  hasALibrary() {
+    let userUid = firebase.auth().currentUser.uid;
+    return new Promise((resolve, reject) => {
+    let hasALibrary =false;
+ //   console.log('Has a Library...............');
+    const libraryQuery = firebase.database().ref('/entities').orderByChild('owner').equalTo(userUid);
+    libraryQuery.once('value').then(function (snapshot) {
+      const total = snapshot.numChildren();
+      if(total >=1) {
+        hasALibrary = true;
+      }else {
+        hasALibrary =false;}
+      resolve(hasALibrary);
+      //console.log('Total library is: ' + total);
+    }, function (error) {
+      reject(error);
+      console.error(error);
+    });
+  });
+
+}
+
 
 
   /*
@@ -224,7 +254,7 @@ export class UserService implements CanActivate , OnInit {
 
     this.af.auth.logout().then((success) => {
       this._router.navigate(['/login']);
-    //       console.log('Logged out...');
+      //       console.log('Logged out...');
     }).catch(
       (err) => {
         alert(`${err.message} Logout. failed!`);
@@ -247,13 +277,12 @@ export class UserService implements CanActivate , OnInit {
     });
   }
 
-  getCurrentUserLibrary () {
-    return this.currentLibrary = this.db.object('/users/' + this.authState.auth.uid +'/entityName' ,{preserveSnapshot: true});
+  getCurrentUserLibrary() {
+    return this.currentLibrary = this.db.object('/users/' + this.authState.auth.uid + '/entityName', {preserveSnapshot: true});
   }
 
 
-
-/*
+  /*
    // Get your items that lies in your created entityes
    getAdminItems() {
    // this.entitySubject = new Subject();
@@ -264,17 +293,17 @@ export class UserService implements CanActivate , OnInit {
    }
    });
    }
-*/
-   getYourUsers() {
-   this.userSubject = new Subject();
-   this.items = this.db.list('/users', {
-   query: {
-   orderByChild: 'entity',
-   equalTo: this.userSubject
-   }
-   });
-   //  return this.items;
-   }
+   */
+  getYourUsers() {
+    this.userSubject = new Subject();
+    this.items = this.db.list('/users', {
+      query: {
+        orderByChild: 'entity',
+        equalTo: this.userSubject
+      }
+    });
+    //  return this.items;
+  }
 
 
 // Get your entities
@@ -290,49 +319,46 @@ export class UserService implements CanActivate , OnInit {
 
 // get granted entities , NOT IN USE (show use of observer)
   /*
-  getJoinedEntities() {
-    let uid = this.authState.auth.uid;
-    let joinedEntities: any = [];
-    return Observable.create((observer) => {
-    let userQuery = firebase.database().ref('/usersEntityMap').orderByChild("userUid").equalTo(uid);
-    userQuery.on('child_added', function(snapshot) {
-      let isEntityAdmin = snapshot.val().adminAccess === true;
-      if (isEntityAdmin) {
-        joinedEntities.push(snapshot.val());
-      }
+   getJoinedEntities() {
+   let uid = this.authState.auth.uid;
+   let joinedEntities: any = [];
+   return Observable.create((observer) => {
+   let userQuery = firebase.database().ref('/usersEntityMap').orderByChild("userUid").equalTo(uid);
+   userQuery.on('child_added', function(snapshot) {
+   let isEntityAdmin = snapshot.val().adminAccess === true;
+   if (isEntityAdmin) {
+   joinedEntities.push(snapshot.val());
+   }
    //   console.log('joinedentities on uservice is: ' + joinedEntities);
-      observer.next(joinedEntities);
-    });
-    });
-  }
-*/
-
-
-
+   observer.next(joinedEntities);
+   });
+   });
+   }
+   */
 
 
   /* NOT IN USE (SHOW USE OF PROMISE)
-    getJoinedentities() {
-      let authUid = this.authState.auth.uid;
-      let joinedEntities: IItem[] = [];
-      return new Promise((resolve, reject) => {
-          let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();
-          userQuery.once('value').then(function (snapshot) {
-            let total = snapshot.numChildren();
-            snapshot.forEach(function (childSnapshot) {
-              let match = childSnapshot.val().userUid === authUid;
-              let isEntityAdmin = childSnapshot.val().adminAccess === true;
-              let admin = isEntityAdmin === true ? 'Yes' : 'No';
-              let entityName = childSnapshot.val().entityName;
-              if (match && isEntityAdmin) {
-                joinedEntities.push(childSnapshot.val());
-                resolve(joinedEntities);
-              }
-            });
-          });
-        });
-    }
-  */
+   getJoinedentities() {
+   let authUid = this.authState.auth.uid;
+   let joinedEntities: IItem[] = [];
+   return new Promise((resolve, reject) => {
+   let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();
+   userQuery.once('value').then(function (snapshot) {
+   let total = snapshot.numChildren();
+   snapshot.forEach(function (childSnapshot) {
+   let match = childSnapshot.val().userUid === authUid;
+   let isEntityAdmin = childSnapshot.val().adminAccess === true;
+   let admin = isEntityAdmin === true ? 'Yes' : 'No';
+   let entityName = childSnapshot.val().entityName;
+   if (match && isEntityAdmin) {
+   joinedEntities.push(childSnapshot.val());
+   resolve(joinedEntities);
+   }
+   });
+   });
+   });
+   }
+   */
 
   // get all items
   getItems() {
@@ -418,11 +444,11 @@ export class UserService implements CanActivate , OnInit {
 
   updateItem(id, item) {
 
-   /* // Update Date
-    if (dueDate) {
-      firebase.database().ref('/items/').child(id).child('loan').update({'formattedShortDate': dueDate});
-    }
-    */
+    /* // Update Date
+     if (dueDate) {
+     firebase.database().ref('/items/').child(id).child('loan').update({'formattedShortDate': dueDate});
+     }
+     */
     return this.items.update(id, item);
   }
 
@@ -522,7 +548,7 @@ export class UserService implements CanActivate , OnInit {
   }
 
 
-  setEntity(id,name) {
+  setEntity(id, name) {
     let userUid = this.authState.auth.uid;
 
     firebase.database().ref('/users/').child(userUid).update({'entity': id, 'entityName': name});
@@ -533,17 +559,17 @@ export class UserService implements CanActivate , OnInit {
     let entityPromise = this.entities.push({
       name: name,
       owner: this.authState.auth.uid,
-      ownerName: this.authState.auth.displayName|| 'emailName',
+      ownerName: this.authState.auth.displayName || 'emailName',
       office: office,
-      reservationDays:reservationDays,
-      termsAndConditions:termsAndConditions
+      reservationDays: reservationDays,
+      termsAndConditions: termsAndConditions
     });
 
     entityPromise.then((resolve) => {
       this.usersEntityMap.push({
         userUid: this.authState.auth.uid,
         fullname: this.authState.auth.displayName,
-        email:this.authState.auth.email,
+        email: this.authState.auth.email,
         photoURL: this.authState.auth.photoURL,
         entity: resolve.key,
         entityName: name,
