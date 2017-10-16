@@ -51,6 +51,8 @@ export class UserService implements CanActivate, OnInit {
 
   usersEntityMap: FirebaseListObservable<any>;
   item: FirebaseObjectObservable<any>;
+  library: FirebaseObjectObservable<any>;
+  office: FirebaseObjectObservable<any>;
   currentLibrary: FirebaseObjectObservable<any>;
   entitySubject: Subject<any>;
   userSubject: Subject<any>;
@@ -134,7 +136,7 @@ export class UserService implements CanActivate, OnInit {
     // if (this.authState && isAdmin) {
     if (this.authState && exist) {
       //  alert(`Welcome ${this.authState.auth.email}`);
-      this.loggedInUserDisplayName = this.authState.auth.displayName === null ? usrName : this.authState.auth.displayName;  // hvis displayname null vis authUsername eller userName
+      this.loggedInUserDisplayName = this.authState.auth.displayName === null ? usrName : this.authState.auth.displayName;// hvis displayname null, vis authUsername eller userName
       this.userImage = this.authState.auth.photoURL === null ? '' : this.authState.auth.photoURL;
 
       this.userLoggedIn = true;
@@ -383,6 +385,16 @@ export class UserService implements CanActivate, OnInit {
     return this.item;
   }
 
+  getLibraryDetails(id) {
+    this.library = this.af.database.object('/entities/' + id) as FirebaseObjectObservable<IItem>;
+    return this.library;
+  }
+
+  getLibraryOffice(id) {
+    this.office = this.af.database.object('/entities/' + id + '/office') as FirebaseObjectObservable<IItem>;
+    return this.office;
+  }
+
   getItemDetailsResInfo(id) {
     this.reservations = this.af.database.list('/items/' + id + '/reserved') as FirebaseListObservable<IItem[]>;
     return this.reservations;
@@ -452,6 +464,10 @@ export class UserService implements CanActivate, OnInit {
     return this.items.update(id, item);
   }
 
+  updateLibrary(id, library) {
+    return this.entities.update(id, library);
+  }
+
   writeNotify(id) {
     firebase.database().ref('/items/').child(id).update({'status': 'Notify'});
   }
@@ -518,6 +534,20 @@ export class UserService implements CanActivate, OnInit {
     });
   }
 
+  officeExist(id) {
+    return new Promise((resolve, reject) => {
+      let userUid = this.authState.auth.uid;
+      let fullRef = firebase.database().ref('/entities/' + id + '/office');
+      fullRef.once('value', (snapshot) => {
+        let exist = snapshot.exists();
+        resolve(exist);
+      }, function (error) {
+        reject(error);
+        console.error(error);
+      });
+    });
+  }
+
 
   nrOfItems() {
     return new Promise((resolve, reject) => {
@@ -548,7 +578,7 @@ export class UserService implements CanActivate, OnInit {
   }
 
 
-  setEntity(id, name) {
+  setLibrary(id, name) {
     let userUid = this.authState.auth.uid;
 
     firebase.database().ref('/users/').child(userUid).update({'entity': id, 'entityName': name});

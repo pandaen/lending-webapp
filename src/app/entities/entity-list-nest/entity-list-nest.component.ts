@@ -15,7 +15,13 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
   visibleEntities: IEntity[] = [];
   visibleJoinedEntities: IEntity[] = [];
   allVisible: IEntity[] = [];
+
+  // dialog
   currentRow: Number;
+  sendID;
+  sendName;
+  // toggle itemDialog switch
+  showDialog: boolean;
 
   constructor(private _uService: UserService) {
 
@@ -37,8 +43,11 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
 
   setClickedRow(index, id: string,name) {
     this.currentRow = index;
+    this.sendID = id;
+    this.sendName = name;
+    this.showDialog = !this.showDialog;
     //  this._router.navigate(['/user/' + id]);
-    this._uService.setEntity(id,name);
+  //  this._uService.setEntity(id,name);
   }
 
 } // class

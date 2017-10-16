@@ -4,7 +4,6 @@ import {UserService} from '../../admin/adminShared/user.service';
 import {BSModalContext, Modal} from 'angular2-modal/plugins/bootstrap';
 import {overlayConfigFactory} from 'angular2-modal';
 
-
 @Component({
   selector: 'app-item-dialog',
   templateUrl: './item-dialog.component.html',
@@ -31,7 +30,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   item: any;
   reserved: any[];
   eMail = '';
-  loanExistt;
+  loanExist;
   timeInMs;
   dueDate;
   // real data
@@ -63,7 +62,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
 
     // Receive a promise from exist
     this._uService.loanExist(this.id).then(exist => {
-      this.loanExistt = exist;
+      this.loanExist = exist;
     });
 
     this._uService.getItemDetails(this.id).subscribe(item => {
@@ -73,7 +72,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
       this.item = item;
 
       // Get nested itemDetails if node loan exist
-      if (this.loanExistt) {
+      if (this.loanExist) {
         this.dueDate = item.loan.formattedShortDate;
         //   this.borrowerName = item.loan.loanerName;
         this.timeInMs = item.loan.timeInMillis;
@@ -97,7 +96,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
      name: this.dummyName,
      description: this.dummyDesc,
      reservationDays: this.dummyresDay
-     }
+     };
      this._uService.updateItem(this.id, item);
      this.close();
   }
@@ -110,7 +109,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
       .showClose(true)
       .keyboard(27)
       .title('Delete item: aNewItem?')
-      .titleHtml('Alert')
+      .titleHtml('Delete current item?')
       .body('Delete item: ' + this.item.name + '?')
       .okBtn('Yes')
       .okBtnClass('btn btn-danger')
@@ -141,7 +140,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   }
 
   sendEmail(eMail, borrower, date) {
-    let body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Borrowing Team';
+    let body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify Team';
     let email = eMail;
     let subject = 'Reminder of overdue item';
     let mailto_link = 'mailto:' + email + '?subject=' + subject + '&body=' + encodeURIComponent(body_message);

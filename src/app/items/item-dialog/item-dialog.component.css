@@ -32,22 +32,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-
-.buttonEdit {
-  background-color: #3D8DFF;
-  color: #FFF;
-  padding: 10px 16px;
-  border: none;
-  text-align: center;
-  text-decoration: none;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  display: inline-block;
-  font-size: 16px;
-   margin-top: 30px;
-  cursor: pointer;
-}
-
 .buttonCancel {
   background-color: #f8b2ab;
   color: #FFF;
@@ -61,6 +45,37 @@
   font-size: 16px;
    margin-top: 150px;
   margin-right: 10px;
+  cursor: pointer;
+}
+
+.buttonSave {
+  background-color: #80e08f;
+  color: #FFF;
+  padding: 10px 16px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+  /* margin: 30px 2px; */
+  cursor: pointer;
+}
+
+
+.buttonEdit {
+  background-color: #3D8DFF;
+  color: #FFF;
+  padding: 10px 16px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 30px;
   cursor: pointer;
 }
 
@@ -80,22 +95,6 @@
   cursor: pointer;
 
 }
-
-.buttonSave {
-  background-color: #80e08f;
-  color: #FFF;
-  padding: 10px 16px;
-  border: none;
-  text-align: center;
-  text-decoration: none;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  display: inline-block;
-  font-size: 16px;
- /* margin: 30px 2px; */
-  cursor: pointer;
-}
-
 
 .buttonCalendar {
   background-color: #3D8DFF;

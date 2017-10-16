@@ -18,10 +18,10 @@ export class ItemListNestComponent implements OnChanges {
   imageWidth: number = 50;
   imageMargin: number = 2;
   item: any;
-  currentRow: Number;
   imageUrl: any;
   nrOfItem;
 
+  currentRow: Number;
   sendID;
   // toggle itemDialog switch
   showDialog: boolean;
