@@ -139,6 +139,11 @@ export class ItemDialogComponent implements OnInit, OnChanges {
     this.dummyresDay = this.reservationDays;
   }
 
+  calenderModus() {
+    this.editMode = false;
+    this.calenderMode = true;
+  }
+
   sendEmail(eMail, borrower, date) {
     let body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify Team';
     let email = eMail;

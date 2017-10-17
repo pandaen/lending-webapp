@@ -464,8 +464,19 @@ export class UserService implements CanActivate, OnInit {
     return this.items.update(id, item);
   }
 
-  updateLibrary(id, library) {
-    return this.entities.update(id, library);
+  updateLibrary(id, library, officeData) {
+     this.af.database.list('/entities').update(id, library).then(x => {
+       if(officeData) {
+         firebase.database().ref('/entities/').child(id).child('office').update({'location': officeData.location});
+         firebase.database().ref('/entities/').child(id).child('office').update({'room': officeData.room});
+       }
+
+     });
+
+  }
+
+  updateOfficeLibraryData(office, key) {
+
   }
 
   writeNotify(id) {
