@@ -28,6 +28,7 @@ import {BootstrapModalModule} from 'angular2-modal/plugins/bootstrap';
 import {EmailLoginDialogComponent} from '../home/emailLoginDialog/email-login-dialog/email-login-dialog.component';
 import {ImageCropperComponent} from 'ng2-img-cropper';
 import {LibraryDialogComponent} from '../entities/library-dialog/library-dialog.component';
+import {UserDialogComponent} from '../users/user-dialog/user-dialog.component';
 
 /*
  const AdminRoutes: Routes = [
@@ -91,6 +92,7 @@ const routes: Routes = [
     ItemDialogComponent,
     EmailLoginDialogComponent,
     LibraryDialogComponent,
+    UserDialogComponent,
   ],
   imports: [
     SharedModule,

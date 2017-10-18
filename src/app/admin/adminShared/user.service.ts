@@ -35,6 +35,7 @@ export class UserService implements CanActivate, OnInit {
   // joinedEntities: FirebaseListObservable<any[]>;
   reservations: FirebaseListObservable<any[]>;
   users: FirebaseListObservable<any[]>;
+  lendingItems: FirebaseListObservable<any[]>;
   itemSubject: Subject<any>;
   user: FirebaseObjectObservable<any>;
   usersRef: any;
@@ -56,6 +57,7 @@ export class UserService implements CanActivate, OnInit {
   currentLibrary: FirebaseObjectObservable<any>;
   entitySubject: Subject<any>;
   userSubject: Subject<any>;
+  lendingSubject: Subject<any>;
 
 
   constructor(private _router: Router, private af: AngularFire, private db: AngularFireDatabase) {
@@ -93,7 +95,7 @@ export class UserService implements CanActivate, OnInit {
      });
      */
 
-    // Get  users for table
+    // Get  users that belong to the actually  library (query)
     this.userSubject = new Subject();
     this.users = db.list('/usersEntityMap', {
       query: {
@@ -101,6 +103,17 @@ export class UserService implements CanActivate, OnInit {
         equalTo: this.userSubject
       }
     });
+
+
+    // Get  the user lending item
+    this.lendingSubject = new Subject();
+    this.lendingItems = db.list('/items', {
+      query: {
+        orderByChild: 'loan/loaner',
+        equalTo:  this.lendingSubject
+      }
+    });
+
 
 
   } // constructor
@@ -406,6 +419,12 @@ export class UserService implements CanActivate, OnInit {
     return this.users;
   }
 
+  /*
+  getLendingItems(id) {
+    this.library = this.af.database.object('/entities/' + id) as FirebaseObjectObservable<IItem>;
+    return this.library;
+  }
+  */
 
   getUserDetails(id) {
     this.user = this.af.database.object('/users/' + id) as FirebaseObjectObservable<IItem>;

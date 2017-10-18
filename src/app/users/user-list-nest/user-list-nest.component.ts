@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {IUser} from '../user';
 import {Router} from '@angular/router';
+import {UserService} from '../../admin/adminShared/user.service';
 
 @Component({
   selector: 'app-user-list-nest',
@@ -14,12 +15,21 @@ export class UserListNestComponent implements OnChanges {
   visibleUsers: IUser[] = [];
   currentRow: Number;
   nrOfUsers;
+  sendID;
+  sendName;
+  showDialog: boolean;
+  lendingItems;
   // imageWidth: number = 50;
   // imageMargin: number = 20;
 
 
-  constructor(private _router: Router) {
-  }
+  constructor(private _uService: UserService,private _router: Router) {
+
+    // set lending items by a user
+     this._uService.lendingItems.subscribe(lending => {
+      this.lendingItems = lending;
+    });
+  } // constructor
 
   ngOnChanges() {
     if (this.users) {
@@ -48,10 +58,15 @@ export class UserListNestComponent implements OnChanges {
     }
   }
 
-  setClickedRow(index, id) {
+  setClickedRow(index, id,userName) {
     this.currentRow = index;
-  //  this._router.navigate(['/user/' + id]);
-    console.log('clicked row with id ' +id);
+    this.sendID = id;
+    this._uService.lendingSubject.next(this.sendID);
+
+    const res = userName.split("@");
+    const str = res[0]
+    this.sendName = str;
+    this.showDialog = !this.showDialog;
   }
 
 }
