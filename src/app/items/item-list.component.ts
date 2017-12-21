@@ -71,8 +71,6 @@ export class ItemListComponent implements OnInit {
 
   ngOnInit() {
 
-
-
 // Get initial info
     this.theUser = this._uService.loggedInUserDisplayName;
     this.tabs = this._uService.userLoggedIn;

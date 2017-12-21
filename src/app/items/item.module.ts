@@ -8,7 +8,7 @@ import {UserService} from '../admin/adminShared/user.service';
 import {SharedModule} from '../shared/shared.module';
 import {LoginComponent} from '../home/login.component';
 import {AddItemComponent} from './add-item/add-item.component';
-import {EditItemComponent} from './edit-item/edit-item.component';
+// import {EditItemComponent} from './edit-item/edit-item.component';
 import {ItemListNestComponent} from './item-list-nest';
 import {ListUsersComponent} from '../users/list-users/list-users.component';
 import {UserDetailComponent} from '../users/user-detail/user-detail.component';
@@ -56,7 +56,6 @@ const routes: Routes = [
       {path: 'item', component: ItemListComponent},
       {path: 'item/:id', component: ItemDetailComponent},
       {path: 'add', component: AddItemComponent},
-      {path: 'edit-item/:id', component: EditItemComponent},
 
       {path: 'users', component: ListUsersComponent},
       {path: 'user/:id', component: UserDetailComponent},
@@ -78,7 +77,6 @@ const routes: Routes = [
     ItemDetailComponent,
     LoginComponent,
     AddItemComponent,
-    EditItemComponent,
     ItemListNestComponent,
     ListUsersComponent,
     UserFilterPipe,

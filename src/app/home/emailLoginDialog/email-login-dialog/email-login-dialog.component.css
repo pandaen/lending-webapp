@@ -9,6 +9,11 @@ a {
   margin: auto;
 }
 
+.title {
+  color: #422744;
+  font-size: 25px;
+}
+
 .dialog input {
   font-family: "Roboto", sans-serif;
   outline: 0;

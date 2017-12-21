@@ -96,6 +96,14 @@
 
 }
 
+.resRow {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  border: 5px solid #FCB8B2;
+  background-color: #FCB8B2;
+}
+
 .buttonCalendar {
   background-color: #3D8DFF;
   color: #FFF;

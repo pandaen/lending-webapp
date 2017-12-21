@@ -11,7 +11,7 @@
     <tbody>
 
 
-    <tr *ngFor='let user of visibleUsers | userFilter:listFilter, let i = index' (click)="setClickedRow(i,user.userUid, user.email)" [class.active]='i == currentRow'>
+    <tr *ngFor='let user of visibleUsers | userFilter:listFilter, let i = index' (click)="setClickedRow(i,user.userUid, user.fullname, user.email)" [class.active]='i == currentRow'>
 
       <td width=10>
       <img  class="avatar" [src]='user.photoURL'
@@ -33,4 +33,4 @@
 </div>
 
 
-<app-user-dialog [(visible)]="showDialog" [(receivedID)]="sendID" [(lendingItems)]="lendingItems" [(receivedName)]="sendName" ></app-user-dialog>
+<app-user-dialog [(visible)]="showDialog" [(receivedID)]="sendID" [(lendingItems)]="lendingItems" [(receivedName)]="sendName" [(receivedEmail)]="sendUserEmail"    [(receivedEntity)]="receivedEntity"></app-user-dialog>

@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class ListUsersComponent implements OnInit {
   users;
   id: any;
-  filterBy: string = 'all';
+  filterBy = 'all';
   listFilter: string;
   theUser: string;
   userImage: string;
@@ -75,8 +75,9 @@ export class ListUsersComponent implements OnInit {
     // Get currentUser Entity (ID) for set default selectOption return a promise
     this._uService.getCurrentUserEntity().then(user => {
       this.currentUser = user;
+      this.currentuseEntity =this.currentUser.entity;
       this.userEntityName = this.currentUser.entityName;
-      this._uService.userSubject.next(this.currentUser.entity);
+      this._uService.userSubject.next(this.currentuseEntity);
     });  // get User EntityID
 
 

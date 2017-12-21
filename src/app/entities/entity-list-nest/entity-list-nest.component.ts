@@ -46,8 +46,6 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
     this.sendID = id;
     this.sendName = name;
     this.showDialog = !this.showDialog;
-    //  this._router.navigate(['/user/' + id]);
-  //  this._uService.setEntity(id,name);
   }
 
 } // class

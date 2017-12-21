@@ -31,8 +31,6 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   reserved: any[];
   eMail = '';
   loanExist;
-  timeInMs;
-  dueDate;
   // real data
   name;
   description;
@@ -50,6 +48,8 @@ export class ItemDialogComponent implements OnInit, OnChanges {
 
   errorMessage: string;
 
+  sub1;
+
 
   constructor(private _uService: UserService, public modal: Modal) {
   }
@@ -65,18 +65,14 @@ export class ItemDialogComponent implements OnInit, OnChanges {
       this.loanExist = exist;
     });
 
-    this._uService.getItemDetails(this.id).subscribe(item => {
+    this.sub1 = this._uService.getItemDetails(this.id).subscribe(item => {
       this.name = item.name;
       this.description = item.description;
       this.reservationDays = item.reservationDays;
       this.item = item;
 
       // Get nested itemDetails if node loan exist
-      if (this.loanExist) {
-        this.dueDate = item.loan.formattedShortDate;
-        //   this.borrowerName = item.loan.loanerName;
-        this.timeInMs = item.loan.timeInMillis;
-      }
+
 
     });
     // sett dummy data
@@ -126,7 +122,8 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   }
 
   onDeleteClick() {
-    this._uService.deleteItem(this.id);
+    console.log("Button delete clicked");
+   // this._uService.deleteItem(this.id);
     this.close();
     this.modal
       .open('Delete successfull! ', overlayConfigFactory({isBlocking: false}, BSModalContext));
@@ -145,10 +142,10 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   }
 
   sendEmail(eMail, borrower, date) {
-    let body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify Team';
-    let email = eMail;
-    let subject = 'Reminder of overdue item';
-    let mailto_link = 'mailto:' + email + '?subject=' + subject + '&body=' + encodeURIComponent(body_message);
+    const body_message ='Hello '+borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify Team';
+    const email = eMail;
+    const subject = 'Reminder of overdue item';
+    const mailto_link = 'mailto:' + email + '?subject=' + subject + '&body=' + encodeURIComponent(body_message);
     window.open(mailto_link, 'emailWindow');
   }
 
@@ -158,6 +155,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
     this.visibleChange.emit(this.visible);
     this.editMode = false;
     this.calenderMode = false;
+    this.sub1.unsubscribe();
   }
 
 

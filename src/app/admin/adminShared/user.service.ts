@@ -17,7 +17,6 @@ import {
 import {IItem} from '../../items/item';
 import * as firebase from 'firebase';
 import {Subject} from 'rxjs';
-import {EditItemComponent} from '../../items/edit-item/edit-item.component';
 
 
 @Injectable()
@@ -35,6 +34,8 @@ export class UserService implements CanActivate, OnInit {
   // joinedEntities: FirebaseListObservable<any[]>;
   reservations: FirebaseListObservable<any[]>;
   users: FirebaseListObservable<any[]>;
+  usersE: FirebaseListObservable<any[]>;   // user for deleteEntity method
+  itemsE: FirebaseListObservable<any>;
   lendingItems: FirebaseListObservable<any[]>;
   itemSubject: Subject<any>;
   user: FirebaseObjectObservable<any>;
@@ -59,6 +60,9 @@ export class UserService implements CanActivate, OnInit {
   userSubject: Subject<any>;
   lendingSubject: Subject<any>;
 
+  errorFunc = error => {
+    console.log(error)
+  };
 
   constructor(private _router: Router, private af: AngularFire, private db: AngularFireDatabase) {
     this.af.auth.subscribe((state: FirebaseAuthState) => {
@@ -69,6 +73,8 @@ export class UserService implements CanActivate, OnInit {
     this.itemsRef = firebase.database().ref('/items');
     this.entities = af.database.list('/entities');
     this.usersEntityMap = af.database.list('/usersEntityMap');
+    this.usersE = af.database.list('/users');
+    this.itemsE = af.database.list('/items');
 
 
     // email auth
@@ -105,15 +111,16 @@ export class UserService implements CanActivate, OnInit {
     });
 
 
+
+
     // Get  the user lending item
     this.lendingSubject = new Subject();
     this.lendingItems = db.list('/items', {
       query: {
         orderByChild: 'loan/loaner',
-        equalTo:  this.lendingSubject
+        equalTo: this.lendingSubject
       }
     });
-
 
 
   } // constructor
@@ -185,10 +192,10 @@ export class UserService implements CanActivate, OnInit {
     const userUid = firebase.auth().currentUser.uid;
     const fullUserRef = firebase.database().ref('/users/' + userUid);
 
-  // console.log("hasALibrary is: " + hasAlibrary);
+    // console.log("hasALibrary is: " + hasAlibrary);
     fullUserRef.once('value', (snapshot) => {
       const userName = snapshot.child('fullname').val();
-     // const exist = snapshot.exists();
+      // const exist = snapshot.exists();
       this.verifyUser(hasAlibrary, userName);
       // this.writeDbUser(exist);
     }, function (error) {
@@ -201,25 +208,25 @@ export class UserService implements CanActivate, OnInit {
   hasALibrary() {
     let userUid = firebase.auth().currentUser.uid;
     return new Promise((resolve, reject) => {
-    let hasALibrary =false;
- //   console.log('Has a Library...............');
-    const libraryQuery = firebase.database().ref('/entities').orderByChild('owner').equalTo(userUid);
-    libraryQuery.once('value').then(function (snapshot) {
-      const total = snapshot.numChildren();
-      if(total >=1) {
-        hasALibrary = true;
-      }else {
-        hasALibrary =false;}
-      resolve(hasALibrary);
-      //console.log('Total library is: ' + total);
-    }, function (error) {
-      reject(error);
-      console.error(error);
+      let hasALibrary = false;
+      //   console.log('Has a Library...............');
+      const libraryQuery = firebase.database().ref('/entities').orderByChild('owner').equalTo(userUid);
+      libraryQuery.once('value').then(function (snapshot) {
+        const total = snapshot.numChildren();
+        if (total >= 1) {
+          hasALibrary = true;
+        } else {
+          hasALibrary = false;
+        }
+        resolve(hasALibrary);
+        //console.log('Total library is: ' + total);
+      }, function (error) {
+        reject(error);
+        console.error(error);
+      });
     });
-  });
 
-}
-
+  }
 
 
   /*
@@ -420,12 +427,28 @@ export class UserService implements CanActivate, OnInit {
   }
 
   /*
-  getLendingItems(id) {
-    this.library = this.af.database.object('/entities/' + id) as FirebaseObjectObservable<IItem>;
-    return this.library;
-  }
-  */
+   getLendingItems(id) {
+   this.library = this.af.database.object('/entities/' + id) as FirebaseObjectObservable<IItem>;
+   return this.library;
+   }
+   */
 
+
+  /*
+  // UNDER CONSTRUCTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  getUsersLoanItem(entity,id) {
+    let libArr = [];
+    console.log("libArr typeOf: " + libArr);
+    return new Promise((resolve, reject) => {
+      let libraryQuery = firebase.database().ref('/items/').orderByChild('entity').equalTo(entity);
+      libraryQuery.once('value').then(function (snapshot) {
+        const total = snapshot.numChildren();
+        libArr.push(snapshot);
+        resolve(libArr);
+      });
+    });
+  }
+*/
   getUserDetails(id) {
     this.user = this.af.database.object('/users/' + id) as FirebaseObjectObservable<IItem>;
     return this.user;
@@ -484,13 +507,13 @@ export class UserService implements CanActivate, OnInit {
   }
 
   updateLibrary(id, library, officeData) {
-     this.af.database.list('/entities').update(id, library).then(x => {
-       if(officeData) {
-         firebase.database().ref('/entities/').child(id).child('office').update({'location': officeData.location});
-         firebase.database().ref('/entities/').child(id).child('office').update({'room': officeData.room});
-       }
+    this.af.database.list('/entities').update(id, library).then(x => {
+      if (officeData) {
+        firebase.database().ref('/entities/').child(id).child('office').update({'location': officeData.location});
+        firebase.database().ref('/entities/').child(id).child('office').update({'room': officeData.room});
+      }
 
-     });
+    });
 
   }
 
@@ -647,6 +670,64 @@ export class UserService implements CanActivate, OnInit {
 
   forgotPasswordUser(email: any) {
     return this.fireAuth.sendPasswordResetEmail(email);
+  }
+
+  deleteUserLibraryMapping(entity) {
+    const authUid = this.authState.auth.uid;
+    const libArr: IItem[] = [];
+    return new Promise((resolve, reject) => {
+      const libraryQuery = firebase.database().ref('/usersEntityMap/').orderByChild('entity').equalTo(entity);
+      libraryQuery.once('value').then(function (snapshot) {
+        const total = snapshot.numChildren();
+        snapshot.forEach(function (childSnapshot) {
+          libArr.push(childSnapshot.val());
+          console.log('libarr is: ' + JSON.stringify(libArr[0], null, '') + '& total is: ' + total);
+          resolve(libArr);
+        });
+      });
+    });
+  }
+
+
+  // Code for deleting Entity (from mobilApp)
+  deleteEntity(entity) {
+    console.log('Library was deleted!!!');
+    this.usersEntityMap.subscribe(map => {
+      const elementsToDelete = map.filter(el => {
+        return (el.entity === entity.$key);
+      });
+      elementsToDelete.forEach(el => {
+        this.usersEntityMap.remove(el);
+      });
+    }, this.errorFunc).unsubscribe();
+
+    this.usersE.subscribe(users => {
+      users.forEach(user => {
+        if (user.entity === entity.$key) {
+          this.usersE.update(user, {
+            entity: 'No library, join a library to get started',
+            entityName: 'No library, join a library to get started'
+          });
+        }
+        if (user.otherRoleEntity === entity.$key) {
+          this.usersE.update(user, {
+            otherRoleEntity: 'No library, join a library to get started',
+            otherRoleEntityName: 'No library, join a library to get started'
+          });
+        }
+      });
+    }, this.errorFunc).unsubscribe();
+
+    this.itemsE.subscribe(items => {
+      const itemsToDelete = items.filter(item => {
+        return (item.entity === entity.$key)
+      });
+      itemsToDelete.forEach(item => {
+        this.itemsE.remove(item);
+      });
+    }, this.errorFunc).unsubscribe();
+
+    this.entities.remove(entity);
   }
 
 }// class

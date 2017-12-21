@@ -12,23 +12,29 @@ export class UserListNestComponent implements OnChanges {
   @Input() users: IUser[];
   @Input() filterBy: string;
   @Input() listFilter: string;
+  @Input() receivedEntity: string;
   visibleUsers: IUser[] = [];
   currentRow: Number;
   nrOfUsers;
   sendID;
   sendName;
+  sendUserEmail;
   showDialog: boolean;
   lendingItems;
   // imageWidth: number = 50;
   // imageMargin: number = 20;
 
 
-  constructor(private _uService: UserService,private _router: Router) {
+  constructor(private _uService: UserService, private _router: Router) {
+
 
     // set lending items by a user
-     this._uService.lendingItems.subscribe(lending => {
-      this.lendingItems = lending;
+    this._uService.lendingItems.subscribe(lending => {
+          this.lendingItems = lending;
     });
+
+
+
   } // constructor
 
   ngOnChanges() {
@@ -58,14 +64,16 @@ export class UserListNestComponent implements OnChanges {
     }
   }
 
-  setClickedRow(index, id,userName) {
+  setClickedRow(index, id, userName, sendUserEmail) {
     this.currentRow = index;
     this.sendID = id;
     this._uService.lendingSubject.next(this.sendID);
-
-    const res = userName.split("@");
-    const str = res[0]
-    this.sendName = str;
+    /* email spliter at @
+     const res = userName.split("@");
+     const str = res[0];
+     */
+    this.sendName = userName;
+    this.sendUserEmail = sendUserEmail;
     this.showDialog = !this.showDialog;
   }
 

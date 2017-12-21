@@ -39,11 +39,11 @@
       </td>
 
       <div  >
-      <td *ngIf="item.loan">{{ item.loan.loanerName}}</td>
+      <td *ngIf="item.loan">{{ item.loan?.loanerName}}</td>
       <td *ngIf="(!item.loan)"></td>
       </div>
 
-      <td *ngIf="item.loan">{{ item.loan.formattedShortDate}}</td>
+      <td *ngIf="item.loan">{{ item.loan?.formattedShortDate}}</td>
       <td *ngIf="(!item.loan)"></td>
 
       <td>
