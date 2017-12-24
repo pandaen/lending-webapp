@@ -23,7 +23,7 @@ import {overlayConfigFactory} from 'angular2-modal';
 export class ItemDialogComponent implements OnInit, OnChanges {
   @Input() closable = true;
   @Input() visible: boolean;
-  @Input() receiveID: string;
+  @Input() selectedItem: string;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   id: any;
@@ -43,12 +43,9 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   borrower;
   // toggle Modes
   editMode = false;
-  calenderMode = null;
   userDetail: any[];
 
   errorMessage: string;
-
-  sub1;
 
 
   constructor(private _uService: UserService, public modal: Modal) {
@@ -58,43 +55,34 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   } // ngOnInit
 
   ngOnChanges() {
-    this.id = this.receiveID; // setts clcked iteID
 
-    // Receive a promise from exist
-    this._uService.loanExist(this.id).then(exist => {
-      this.loanExist = exist;
-    });
+    if (this.selectedItem) {
+      this.name = this.selectedItem['name'];
+      this.description = this.selectedItem['description'];
+      this.reservationDays = this.selectedItem['reservationDays'];
 
-    this.sub1 = this._uService.getItemDetails(this.id).subscribe(item => {
-      this.name = item.name;
-      this.description = item.description;
-      this.reservationDays = item.reservationDays;
-      this.item = item;
-
-      // Get nested itemDetails if node loan exist
+      this.reserved = this.selectedItem['reserved'];
 
 
-    });
+    }
+
     // sett dummy data
     this.dummyName = this.name;
     this.dummyDesc = this.description;
     this.dummyresDay = this.reservationDays;
 
-    this._uService.getItemDetailsResInfo(this.id).subscribe(res => {
-      this.reserved = res;
-    });
 
   } // ngOnChanges
 
 
   onEditSubmit() {
-     let item = {
-     name: this.dummyName,
-     description: this.dummyDesc,
-     reservationDays: this.dummyresDay
-     };
-     this._uService.updateItem(this.id, item);
-     this.close();
+    const item = {
+      name: this.dummyName,
+      description: this.dummyDesc,
+      reservationDays: this.dummyresDay
+    };
+    this._uService.updateItem(this.selectedItem['$key'], item);
+    this.close();
   }
 
 
@@ -106,7 +94,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
       .keyboard(27)
       .title('Delete item: aNewItem?')
       .titleHtml('Delete current item?')
-      .body('Delete item: ' + this.item.name + '?')
+      .body('Delete item: ' + this.selectedItem['name'] + '?')
       .okBtn('Yes')
       .okBtnClass('btn btn-danger')
       .cancelBtn('No')
@@ -122,8 +110,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
   }
 
   onDeleteClick() {
-    console.log("Button delete clicked");
-   // this._uService.deleteItem(this.id);
+    this._uService.deleteItem(this.selectedItem['$key']);
     this.close();
     this.modal
       .open('Delete successfull! ', overlayConfigFactory({isBlocking: false}, BSModalContext));
@@ -136,13 +123,9 @@ export class ItemDialogComponent implements OnInit, OnChanges {
     this.dummyresDay = this.reservationDays;
   }
 
-  calenderModus() {
-    this.editMode = false;
-    this.calenderMode = true;
-  }
 
   sendEmail(eMail, borrower, date) {
-    const body_message ='Hello '+borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify Team';
+    const body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify Team';
     const email = eMail;
     const subject = 'Reminder of overdue item';
     const mailto_link = 'mailto:' + email + '?subject=' + subject + '&body=' + encodeURIComponent(body_message);
@@ -151,11 +134,9 @@ export class ItemDialogComponent implements OnInit, OnChanges {
 
 
   close() {
-    this.visible = false;
-    this.visibleChange.emit(this.visible);
-    this.editMode = false;
-    this.calenderMode = false;
-    this.sub1.unsubscribe();
+      this.visible = false;
+      this.visibleChange.emit(this.visible);
+      this.editMode = false;
   }
 
 

@@ -16,7 +16,7 @@
     <tbody>
 
 
-    <tr *ngFor='let item of visibleItems | itemFilter:listFilter , let i = index '   (click)="setClickedRow(i,item.$key)" [class.active]='i == currentRow'>
+    <tr *ngFor='let item of visibleItems | itemFilter:listFilter , let i = index '   (click)="setClickedRow(i,item)" [class.active]='i == currentRow'>
       <td >
         <div *ngIf="item.photoURL">
           <img   style="float: left" [src]='item.photoURL'
@@ -85,5 +85,5 @@
 </div>
 
 
-<app-item-dialog [(visible)]="showDialog" [(receiveID)]="sendID"></app-item-dialog>
+<app-item-dialog [(visible)]="showDialog" [(selectedItem)]="selectedItem"></app-item-dialog>
 

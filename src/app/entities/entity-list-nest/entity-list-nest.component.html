@@ -24,7 +24,7 @@
       </td>
     </tr>
 -->
-    <tr *ngFor='let entity of visibleEntities |  entityFilter:list, let i = index' (click)="setClickedRow(i,entity.$key, entity.name)" [class.active]='i == currentRow'>
+    <tr *ngFor='let entity of visibleEntities |  entityFilter:list, let i = index' (click)="setClickedRow(i,entity)" [class.active]='i == currentRow'>
 
 
       <div style="margin-top: 10px ">
@@ -40,4 +40,4 @@
   </table>
 </div>
 
-<app-library-dialog  [(visible)]="showDialog" [(receiveID)]="sendID"  [(receiveLibraryName)]="sendName"></app-library-dialog>
+<app-library-dialog  [(visible)]="showDialog" [(selectedLibrary)]="selectedLibrary"></app-library-dialog>

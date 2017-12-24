@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {ItemListComponent} from './item-list.component';
-import {ItemDetailComponent} from './item-detail.component';
 import {ItemFilterPipe} from './item-filter.pipe';
 import {RouterModule, Routes} from '@angular/router';
 import {ItemDetailGuard} from './item-guard.service';
@@ -54,7 +53,6 @@ const routes: Routes = [
     children: [
       {path: '', component: ItemListComponent},
       {path: 'item', component: ItemListComponent},
-      {path: 'item/:id', component: ItemDetailComponent},
       {path: 'add', component: AddItemComponent},
 
       {path: 'users', component: ListUsersComponent},
@@ -74,7 +72,6 @@ const routes: Routes = [
     AddEntityDialogComponent,
     ImageCropperComponent,
     ItemListComponent,
-    ItemDetailComponent,
     LoginComponent,
     AddItemComponent,
     ItemListNestComponent,
@@ -111,7 +108,7 @@ const routes: Routes = [
   ],
   providers: [
     ItemDetailGuard,
-    UserService
+    UserService,
   ]
 })
 export class ItemModule {

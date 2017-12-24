@@ -42,7 +42,7 @@ export class EntityListComponent implements OnInit {
     this.tabs = this._uService.userLoggedIn;
 
 
-    // Get EntitiesName for table & dropdown
+    // Get owned library for table
     this.sub2 = this._uService.getAdminEntities().subscribe(entities => {
       this.entities = entities;
     });
@@ -54,8 +54,8 @@ export class EntityListComponent implements OnInit {
 
     });
 */
-    // get Current user library
-    this._uService.getCurrentUserLibrary().subscribe(snapshots => {
+     // currren library title text & set currentLibrary Text
+   this.sub3 = this._uService.getCurrentUserLibrary().subscribe(snapshots => {
       this.userEntityName = snapshots.val();
     });
 
@@ -77,6 +77,7 @@ export class EntityListComponent implements OnInit {
 
   unSubscribeAll() {
     this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
   }
 
 

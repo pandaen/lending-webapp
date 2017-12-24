@@ -328,7 +328,7 @@ export class UserService implements CanActivate, OnInit {
   }
 
 
-// Get your entities
+// Get owned entities
   getAdminEntities() {
     this.entities = this.db.list('/entities', {
       query: {
@@ -405,20 +405,23 @@ export class UserService implements CanActivate, OnInit {
     return this.item;
   }
 
+  getItemDetailsResInfo(id) {
+    this.reservations = this.af.database.list('/items/' + id + '/reserved') as FirebaseListObservable<IItem[]>;
+    return this.reservations;
+  }
+
+  /*  NOT IN USE????
   getLibraryDetails(id) {
     this.library = this.af.database.object('/entities/' + id) as FirebaseObjectObservable<IItem>;
     return this.library;
   }
 
+
   getLibraryOffice(id) {
     this.office = this.af.database.object('/entities/' + id + '/office') as FirebaseObjectObservable<IItem>;
     return this.office;
   }
-
-  getItemDetailsResInfo(id) {
-    this.reservations = this.af.database.list('/items/' + id + '/reserved') as FirebaseListObservable<IItem[]>;
-    return this.reservations;
-  }
+*/
 
 // Get all users
   getUsers() {
@@ -633,7 +636,6 @@ export class UserService implements CanActivate, OnInit {
 
   setLibrary(id, name) {
     let userUid = this.authState.auth.uid;
-
     firebase.database().ref('/users/').child(userUid).update({'entity': id, 'entityName': name});
   }
 

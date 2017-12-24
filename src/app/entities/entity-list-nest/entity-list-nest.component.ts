@@ -10,7 +10,7 @@ import {UserService} from '../../admin/adminShared/user.service';
 export class EntityListNestComponent implements OnInit, OnChanges  {
   @Input() entities: IEntity[];
  // @Input() joinedEntities: IEntity[];
-  @Input() userEntityName: any;
+  @Input() userEntityName: any;  // used for set currentEntity text
   @Input() listFilter: string;
   visibleEntities: IEntity[] = [];
   visibleJoinedEntities: IEntity[] = [];
@@ -18,14 +18,11 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
 
   // dialog
   currentRow: Number;
-  sendID;
-  sendName;
+  selectedLibrary;
   // toggle itemDialog switch
   showDialog: boolean;
 
   constructor(private _uService: UserService) {
-
-
   } // constructor
 
   ngOnInit() {
@@ -41,10 +38,9 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
   }
 
 
-  setClickedRow(index, id: string,name) {
+  setClickedRow(index, selectedLibrary) {
     this.currentRow = index;
-    this.sendID = id;
-    this.sendName = name;
+    this.selectedLibrary = selectedLibrary;
     this.showDialog = !this.showDialog;
   }
 

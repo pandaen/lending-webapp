@@ -22,7 +22,7 @@ export class ItemListNestComponent implements OnChanges {
   nrOfItem;
 
   currentRow: Number;
-  sendID;
+  selectedItem;
   // toggle itemDialog switch
   showDialog: boolean;
 
@@ -91,9 +91,9 @@ export class ItemListNestComponent implements OnChanges {
 
   } // filterItem
 
-  setClickedRow(index, id) {
+  setClickedRow(index, item) {
     this.currentRow = index;
-this.sendID = id;
+this.selectedItem = item;
     this.showDialog = !this.showDialog;
   // this._router.navigate(['/item/' + id]);
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy} from '@angular/core';
 import {IUser} from '../user';
 import {Router} from '@angular/router';
 import {UserService} from '../../admin/adminShared/user.service';
@@ -8,7 +8,7 @@ import {UserService} from '../../admin/adminShared/user.service';
   templateUrl: './user-list-nest.component.html',
   styleUrls: ['./user-list-nest.component.css']
 })
-export class UserListNestComponent implements OnChanges {
+export class UserListNestComponent implements OnChanges, OnDestroy {
   @Input() users: IUser[];
   @Input() filterBy: string;
   @Input() listFilter: string;
@@ -16,11 +16,12 @@ export class UserListNestComponent implements OnChanges {
   visibleUsers: IUser[] = [];
   currentRow: Number;
   nrOfUsers;
-  sendID;
-  sendName;
+  selectedUser;
   sendUserEmail;
   showDialog: boolean;
   lendingItems;
+
+  sub1;
   // imageWidth: number = 50;
   // imageMargin: number = 20;
 
@@ -29,7 +30,7 @@ export class UserListNestComponent implements OnChanges {
 
 
     // set lending items by a user
-    this._uService.lendingItems.subscribe(lending => {
+   this.sub1 = this._uService.lendingItems.subscribe(lending => {
           this.lendingItems = lending;
     });
 
@@ -42,6 +43,11 @@ export class UserListNestComponent implements OnChanges {
       this.filterUsers(this.filterBy);
       this.nrOfUsers = this.visibleUsers.length;
     }
+  }
+
+
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
   }
 
   filterUsers(filter) {
@@ -64,16 +70,14 @@ export class UserListNestComponent implements OnChanges {
     }
   }
 
-  setClickedRow(index, id, userName, sendUserEmail) {
+  setClickedRow(index, user) {
     this.currentRow = index;
-    this.sendID = id;
-    this._uService.lendingSubject.next(this.sendID);
+    this.selectedUser = user;
+    this._uService.lendingSubject.next(this.selectedUser['userUid']);
     /* email spliter at @
      const res = userName.split("@");
      const str = res[0];
      */
-    this.sendName = userName;
-    this.sendUserEmail = sendUserEmail;
     this.showDialog = !this.showDialog;
   }
 

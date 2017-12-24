@@ -18,18 +18,18 @@
       <div style="width: 820px;">
         <div style="float: left; width: 500px;  border: none">
           <div class='col-md-0'><b>Status:</b></div>
-          <span *ngIf="item.status=='Out' ">
+          <span *ngIf="selectedItem?.status=='Out' ">
                     <img src="../../assets/images/out-icon.png"
                          style="max-height:4%;max-width:4%"/>
-                     Currently out. Return date {{item?.loan?.formattedShortDate}}
+                     Currently out. Return date {{selectedItem?.loan?.formattedShortDate}}
                 </span>
-          <span *ngIf="item.status=='Available' ">
+          <span *ngIf="selectedItem?.status=='Available' ">
                     <img src="../../assets/images/available-icon.png"
                          style="max-height:4%;max-width:4%"/>
-                     {{item.status}}
+                     {{selectedItem.status}}
                 </span>
 
-          <span *ngIf="item.status=='Notify' ">
+          <span *ngIf="selectedItem?.status=='Notify' ">
                     <img src="../../assets/images/notify-icon.png"
                          style="max-height:4%;max-width:4%"/>
             Overdue
@@ -40,7 +40,7 @@
           <br>
           <div><b>Standard number of loan days for this item:</b></div>
           <div *ngIf="!editMode">
-            <div>{{item?.reservationDays}}</div>
+            <div>{{selectedItem?.reservationDays}}</div>
           </div>
 
 
@@ -52,17 +52,17 @@
           </div>
 
 
-          <div *ngIf="item?.loan">
+          <div *ngIf="selectedItem?.loan">
             <br>
             <b>Borrower:</b>
 
-            <div class='row' *ngIf="item.loan?.userPhoto">
+            <div class='row' *ngIf="selectedItem.loan?.userPhoto">
               <img class="avatar"
                    [style.width.px]='50'
                    [style.height.px]='50'
                    [style.margin-left.px]='50'
-                   [src]='item.loan?.userPhoto'>
-              {{item.loan?.loanerName}}
+                   [src]='selectedItem.loan?.userPhoto'>
+              {{selectedItem.loan?.loanerName}}
             </div>
           </div>
           <br>
@@ -73,13 +73,13 @@
                     cols="64">
       </textarea>
 
-          <div *ngIf="item?.reserved">
+          <div *ngIf="selectedItem?.reserved">
             <b>Reservations</b>
             <table class="resRow">
               <tr *ngFor='let res of reserved'>
-                {{res.userName}}
+                {{res?.userName}}
                 <br>
-                {{res.formattedpUpDate}} - {{res.formattedRetDate}}
+                {{res?.formattedpUpDate}} - {{res?.formattedRetDate}}
               </tr>
             </table>
           </div>
@@ -87,9 +87,9 @@
 
           <div *ngIf="!editMode">
 
-                <span *ngIf="item.status=='Notify'">
+            <span *ngIf="selectedItem?.status=='Notify'">
         <a class='btn btn-warning'
-           (click)="sendEmail(item.loan?.userEmail, item.loan?.loanerName, item.loan?.formattedShortDate)"
+           (click)="sendEmail(selectedItem.loan?.userEmail, selectedItem.loan?.loanerName, selectedItem.loan?.formattedShortDate)"
            style='width:150px'>
     <i class='glyphicon glyphicon-bell'></i> Send a reminder</a>
 </span>
@@ -109,15 +109,15 @@
 
 
         <div>
-          <div *ngIf="item.photoURL">
+          <div *ngIf="selectedItem?.photoURL">
             <img class="img-thumbnail"
                  [style.width.px]='200'
                  [style.margin.px]='2'
-                 [src]='item?.photoURL'
+                 [src]='selectedItem?.photoURL'
             >
           </div>
 
-          <div *ngIf="!item.photoURL">
+          <div *ngIf="!selectedItem?.photoURL">
             <img class="img-thumbnail" class='center-block img-responsive'
                  [style.width.px]='200'
                  [style.margin.px]='2'

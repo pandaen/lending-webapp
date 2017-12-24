@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../admin/adminShared/user.service';
 import {AngularFire} from 'angularfire2';
 import {FlashMessagesService} from 'angular2-flash-messages';
@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   templateUrl: 'item-list.component.html',
   styleUrls: ['item-list.component.css']
 })
-export class ItemListComponent implements OnInit {
+export class ItemListComponent implements OnInit, OnDestroy {
   @ViewChild('popup1') popup1: Popup;
   pageTitle: string = 'Borrowing Admin panel';
   items;
@@ -56,7 +56,6 @@ export class ItemListComponent implements OnInit {
     this.sub1 = this._uService.items.subscribe(items => {
       this.items = items;
     });
-
 
     this.cropperSettings = new CropperSettings();
     this.cropperSettings.width = 50;
@@ -147,7 +146,7 @@ export class ItemListComponent implements OnInit {
   onClickEntityPopup() {
     this.selectDefault = this.selectedItemAdd.$key;
     this.selectTempEntityName = this.selectedItemAdd.name;
-    console.log('selected value is: ' + this.selectTempEntityName);
+    // console.log('selected value is: ' + this.selectTempEntityName);
   }
 
 
@@ -210,6 +209,12 @@ export class ItemListComponent implements OnInit {
   }
 
   unSubscribeAll() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+  }
+
+  ngOnDestroy() {
+  //  console.log("OnDestory runned");
     this.sub1.unsubscribe();
     this.sub2.unsubscribe();
   }
