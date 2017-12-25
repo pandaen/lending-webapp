@@ -60,9 +60,12 @@ export class UserService implements CanActivate, OnInit {
   userSubject: Subject<any>;
   lendingSubject: Subject<any>;
 
+
+  // do not delete errFunc
   errorFunc = error => {
-    console.log(error)
-  };
+    console.log(error);
+  }
+
 
   constructor(private _router: Router, private af: AngularFire, private db: AngularFireDatabase) {
     this.af.auth.subscribe((state: FirebaseAuthState) => {
@@ -79,6 +82,10 @@ export class UserService implements CanActivate, OnInit {
 
     // email auth
     this.fireAuth = firebase.auth();
+
+
+
+
 
     // getAdmin items with subject
     this.entitySubject = new Subject();
@@ -285,7 +292,7 @@ export class UserService implements CanActivate, OnInit {
   }
 
 
-  // OUTDATED WITH PROMISE
+
   getCurrentUserEntity() {
     return new Promise((resolve, reject) => {
       let userUid = this.authState.auth.uid;

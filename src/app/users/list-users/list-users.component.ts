@@ -16,8 +16,6 @@ export class ListUsersComponent implements OnInit {
   theUser: string;
   userImage: string;
   tabs: boolean;
-  nrOfUsers;
-  selectedItem;
   currentUser: any;
   currentuseEntity;
   entities: any;
@@ -33,13 +31,10 @@ export class ListUsersComponent implements OnInit {
 
 
   constructor(private _uService: UserService, public flashMessage: FlashMessagesService, private router: Router) {
-
-
     // set users
     this.sub1 = this._uService.users.subscribe(users => {
       this.users = users;
     });
-
 
   } // constructor
 

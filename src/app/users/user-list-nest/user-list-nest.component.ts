@@ -12,15 +12,14 @@ export class UserListNestComponent implements OnChanges, OnDestroy {
   @Input() users: IUser[];
   @Input() filterBy: string;
   @Input() listFilter: string;
-  @Input() receivedEntity: string;
   visibleUsers: IUser[] = [];
   currentRow: Number;
   nrOfUsers;
   selectedUser;
-  sendUserEmail;
   showDialog: boolean;
   lendingItems;
-
+  userUID;
+items;
   sub1;
   // imageWidth: number = 50;
   // imageMargin: number = 20;
@@ -28,12 +27,16 @@ export class UserListNestComponent implements OnChanges, OnDestroy {
 
   constructor(private _uService: UserService, private _router: Router) {
 
-
-    // set lending items by a user
-   this.sub1 = this._uService.lendingItems.subscribe(lending => {
-          this.lendingItems = lending;
+    // set current item for user
+    this._uService.getCurrentUserEntity().then(user => {
+      this._uService.entitySubject.next(user['entity']);
     });
 
+
+    // get item for later filterBy
+    this.sub1 = this._uService.items.subscribe(items => {
+      this.lendingItems = items;
+    });
 
 
   } // constructor
@@ -51,7 +54,6 @@ export class UserListNestComponent implements OnChanges, OnDestroy {
   }
 
   filterUsers(filter) {
-
 
     switch (filter) {
       case 'all':
@@ -73,7 +75,8 @@ export class UserListNestComponent implements OnChanges, OnDestroy {
   setClickedRow(index, user) {
     this.currentRow = index;
     this.selectedUser = user;
-    this._uService.lendingSubject.next(this.selectedUser['userUid']);
+   // this._uService.lendingSubject.next(this.selectedUser['userUid']);
+   this.userUID = this.selectedUser['userUid'];
     /* email spliter at @
      const res = userName.split("@");
      const str = res[0];
@@ -81,4 +84,5 @@ export class UserListNestComponent implements OnChanges, OnDestroy {
     this.showDialog = !this.showDialog;
   }
 
-}
+
+} // class

@@ -13,7 +13,7 @@
 .avatar {
 
   /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
-  background-image: url('http://placehold.it/128x128');
+  background-image: url('https://placehold.it/128x128');
 
   /* make a square container */
   width: 50px;

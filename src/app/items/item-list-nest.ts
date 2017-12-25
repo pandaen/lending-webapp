@@ -18,7 +18,6 @@ export class ItemListNestComponent implements OnChanges {
   imageWidth: number = 50;
   imageMargin: number = 2;
   item: any;
-  imageUrl: any;
   nrOfItem;
 
   currentRow: Number;
