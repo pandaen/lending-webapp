@@ -19,6 +19,7 @@ export class UserListNestComponent implements OnChanges, OnDestroy {
   showDialog: boolean;
   lendingItems;
   userUID;
+
 items;
   sub1;
   // imageWidth: number = 50;

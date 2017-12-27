@@ -32,9 +32,8 @@
       </div>
       <td>Owner</td>
       <td *ngIf="entity.name === userEntityName">Currently selected</td>
-      <td>
-
-      </td>
+      <td *ngIf="entity.name != userEntityName"></td>
+      <td></td>
     </tr>
     </tbody>
   </table>
