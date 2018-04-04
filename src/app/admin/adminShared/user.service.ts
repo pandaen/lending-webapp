@@ -181,11 +181,12 @@ export class UserService implements CanActivate, OnInit {
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup,
     }).then((success) => {
-
-
+      /*
       this.hasALibrary().then(hasLib => {
-        this.existInDb(hasLib);
       });
+        this.existInDb(hasLib);
+      */
+        this.existInDb();
       //   this.isAdmin();
       //  this.verifyUser();
     }).catch(
@@ -195,15 +196,15 @@ export class UserService implements CanActivate, OnInit {
   }
 
 
-  existInDb(hasAlibrary) {
+  existInDb() {
     const userUid = firebase.auth().currentUser.uid;
     const fullUserRef = firebase.database().ref('/users/' + userUid);
 
     // console.log("hasALibrary is: " + hasAlibrary);
     fullUserRef.once('value', (snapshot) => {
       const userName = snapshot.child('fullname').val();
-      // const exist = snapshot.exists();
-      this.verifyUser(hasAlibrary, userName);
+       const exist = snapshot.exists();
+      this.verifyUser(exist, userName);
       // this.writeDbUser(exist);
     }, function (error) {
       console.error(error);
@@ -212,6 +213,7 @@ export class UserService implements CanActivate, OnInit {
 
 
   // User has buy a library
+  /*
   hasALibrary() {
     let userUid = firebase.auth().currentUser.uid;
     return new Promise((resolve, reject) => {
@@ -232,9 +234,8 @@ export class UserService implements CanActivate, OnInit {
         console.error(error);
       });
     });
-
   }
-
+*/
 
   /*
    writeDbUser(exist) {
@@ -345,6 +346,20 @@ export class UserService implements CanActivate, OnInit {
     });
     return this.entities;
   }
+
+  // Get JOINED librarys (granted access)
+  getJoinedLibrarys() {
+    this.entities = this.db.list('/usersEntityMap', {
+      query: {
+        orderByChild: 'userUid',
+        equalTo: this.authState.auth.uid
+      }
+    });
+    return this.entities;
+  }
+
+
+
 
 // get granted entities , NOT IN USE (show use of observer)
   /*

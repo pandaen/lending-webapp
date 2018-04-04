@@ -22,6 +22,7 @@ export class EntityListComponent implements OnInit {
   currentUser: any;
   currentuseEntity;
   entities: any = [];
+  joinedlib: any = [];
   entitiesName;
 
   joinedEntities: any = [];
@@ -47,6 +48,10 @@ export class EntityListComponent implements OnInit {
       this.entities = entities;
     });
 
+// Get Joined library for table
+    this.sub1 = this._uService.getJoinedLibrarys().subscribe(joinedlib => {
+      this.joinedlib = joinedlib;
+    });
 
   /*  // Get JoinedEntitiesNames for table & dropdown (NOT IN USE )
     this._uService.getJoinedEntities().subscribe(jEntities => {
@@ -76,6 +81,7 @@ export class EntityListComponent implements OnInit {
 
 
   unSubscribeAll() {
+    this.sub1.unsubscribe();
     this.sub2.unsubscribe();
     this.sub3.unsubscribe();
   }

@@ -1,5 +1,6 @@
 export interface IEntity {
   $key?: string;
+  adminAccess?: string;
   name?: string;
   fromHours?: string;
   location?: string;

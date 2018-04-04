@@ -9,11 +9,11 @@ import {UserService} from '../../admin/adminShared/user.service';
 })
 export class EntityListNestComponent implements OnInit, OnChanges  {
   @Input() entities: IEntity[];
- // @Input() joinedEntities: IEntity[];
+ @Input() joinedlib: IEntity[];
   @Input() userEntityName: any;  // used for set currentEntity text
   @Input() listFilter: string;
   visibleEntities: IEntity[] = [];
-  visibleJoinedEntities: IEntity[] = [];
+  visibleJoinedLibrary: IEntity[] = [];
   allVisible: IEntity[] = [];
 
   // dialog
@@ -32,9 +32,18 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
 // called when
   ngOnChanges () {
  //  this.visibleJoinedEntities = this.joinedEntities.slice(0);
-    if(this.entities) {
+    if(this.entities || this.joinedlib) {
       this.visibleEntities = this.entities.slice(0);
+     this.filterGrantedLibrarys();
     }
+  }
+
+  filterGrantedLibrarys() {
+    this.visibleJoinedLibrary = this.joinedlib.slice(0);
+    console.log("visibleJoinedLibrary is: " + JSON.stringify(this.visibleJoinedLibrary,null,""));
+    this.visibleJoinedLibrary = this.joinedlib.filter(joinedlib => {
+        return joinedlib.adminAccess === 'true';
+    });
   }
 
 
