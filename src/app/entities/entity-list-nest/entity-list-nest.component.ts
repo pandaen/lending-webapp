@@ -21,7 +21,7 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
   selectedLibrary;
   // toggle itemDialog switch
   showDialog: boolean;
-
+  grantedTest;
   constructor(private _uService: UserService) {
   } // constructor
 
@@ -34,15 +34,14 @@ export class EntityListNestComponent implements OnInit, OnChanges  {
  //  this.visibleJoinedEntities = this.joinedEntities.slice(0);
     if(this.entities || this.joinedlib) {
       this.visibleEntities = this.entities.slice(0);
-     this.filterGrantedLibrarys();
+      this.filterGrantedLibrarys();
     }
   }
 
   filterGrantedLibrarys() {
     this.visibleJoinedLibrary = this.joinedlib.slice(0);
-    console.log("visibleJoinedLibrary is: " + JSON.stringify(this.visibleJoinedLibrary,null,""));
     this.visibleJoinedLibrary = this.joinedlib.filter(joinedlib => {
-        return joinedlib.adminAccess === 'true';
+        return joinedlib.adminAccess; // joinedlib.adminAccess === 'true' HAVE TO BEE DEBUGGED!!!
     });
   }
 

@@ -24,6 +24,8 @@
       </td>
     </tr>
 -->
+
+    <!--
     <tr *ngFor='let entity of visibleEntities |  entityFilter:list, let i = index' (click)="setClickedRow(i,entity)" [class.active]='i == currentRow'>
 
 
@@ -35,7 +37,7 @@
       <td *ngIf="entity.name != userEntityName"></td>
       <td></td>
     </tr>
-
+-->
     <tr *ngFor='let jentity of visibleJoinedLibrary |  entityFilter:list, let i = index' (click)="setClickedRow(i,jentity)" [class.active]='i == currentRow'>
 
 
