@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {UserService} from '../../admin/adminShared/user.service';
+import {EntityListNestComponent} from '../entity-list-nest/entity-list-nest.component';
 
 @Component({
   selector: 'app-entity-list',
@@ -23,6 +24,7 @@ export class EntityListComponent implements OnInit {
   currentuseEntity;
   entities: any = [];
   joinedlib: any = [];
+  selectedLibrary: any;
   entitiesName;
 
   joinedEntities: any = [];
@@ -32,6 +34,7 @@ export class EntityListComponent implements OnInit {
   sub1;
   sub2;
   sub3;
+  sub4;
 
   constructor(private _uService: UserService, public flashMessage: FlashMessagesService, private router: Router) {
   }
@@ -53,6 +56,12 @@ export class EntityListComponent implements OnInit {
       this.joinedlib = joinedlib;
     });
 
+  /* TESTING GET SELECTED LIBRARY
+    this._uService.getSelectedLibrary('-KrGhtbAc_2de81voCzc').then(selectedLibrary => {
+      this.selectedLibrary = selectedLibrary;
+      console.log('getselectedLibrrunned is: ' + JSON.stringify(selectedLibrary, null, ''));
+    });
+*/
   /*  // Get JoinedEntitiesNames for table & dropdown (NOT IN USE )
     this._uService.getJoinedEntities().subscribe(jEntities => {
       this.joinedEntities = jEntities;
@@ -67,6 +76,13 @@ export class EntityListComponent implements OnInit {
 
   } // ngOnINit
 
+
+
+  onGrantedClicked(grantLibID: string): void {
+   this.sub4 = this._uService.getSelectedLibrary(grantLibID).subscribe(selectedLib => {
+      this.selectedLibrary = selectedLib;
+    });
+  }
 
   redirect(param) {
       this.unSubscribeAll();
@@ -84,6 +100,9 @@ export class EntityListComponent implements OnInit {
     this.sub1.unsubscribe();
     this.sub2.unsubscribe();
     this.sub3.unsubscribe();
+    if(typeof this.sub4 !== "undefined") {
+    this.sub4.unsubscribe();
+    }
   }
 
 

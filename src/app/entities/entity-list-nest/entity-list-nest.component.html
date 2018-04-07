@@ -25,7 +25,7 @@
     </tr>
 -->
 
-    <!--
+
     <tr *ngFor='let entity of visibleEntities |  entityFilter:list, let i = index' (click)="setClickedRow(i,entity)" [class.active]='i == currentRow'>
 
 
@@ -37,8 +37,8 @@
       <td *ngIf="entity.name != userEntityName"></td>
       <td></td>
     </tr>
--->
-    <tr *ngFor='let jentity of visibleJoinedLibrary |  entityFilter:list, let i = index' (click)="setClickedRow(i,jentity)" [class.active]='i == currentRow'>
+
+    <tr *ngFor='let jentity of visibleJoinedLibrary |  entityFilter:list, let i = index' (click)="setClickedGrantedLibRow(i,jentity)" [class.active]='i == currentRow'>
 
 
       <div style="margin-top: 10px ">
@@ -57,4 +57,4 @@
   </table>
 </div>
 
-<app-library-dialog  [(visible)]="showDialog" [(selectedLibrary)]="selectedLibrary"></app-library-dialog>
+<app-library-dialog  [(visible)]="showDialog" [(selectedLibrary)]="selectedLibrary" [thisMapNameid]='thisMapNameid'></app-library-dialog>

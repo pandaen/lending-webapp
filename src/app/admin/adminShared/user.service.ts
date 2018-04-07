@@ -37,6 +37,7 @@ export class UserService implements CanActivate, OnInit {
   usersE: FirebaseListObservable<any[]>;   // user for deleteEntity method
   itemsE: FirebaseListObservable<any>;
   lendingItems: FirebaseListObservable<any[]>;
+  selectedLibObject: FirebaseObjectObservable<any>;
   itemSubject: Subject<any>;
   user: FirebaseObjectObservable<any>;
   usersRef: any;
@@ -128,6 +129,7 @@ export class UserService implements CanActivate, OnInit {
         equalTo: this.lendingSubject
       }
     });
+
 
 
   } // constructor
@@ -479,6 +481,13 @@ export class UserService implements CanActivate, OnInit {
     return this.user;
   }
 
+  // Get  selected library for library-dialog-popup
+
+  getSelectedLibrary(libID){
+  this.selectedLibObject = this.af.database.object('/entities/' + libID) as FirebaseObjectObservable<IItem>;
+return this.selectedLibObject;
+  }
+
 
   addItem(item, photo) {
     this.af.database.list('/items').push(item).then(x => {
@@ -531,13 +540,17 @@ export class UserService implements CanActivate, OnInit {
     return this.items.update(id, item);
   }
 
-  updateLibrary(id, library, officeData) {
+  updateLibrary(id, library, officeData, thisMapNameid) {
     this.af.database.list('/entities').update(id, library).then(x => {
       if (officeData) {
         firebase.database().ref('/entities/').child(id).child('office').update({'location': officeData.location});
         firebase.database().ref('/entities/').child(id).child('office').update({'room': officeData.room});
       }
 
+    }).then(x => {  // also update userLibMap-name
+      firebase.database().ref('/usersEntityMap/').child(thisMapNameid).update({'entityName': library.name});
+    }).then(x => {  // also update auth-user library-name
+      firebase.database().ref('/users/').child(this.authState.auth.uid).update({'entityName': library.name});
     });
 
   }
@@ -626,7 +639,7 @@ export class UserService implements CanActivate, OnInit {
     });
   }
 
-
+/* OBSOLETE
   nrOfItems() {
     return new Promise((resolve, reject) => {
       let userQuery = firebase.database().ref('/items').orderByKey();
@@ -639,9 +652,10 @@ export class UserService implements CanActivate, OnInit {
       });
     });
   }
+*/
 
-
-  // OPPSOLID???
+  // OBSOLETE???
+  /*
   nrOfUsers() {
     return new Promise((resolve, reject) => {
       let userQuery = firebase.database().ref('/users').orderByKey();
@@ -654,7 +668,7 @@ export class UserService implements CanActivate, OnInit {
       });
     });
   }
-
+*/
 
   setLibrary(id, name) {
     let userUid = this.authState.auth.uid;
@@ -695,6 +709,21 @@ export class UserService implements CanActivate, OnInit {
   forgotPasswordUser(email: any) {
     return this.fireAuth.sendPasswordResetEmail(email);
   }
+
+// Used for Library-dialog popup WITH PROMISE
+  /*
+  getSelectedLibrary(libID) {
+    console.log("getSelectedLibrary runned");
+    let userUid = firebase.auth().currentUser.uid;
+    return new Promise((resolve, reject) => {
+      let fullRef = firebase.database().ref('/entities/' + libID);
+      fullRef.once('value', (snapshot) => {
+        resolve(snapshot);
+      });
+    });
+  }
+*/
+
 
   deleteUserLibraryMapping(entity) {
     const authUid = this.authState.auth.uid;
