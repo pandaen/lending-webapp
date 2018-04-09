@@ -48,9 +48,9 @@ export class ItemListComponent implements OnInit, OnDestroy {
   sub2;
   // join interface
   adminAccess;
-
+  public fireAuth: any;
   constructor(public af: AngularFire, private _uService: UserService, public flashMessage: FlashMessagesService, private _router: Router) {
-//
+
 
     // Subscribe for item changes
     this.sub1 = this._uService.items.subscribe(items => {
@@ -174,7 +174,7 @@ export class ItemListComponent implements OnInit, OnDestroy {
   onAddSubmit() {
     // if no entity
     if(this.userEntityName !== 'No library, join a library to get started' ) {
-      let item = {
+      const item = {
         description: this.description || 'No description…yet',
         entity: this.selectDefault,
         entityName: this.selectTempEntityName,

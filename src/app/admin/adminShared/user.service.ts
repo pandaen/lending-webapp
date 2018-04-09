@@ -45,7 +45,9 @@ export class UserService implements CanActivate, OnInit {
   resDate: FirebaseListObservable<any[]>;
   nChangeuserLoggedIn: Subject<boolean> = new Subject<boolean>();
   loan: any;
+  gmode: boolean;
   nrOfItem;
+
 
 
   // email auth
@@ -283,11 +285,11 @@ export class UserService implements CanActivate, OnInit {
    */
 
   logout() {
-
     this.af.auth.logout().then((success) => {
       this._router.navigate(['/login']);
       //       console.log('Logged out...');
-    }).catch(
+    }
+    ).catch(
       (err) => {
         alert(`${err.message} Logout. failed!`);
       });
@@ -336,6 +338,16 @@ export class UserService implements CanActivate, OnInit {
     });
     //  return this.items;
   }
+
+
+  // GET all entities
+
+  getAllEntities() {
+    this.entities = this.db.list('/entities', {
+    });
+    return this.entities;
+  }
+
 
 
 // Get owned entities
@@ -710,6 +722,38 @@ return this.selectedLibObject;
     return this.fireAuth.sendPasswordResetEmail(email);
   }
 
+
+
+  isSu() {
+    let userUid = firebase.auth().currentUser.uid;
+    return new Promise((resolve, reject) => {
+      let fullRef = firebase.database().ref('/users/' + userUid + '/gmac');
+      fullRef.once('value', (snapshot) => {
+        let usrgmac = snapshot.val();
+         this.isSUCheck(usrgmac).then(status => {
+      resolve(status);
+        });
+      })
+    });
+  }
+
+isSUCheck(usergmac){
+ let ggmode: boolean;
+  return new Promise((resolve, reject) => {
+  let gmacRef = firebase.database().ref('/misc/gmac');
+  gmacRef.once('value', (snapshot) => {
+    let gmac = snapshot.val();
+    // console.log("usrgmac is: " +JSON.stringify(usrgmac,null,""));
+    ggmode  = usergmac === gmac ? true : false;
+  resolve(ggmode);
+  })
+  });
+}
+
+
+
+
+
 // Used for Library-dialog popup WITH PROMISE
   /*
   getSelectedLibrary(libID) {
@@ -734,7 +778,7 @@ return this.selectedLibObject;
         const total = snapshot.numChildren();
         snapshot.forEach(function (childSnapshot) {
           libArr.push(childSnapshot.val());
-          console.log('libarr is: ' + JSON.stringify(libArr[0], null, '') + '& total is: ' + total);
+        //  console.log('libarr is: ' + JSON.stringify(libArr[0], null, '') + '& total is: ' + total);
           resolve(libArr);
         });
       });

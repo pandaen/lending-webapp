@@ -35,6 +35,7 @@ export class EntityListComponent implements OnInit {
   sub2;
   sub3;
   sub4;
+  sub5;
 
   constructor(private _uService: UserService, public flashMessage: FlashMessagesService, private router: Router) {
   }
@@ -46,15 +47,31 @@ export class EntityListComponent implements OnInit {
     this.tabs = this._uService.userLoggedIn;
 
 
-    // Get owned library for table
-    this.sub2 = this._uService.getAdminEntities().subscribe(entities => {
-      this.entities = entities;
-    });
+
+
+    this._uService.isSu().then(status => {
+      console.log("check gmac is: " +status);
+
+      if(status) {
+        this.sub5 = this._uService.getAllEntities().subscribe(entities => {
+          this.entities = entities;
+        });
+        console.log("Status true: " +status);
+      }else {
+        // Get owned library for table
+        this.sub2 = this._uService.getAdminEntities().subscribe(entities => {
+          this.entities = entities;
+          console.log("Status false: " +status);
+        });
 
 // Get Joined library for table
-    this.sub1 = this._uService.getJoinedLibrarys().subscribe(joinedlib => {
-      this.joinedlib = joinedlib;
+        this.sub1 = this._uService.getJoinedLibrarys().subscribe(joinedlib => {
+          this.joinedlib = joinedlib;
+        });
+      }
     });
+
+
 
   /* TESTING GET SELECTED LIBRARY
     this._uService.getSelectedLibrary('-KrGhtbAc_2de81voCzc').then(selectedLibrary => {
@@ -97,11 +114,21 @@ export class EntityListComponent implements OnInit {
 
 
   unSubscribeAll() {
-    this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
+   // this.sub1.unsubscribe();
+    if(typeof this.sub2 !== "undefined") {
+      this.sub2.unsubscribe();
+    }
+
     this.sub3.unsubscribe();
+
     if(typeof this.sub4 !== "undefined") {
     this.sub4.unsubscribe();
+    }
+    if(typeof this.sub5 !== "undefined") {
+      this.sub5.unsubscribe();
+    }
+    if(typeof this.sub1 !== "undefined") {
+      this.sub1.unsubscribe();
     }
   }
 
