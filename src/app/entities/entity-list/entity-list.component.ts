@@ -48,20 +48,16 @@ export class EntityListComponent implements OnInit {
 
 
 
-
+// Is superuser or not (load list)
     this._uService.isSu().then(status => {
-      console.log("check gmac is: " +status);
-
       if(status) {
         this.sub5 = this._uService.getAllEntities().subscribe(entities => {
           this.entities = entities;
         });
-        console.log("Status true: " +status);
       }else {
         // Get owned library for table
         this.sub2 = this._uService.getAdminEntities().subscribe(entities => {
           this.entities = entities;
-          console.log("Status false: " +status);
         });
 
 // Get Joined library for table

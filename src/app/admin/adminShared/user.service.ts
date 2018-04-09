@@ -723,7 +723,7 @@ return this.selectedLibObject;
   }
 
 
-
+// Is superuser or not (load list)
   isSu() {
     let userUid = firebase.auth().currentUser.uid;
     return new Promise((resolve, reject) => {
