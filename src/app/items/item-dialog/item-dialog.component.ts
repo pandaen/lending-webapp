@@ -125,7 +125,7 @@ export class ItemDialogComponent implements OnInit, OnChanges {
 
 
   sendEmail(eMail, borrower, date) {
-    const body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify Team';
+    const body_message = 'Hello ' + borrower + '.\n\nYou have forgot to return the item: ' + this.name + '.' + '\nThe due date was: ' + date + '!' + '\nPlease return it  as soon as possible' + '\n\n\nBest Regards\nThe Pigify-service';
     const email = eMail;
     const subject = 'Reminder of overdue item';
     const mailto_link = 'mailto:' + email + '?subject=' + subject + '&body=' + encodeURIComponent(body_message);

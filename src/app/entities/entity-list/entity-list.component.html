@@ -57,12 +57,15 @@
 
   <div class='panel-body'>
 
-<!-- Crate new Library
+    <!-- Crate new Library button
+    -->
+     <span *ngIf="isSu">
     <div style="float: right">
       <button type="button" class="buttonFilter" (click)="showDialog = !showDialog"><i class='glyphicon glyphicon-plus'></i> Create new library
       </button>
     </div>
-    -->
+     </span>
+
   </div>
 
 

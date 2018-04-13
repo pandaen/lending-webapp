@@ -26,6 +26,7 @@ export class EntityListComponent implements OnInit {
   joinedlib: any = [];
   selectedLibrary: any;
   entitiesName;
+  isSu;
 
   joinedEntities: any = [];
   userEntityName: any;
@@ -50,6 +51,7 @@ export class EntityListComponent implements OnInit {
 
 // Is superuser or not (load list)
     this._uService.isSu().then(status => {
+      this.isSu = status;
       if(status) {
         this.sub5 = this._uService.getAllEntities().subscribe(entities => {
           this.entities = entities;
