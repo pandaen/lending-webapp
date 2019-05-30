@@ -316,18 +316,7 @@ export class UserService implements CanActivate, OnInit {
   }
 
 
-  /*
-   // Get your items that lies in your created entityes
-   getAdminItems() {
-   // this.entitySubject = new Subject();
-   this.items = this.db.list('/items', {
-   query: {
-   orderByChild: 'entity',
-   equalTo:  this.currentUserEntity
-   }
-   });
-   }
-   */
+
   getYourUsers() {
     this.userSubject = new Subject();
     this.items = this.db.list('/users', {
@@ -375,48 +364,7 @@ export class UserService implements CanActivate, OnInit {
 
 
 
-// get granted entities , NOT IN USE (show use of observer)
-  /*
-   getJoinedEntities() {
-   let uid = this.authState.auth.uid;
-   let joinedEntities: any = [];
-   return Observable.create((observer) => {
-   let userQuery = firebase.database().ref('/usersEntityMap').orderByChild("userUid").equalTo(uid);
-   userQuery.on('child_added', function(snapshot) {
-   let isEntityAdmin = snapshot.val().adminAccess === true;
-   if (isEntityAdmin) {
-   joinedEntities.push(snapshot.val());
-   }
-   //   console.log('joinedentities on uservice is: ' + joinedEntities);
-   observer.next(joinedEntities);
-   });
-   });
-   }
-   */
 
-
-  /* NOT IN USE (SHOW USE OF PROMISE)
-   getJoinedentities() {
-   let authUid = this.authState.auth.uid;
-   let joinedEntities: IItem[] = [];
-   return new Promise((resolve, reject) => {
-   let userQuery = firebase.database().ref('/usersEntityMap/').orderByKey();
-   userQuery.once('value').then(function (snapshot) {
-   let total = snapshot.numChildren();
-   snapshot.forEach(function (childSnapshot) {
-   let match = childSnapshot.val().userUid === authUid;
-   let isEntityAdmin = childSnapshot.val().adminAccess === true;
-   let admin = isEntityAdmin === true ? 'Yes' : 'No';
-   let entityName = childSnapshot.val().entityName;
-   if (match && isEntityAdmin) {
-   joinedEntities.push(childSnapshot.val());
-   resolve(joinedEntities);
-   }
-   });
-   });
-   });
-   }
-   */
 
   // get all items
   getItems() {

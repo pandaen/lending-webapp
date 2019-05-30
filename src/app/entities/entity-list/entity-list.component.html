@@ -8,12 +8,15 @@
       <div class="bannerTitle"><b>Pigify</b></div>
       <div class="bannerText"> - Your Library of Things!</div>
 
-      <div class="col-sm-6" >
+      <div class="col-sm-6">
         <ul>
-          <li *ngIf="tabs" class="one" (click)="redirect('')"><a> <img src="./assets/icons/items.svg" class="grey-button-icon"> Items</a></li>
-          <li *ngIf="tabs" class="two" (click)="redirect('users')"><a><img src="./assets/icons/users.svg" class="grey-button-icon"> Users</a></li>
+          <li *ngIf="tabs" class="one" (click)="redirect('')"><a> <img src="./assets/icons/items.svg"
+                                                                       class="grey-button-icon"> Items</a></li>
+          <li *ngIf="tabs" class="two" (click)="redirect('users')"><a><img src="./assets/icons/users.svg"
+                                                                           class="grey-button-icon"> Users</a></li>
 
-          <li *ngIf="tabs" class="three"><a><img src="./assets/icons/entities.svg" class="grey-button-icon"> Libraries</a></li>
+          <li *ngIf="tabs" class="three"><a><img src="./assets/icons/entities.svg" class="grey-button-icon">
+            Libraries</a></li>
           <hr/>
         </ul>
       </div>
@@ -31,37 +34,35 @@
     </div>
 
 
-      <div class="row">
-        <div class="col-sm-2 currentEntity">
-          <label>Current library:</label>
-          <div class="currentEntityText">
-            {{userEntityName}}
-          </div>
+    <div class="row">
+      <div class="col-sm-2 currentEntity">
+        <label>Current library:</label>
+        <div class="currentEntityText">
+          {{userEntityName}}
         </div>
-
-
-
-
-<!--
-    <div class='col-md-2 ' style="float: right">
-      <div class="input-group searchbox">
-        <span class="input-group-addon search-icon " id="basic-addon1"></span>
-        <input type="text" class="form-control searchbox" [(ngModel)]='listFilter' placeholder="Search for entity" aria-describedby="basic-addon1">
       </div>
-    </div>
--->
-    </div>
-    </div>
 
+
+      <!--
+          <div class='col-md-2 ' style="float: right">
+            <div class="input-group searchbox">
+              <span class="input-group-addon search-icon " id="basic-addon1"></span>
+              <input type="text" class="form-control searchbox" [(ngModel)]='listFilter' placeholder="Search for entity" aria-describedby="basic-addon1">
+            </div>
+          </div>
+      -->
+    </div>
+  </div>
 
 
   <div class='panel-body'>
 
-    <!-- Crate new Library button
+    <!-- Create new Library button
     -->
-     <span *ngIf="isSu">
+    <span *ngIf="isSu">
     <div style="float: right">
-      <button type="button" class="buttonFilter" (click)="showDialog = !showDialog"><i class='glyphicon glyphicon-plus'></i> Create new library
+      <button type="button" class="buttonFilter" (click)="showDialog = !showDialog"><i
+        class='glyphicon glyphicon-plus'></i> Create new library
       </button>
     </div>
      </span>
@@ -69,11 +70,11 @@
   </div>
 
 
-
-
   <div style="margin-bottom: 15px"></div>
-  <app-entity-list-nest  [entities]="entities" [joinedlib]="joinedlib" (grantedLibClicked)='onGrantedClicked($event)' [userEntityName]="userEntityName" [listFilter]="listFilter" [selectedLibrary]='selectedLibrary'></app-entity-list-nest>
-  </div>
+  <app-entity-list-nest [entities]="entities" [joinedlib]="joinedlib" (grantedLibClicked)='onGrantedClicked($event)'
+                        [userEntityName]="userEntityName" [listFilter]="listFilter"
+                        [selectedLibrary]='selectedLibrary'></app-entity-list-nest>
+</div>
 
 
 <app-addentity-dialog [(visible)]="showDialog"></app-addentity-dialog>
