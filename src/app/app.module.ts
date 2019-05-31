@@ -15,19 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
-//  Firebase Settings
-export const firebaseConfig = {
-  apiKey: 'AIzaSyAHfCQArz_9VdSVJ0rGhaEMYeZuv8JJCIY',
-  authDomain: 'borrowing-app.firebaseapp.com',
-  databaseURL: 'https://borrowing-app.firebaseio.com',
-  storageBucket: 'borrowing-app.appspot.com',
-  messagingSenderId: '226399216748'
-};
-
-const firebaseAuthConfig = {
-  provider: AuthProviders.Facebook,
-  method: AuthMethods.Popup
-};
 
 @NgModule({
   imports: [
