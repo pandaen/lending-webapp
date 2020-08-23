@@ -2,7 +2,7 @@
 <p> If you are an admin user that manage libraries in the Pigify App then you can log in and manage your users, libraries and items </p>
 <br/> 
 </p>
-
+ <img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/iMac.png" width=768  >
 <p> 
 <strong>Item-view</strong><p/>
  <img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/1_0itempage.png" width=768  >
