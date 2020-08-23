@@ -1,28 +1,29 @@
-# BorrowSys
+# Pigify: Online Admin Access-console
+<p> If you are an admin user that manage libraries in the Pigify App then you can log in and manage your users, libraries and items </p>
+<br/> 
+</p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.1.
+<p> 
+<strong>Item-view</strong><p/>
+ <img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/1_0itempage.png" width=768  >
+<br/> 
+ <img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/1_1itempage_add.png" width=768>
+<br/> 
+<img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/1_2itempage_reserved.png" width="768">
+<p> 
+<strong>User-view</strong><p/>
+<img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/2_0userpage_add.png" width="768">
+  <br/> 
+<img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/2_1userpagedetails.png" width="768">
+<br/> 
 
-## Development server
+<p> 
+<strong>Library-view</strong><p/>
+<img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/3_0librarypage.png" width="768">
+<br/> 
+<img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/3_1admin_pigify_libraries.png" width="768">
+<br/> 
+<img src="https://github.com/ada024/lending-webapp/blob/master/src/screenshots/3_2librarypage_add.png" width="768">
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Visit  [online admin access](https://www.pigify.com/onlineadminaccess).
