@@ -1,4 +1,4 @@
-# Pigify: Online Admin Access-console
+# Pigify: Online Admin Access-panel
 <p> If you are an admin user that manage libraries in the Pigify App then you can log in and manage your users, libraries and items </p>
 <br/> 
 </p>
